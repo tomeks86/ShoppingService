@@ -20,4 +20,11 @@ public class Tools {
             scanner.nextLine();
         }
     }
+
+    public static void stringToDoubleBlocker(Scanner scanner){
+        while(!scanner.hasNextDouble()){
+            System.out.println("Try with an double");
+            scanner.nextLine();
+        }
+    }
 }

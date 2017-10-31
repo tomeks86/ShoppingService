@@ -22,4 +22,11 @@ public class Category {
         listOfChildrensCategory.add(category);
     }
 
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
 }
