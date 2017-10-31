@@ -20,10 +20,16 @@ public class User {
     }
 
     private boolean isValid(String userName, String password) {
-        return (password.length() > 3 || split(userName) > 1 || split(password) > 1);
+
+        if (password.length() > 3 || split(userName) < 1 || split(password) < 1)
+        return true;
+
+        return false;
+
     }
 
     private Integer split(String string) {
+
         return (string.split("[ ]").length);
     }
 }

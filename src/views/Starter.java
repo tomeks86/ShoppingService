@@ -2,6 +2,7 @@ package views;
 
 import models.User;
 import tools.Tools;
+import tools.UserDataBase;
 
 import java.security.AccessControlException;
 import java.util.Scanner;
@@ -17,14 +18,14 @@ public class Starter {
 
     private void run() {
 
-        Integer end = 0;
-        do {
+        Integer end = -1;
+        while(end !=0) {
             int value = mainMenu();
             if (value > 0)
                 switcherMainMenu(value);
             else                        //<-ta konstrukcja mi się nie dokońca podoba, jak chcesz to zmień to trochę
                 end = value;            //<- mam na myśli sam if else, wygląda średnio.
-        } while (end != 0);
+        }
     }
 
 
