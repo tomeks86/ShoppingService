@@ -2,9 +2,13 @@ package tools;
 
 import models.Category;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 
 public class CategoryControler {
 
+    static Category mainCategory = new Category(0, "CATEGORIES");
 
     private void addChildrensCategory(Category category, Category childrenCategory) {
         category.addChildrenCategory(childrenCategory);
@@ -15,7 +19,7 @@ public class CategoryControler {
     }
 
     private void createCategoryTree() {
-        Category mainCategory = new Category(0, "CATEGORIES"); // Tutaj tak jak sie umawalismy tworzymy jedna klase
+        // Tutaj tak jak sie umawalismy tworzymy jedna klase
         Category vehicles = createCategory(1, "VEHICLES"); // zeby od niej zaczynac wyswietlanie i tak dalej
         Category clothes = createCategory(2, "CLOTHES");
         Category underwear = createCategory(3, "UNDERWEAR");
@@ -31,7 +35,23 @@ public class CategoryControler {
         addChildrensCategory(clothes, tshirts);
     }
 
-    public void showAllCategories() {
+    public static void showAllCategories() {
 // no i tu sie zaczyna zabawa
+        Category category = mainCategory;
+
+        do {
+            category = category.getListOfChildrensCategory().get(0);
+            System.out.println(category.getCategoryName());
+        } while (category.getListOfChildrensCategory() == null);
+
+
     }
+
+    public static void main(String[] args) {
+        CategoryControler categoryControler = new CategoryControler();
+        categoryControler.createCategoryTree();
+        showAllCategories();
+    }
+
+
 }

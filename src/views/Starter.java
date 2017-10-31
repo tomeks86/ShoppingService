@@ -1,6 +1,7 @@
 package views;
 
 import models.User;
+import tools.AuctionDataBase;
 import tools.Tools;
 import tools.UserDataBase;
 
@@ -19,7 +20,7 @@ public class Starter {
     private void run() {
 
         Integer end = -1;
-        while(end !=0) {
+        while (end != 0) {
             int value = mainMenu();
             if (value > 0)
                 switcherMainMenu(value);
@@ -49,19 +50,20 @@ public class Starter {
             case 1:
                 try {
                     user = logIntoSystem(scanner, userDataBase);
+                    userActionsInLoggedPanel(user);
                 } catch (IllegalArgumentException e) {
                     System.out.println(e.getMessage());
                 } catch (NullPointerException n) {
                     System.out.println(n.getMessage());     //<- mordo wydaje mi się, że lepiej od razu rzucić kulturalnym
                 }                                           //<- nullPointerem na poziomie metody sprawdzającej dane
                 break;                                      //<- do logowania, a nie tak jak było w wersji bardzo 1.0 czyli po
-                                                            //<- prostu zwracać lamersko nulla i czekać aż się wypierdoli
+            //<- prostu zwracać lamersko nulla i czekać aż się wypierdoli
             case 2:                                         // Tak na marginesie to ciekawi mnie troszeczkę czy to jest bad practice jak walisz nullem w takiej sytuacji
                 try {
                     registerNewUser(scanner, userDataBase);
                 } catch (IllegalArgumentException e) {
                     System.out.println(e.getMessage());
-                }catch (AccessControlException a){
+                } catch (AccessControlException a) {
                     System.out.println(a.getMessage());
                 }
                 break;
@@ -95,12 +97,52 @@ public class Starter {
         String password = scanner.nextLine();
 
         if (!userDataBase.isLoginAlreadyInUse(login)) {
-            userDataBase.addNewUser(new User(login,password));                  //<- Wydaje mi się że w naszej wersji bardzo 1.0 dało się
+            userDataBase.addNewUser(new User(login, password));                  //<- Wydaje mi się że w naszej wersji bardzo 1.0 dało się
             System.out.println("Register successful!");                         //<- dodać dwa nicki mariusz ale o różnych hasłach
         } else {                                                                //<- bo porównywaliśmy obiekty a nie loginy
             throw new AccessControlException("Login is not available!");        //<- jak możesz to "sprawdź to gówno!"
         }
     }
 
+    private void userActionsInLoggedPanel(User user) {
+        AuctionDataBase auctionDataBase = new AuctionDataBase();
+        boolean end = false;
+        while (end != true) {
+            System.out.printf("Pick action(1-5):\n1:Add new auction\n2:Delete auction\n3:Show existing auction\n4:Show my expired auctions\n5:Log Out\nType your pick: ");
+            Tools.stringToIntBlocker(scanner);
+            int pick = scanner.nextInt();
+            while (pick > 5 || pick < 1) {
+                System.out.println("Illegal argument, pick from 1 to 5");
+                Tools.stringToIntBlocker(scanner);
+                pick = scanner.nextInt();
+            }
+
+
+            switch (pick) {
+                case 1: {
+                    auctionDataBase.addAuction(user);
+                    break;
+                }
+                case 2: {
+                    auctionDataBase.removeAuction(user);
+                    break;
+                }
+                case 3: {
+                    auctionDataBase.printAllAuctions();
+                    break;
+                }
+            /*case 4: {
+                categoryCont.printAuctionToRemove(user);
+                break;
+            }*/
+                case 5:
+                    end = true;
+                default:
+            }
+        }
+    }
 
 }
+
+
+
