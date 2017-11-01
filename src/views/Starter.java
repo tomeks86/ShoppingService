@@ -136,6 +136,8 @@ public class Starter {
                 break;
             }*/
                 case 5:
+                    Tools.saveAuctionList(auctionDataBase.getListOfAllAuction());
+                    Tools.saveUserList(userDataBase.getListOfUsers());
                     end = true;
                 default:
             }

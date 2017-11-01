@@ -1,6 +1,8 @@
 package models;
 
-public class Auction {
+import java.io.Serializable;
+
+public class Auction implements Serializable{
 
     private Integer categoryId, auctionIndex;
     private String description, title;

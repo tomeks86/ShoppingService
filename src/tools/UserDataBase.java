@@ -8,12 +8,18 @@ public class UserDataBase {
     private ArrayList<User> listOfUsers;
 
     public UserDataBase() {
-        listOfUsers = new ArrayList<User>();
+        listOfUsers = Tools.loadUserList();
+        //listOfUsers = new ArrayList<User>();
+    }
+
+    public ArrayList<User> getListOfUsers() {
+        return listOfUsers;
     }
 
     public boolean addNewUser(User user) {
         listOfUsers.add(user);
         return true;
+
     }
 
     public boolean isUserPresentInDataBase(User user) {

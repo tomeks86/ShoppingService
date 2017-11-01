@@ -12,7 +12,9 @@ public class AuctionViewer {
     public static void printUserAuctions(ArrayList<Auction> listOfuserAuctions, User user) {
         System.out.println("Active " + user.getUserName() + " auctions: ");
         for (Auction auction : listOfuserAuctions) {
-            if (auction.getUser().equals(user) && auction.isActive() == true)
+            if (auction.getUser().getUserName().equals(user.getUserName())
+                    && auction.getUser().getPassword().equals(user.getPassword())
+                    && auction.isActive() == true)
                 System.out.println("Index : " + auction.getAuctionIndex() + "\ttitle: " + auction.getTitle());
             System.out.println("----------------------------------");
         }

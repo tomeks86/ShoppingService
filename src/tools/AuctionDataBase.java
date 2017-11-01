@@ -5,10 +5,11 @@ import models.Category;
 import models.User;
 import views.AuctionViewer;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class AuctionDataBase {
+public class AuctionDataBase implements Serializable {
     private ArrayList<Auction> listOfAllAuction;
     private Scanner scanner = new Scanner(System.in);
 
@@ -20,7 +21,8 @@ public class AuctionDataBase {
 
 
     public AuctionDataBase() {
-        listOfAllAuction = new ArrayList<>();
+        listOfAllAuction = Tools.loadAuctionList();
+        //listOfAllAuction = new ArrayList<Auction>();
     }
 
     public boolean addAuction(User user) {
@@ -50,9 +52,12 @@ public class AuctionDataBase {
         System.out.println("Write id of auction which you would like to delete : ");
         Tools.stringToIntBlocker(scanner);
         Integer auctionId = scanner.nextInt();
+        scanner.nextLine();
 
         for (Auction auction : listOfAllAuction) {
-            if (auction.getAuctionIndex().equals(auctionId) && auction.getUser().equals(user))
+            if (auction.getAuctionIndex().equals(auctionId)
+                    && auction.getUser().getUserName().equals(user.getUserName())
+                    && auction.getUser().getPassword().equals(user.getPassword()))
                 auction.setActive(false);
         }
         return true;
