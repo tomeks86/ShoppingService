@@ -107,7 +107,7 @@ public class Starter {
     private void userActionsInLoggedPanel(User user) {
         AuctionDataBase auctionDataBase = new AuctionDataBase();
         boolean end = false;
-        while (end != true) {
+        while (!end) {
             System.out.printf("Pick action(1-5):\n1:Add new auction\n2:Delete auction\n3:Show existing auction\n4:Show my expired auctions\n5:Log Out\nType your pick: ");
             Tools.stringToIntBlocker(scanner);
             int pick = scanner.nextInt();

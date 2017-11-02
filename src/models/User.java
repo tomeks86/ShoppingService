@@ -22,16 +22,10 @@ public class User implements Serializable {
     }
 
     private boolean isValid(String userName, String password) {
-
-        if (password.length() > 3 || split(userName) < 1 || split(password) < 1)
-        return true;
-
-        return false;
-
+        return (password.length() > 3 && split(userName) == 1 && split(password) == 1);
     }
 
     private Integer split(String string) {
-
         return (string.split("[ ]").length);
     }
 }

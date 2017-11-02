@@ -32,6 +32,10 @@ public class Category implements Serializable {
         listOfChildrensCategory = new ArrayList<>();
     }
 
+    public boolean hasChildrenCategories(Category category){
+        return (category.getListOfChildrensCategory()!=null);
+    }
+
     public ArrayList<Category> getListOfChildrensCategory() {
         return listOfChildrensCategory;
     }

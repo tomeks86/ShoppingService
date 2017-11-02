@@ -17,6 +17,7 @@ public class AuctionDataBase implements Serializable {
         return listOfAllAuction;
     }
 
+
     private int indexAuction = 1;
 
 
@@ -26,6 +27,8 @@ public class AuctionDataBase implements Serializable {
     }
 
     public boolean addAuction(User user) {
+        if (listOfAllAuction.get(listOfAllAuction.size() - 1).getAuctionIndex() > 1)
+            indexAuction = listOfAllAuction.get(listOfAllAuction.size()-1).getAuctionIndex() + 1;
         System.out.println("Write description: ");
         Tools.intToStrongBlocker(scanner);
         String description = scanner.nextLine();
