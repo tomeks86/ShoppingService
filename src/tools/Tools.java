@@ -19,18 +19,19 @@ public class Tools implements Serializable {
         }
     }
 
-    public static void intToStrongBlocker(Scanner scanner) {
-        while (!scanner.hasNext()) {
-            System.out.println("Try with string");
-            scanner.nextLine();
-        }
-    }
-
     public static void stringToDoubleBlocker(Scanner scanner) {
         while (!scanner.hasNextDouble()) {
             System.out.println("Try with an double");
             scanner.nextLine();
         }
+    }
+
+    public static String emptyStringBlocker(String string, Scanner scanner) {
+        while (string.trim().isEmpty()){
+            System.out.println("The string is empty !");
+            string=scanner.nextLine();
+        }
+        return string;
     }
 
     public static void saveUserList(ArrayList<User> user) {
@@ -50,10 +51,7 @@ public class Tools implements Serializable {
             ArrayList<User> loadArray = (ArrayList<User>) in.readObject();
             in.close();
             return loadArray;
-        } catch (IOException e) {
-
-            return new ArrayList<User>();
-        } catch (ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) {
 
             return new ArrayList<User>();
         }

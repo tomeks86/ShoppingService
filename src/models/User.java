@@ -22,7 +22,7 @@ public class User implements Serializable {
     }
 
     private boolean isValid(String userName, String password) {
-        return (password.length() > 3 && split(userName) == 1 && split(password) == 1);
+        return (password.length() > 3 && split(userName) == 1 && split(password) == 1 && userName.length() > 0);
     }
 
     private Integer split(String string) {

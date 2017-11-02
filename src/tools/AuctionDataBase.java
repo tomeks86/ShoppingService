@@ -1,7 +1,6 @@
 package tools;
 
 import models.Auction;
-import models.Category;
 import models.User;
 import views.AuctionViewer;
 
@@ -28,14 +27,14 @@ public class AuctionDataBase implements Serializable {
 
     public boolean addAuction(User user) {
         if (listOfAllAuction.get(listOfAllAuction.size() - 1).getAuctionIndex() > 1)
-            indexAuction = listOfAllAuction.get(listOfAllAuction.size()-1).getAuctionIndex() + 1;
+            indexAuction = listOfAllAuction.get(listOfAllAuction.size() - 1).getAuctionIndex() + 1;
         System.out.println("Write description: ");
-        Tools.intToStrongBlocker(scanner);
         String description = scanner.nextLine();
+        description = Tools.emptyStringBlocker(description, scanner);
 
         System.out.println("Write title: ");
-        Tools.intToStrongBlocker(scanner);
         String title = scanner.nextLine();
+        title = Tools.emptyStringBlocker(title, scanner);
 
         System.out.println("Write price: ");
         Tools.stringToDoubleBlocker(scanner);
@@ -43,7 +42,9 @@ public class AuctionDataBase implements Serializable {
         scanner.nextLine();
 
         System.out.println("Write id of category to which would you like add auction : ");
-        Integer catId = categoryChoser();
+
+
+        Integer catId = categoryChoserForAddMethod();
 
         listOfAllAuction.add(new Auction(description, title, price, user, indexAuction, catId));
         indexAuction++;
@@ -69,34 +70,45 @@ public class AuctionDataBase implements Serializable {
 
     public void printAllAuctions() {
         CategoryControler categoryControler = new CategoryControler();
-        System.out.println("Write id of category to which would you like to show auctions : ");
-        Integer catIdToPrintAuctions = categoryChoser();
+        System.out.println("Write id of category to which would you like to show auctions (Write 0 to see all) : ");
+        Integer catIdToPrintAuctions = categoryChoserForPrinting();
         AuctionViewer.printAllAuctions(listOfAllAuction, catIdToPrintAuctions);
     }
 
-    private Integer categoryChoser() {
+    private Integer categoryChoserForPrinting() {
         CategoryControler categoryControler = new CategoryControler();
         categoryControler.showAllCategories();
         Tools.stringToIntBlocker(scanner);
         int idCategory = scanner.nextInt();
         scanner.nextLine();
-        switch (idCategory) {
-            case 1:
-                return 1;
-            case 2:
-                return 2;
-            case 3:
-                return 3;
-            case 4:
-                return 4;
-            case 5:
-                return 5;
-            case 6:
-                return 6;
-            default:
-                return -1;
+
+        while (!categoryControler.getSetOfCategoryId().contains(idCategory) ^ idCategory == 0) {
+            System.out.println("There is no such category! Try again: ");
+            Tools.stringToIntBlocker(scanner);
+            idCategory = scanner.nextInt();
+            scanner.nextLine();
         }
 
+
+        return idCategory;
+
+    }
+
+    private Integer categoryChoserForAddMethod() {
+        CategoryControler categoryControler = new CategoryControler();
+        categoryControler.showAllCategories();
+        Tools.stringToIntBlocker(scanner);
+        int idCategory = scanner.nextInt();
+        scanner.nextLine();
+
+        while (!categoryControler.getSetOfCategoriesAvileableToAdd().contains(idCategory)) {
+            System.out.println("There is no such category or there is no allowed to add to the selected one! Try again: ");
+            Tools.stringToIntBlocker(scanner);
+            idCategory = scanner.nextInt();
+            scanner.nextLine();
+        }
+
+        return idCategory;
     }
 
 }

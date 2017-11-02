@@ -3,17 +3,24 @@ package tools;
 import models.Category;
 import views.ControlerViewer;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashSet;
 
 
 public class CategoryControler {
-
-    static Category mainCategory = new Category(0, "CATEGORIES");
+    private HashSet<Integer> setOfCategoryId = new HashSet<>();
+    private HashSet<Integer> setOfCategoriesAvileableToAdd = new HashSet<>();
+    private static Category mainCategory = new Category(0, "CATEGORIES");
 
     public CategoryControler() {
         createCategoryTree();
+    }
+
+    public HashSet<Integer> getSetOfCategoryId() {
+        return setOfCategoryId;
+    }
+
+    public HashSet<Integer> getSetOfCategoriesAvileableToAdd() {
+        return setOfCategoriesAvileableToAdd;
     }
 
     private void addChildrensCategory(Category category, Category childrenCategory) {
@@ -21,7 +28,19 @@ public class CategoryControler {
     }
 
     private Category createCategory(Integer categoryId, String categoryName, Category parent) {
+        setOfCategoryId.add(categoryId);
         return new Category(categoryId, categoryName, parent);
+    }
+
+    private void createHashSetOfIdAviliableToAddTo(Category category){
+        if (category.getListOfChildrensCategory().isEmpty()){
+            setOfCategoriesAvileableToAdd.add(category.getCategoryId());
+        }
+        else{
+            for (Category category1 : category.getListOfChildrensCategory()) {
+                createHashSetOfIdAviliableToAddTo(category1);
+            }
+        }
     }
 
     private void createCategoryTree() {
@@ -41,9 +60,11 @@ public class CategoryControler {
         addChildrensCategory(clothes, underwear);
         addChildrensCategory(clothes, tshirts);
 
+        createHashSetOfIdAviliableToAddTo(mainCategory);
+
     }
 
-    public static void showAllCategories() {
+    public void showAllCategories() {
         // no i tu sie zaczyna zabawa
         ControlerViewer.viewAllCategories(mainCategory);
     }
