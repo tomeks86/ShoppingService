@@ -1,16 +1,23 @@
-package Controlers;
+package models;
 
 import Helper.FileOperations;
 import models.User;
 
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 
 public class UserDataBase {
     private ArrayList<User> listOfUsers;
+    private String fileName;
 
     public UserDataBase() {
-        listOfUsers = FileOperations.loadUserList(); //  FIXME load/save -- nie static, przyjmuje w parametrze scie
+        fileName = "Users.bin";
+        listOfUsers = FileOperations.loadUserList(fileName);
+    }
 
+    public UserDataBase(String fileName) {
+        this.fileName = fileName;
+        listOfUsers = FileOperations.loadUserList(fileName);
     }
 
     public ArrayList<User> getListOfUsers() {
@@ -18,9 +25,13 @@ public class UserDataBase {
     }
 
     public boolean addNewUser(User user) {
-        listOfUsers.add(user);  // FIXME tutaj dac zapis listy
-        return true;
-
+        String login = user.getUserName();
+        if (!isLoginAlreadyInUse(login)) {
+            listOfUsers.add(user);
+            FileOperations.saveUserList(listOfUsers, fileName);
+            return true;
+        }
+        return false;
     }
 
     public boolean isUserPresentInDataBase(User user) {

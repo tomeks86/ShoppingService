@@ -6,10 +6,10 @@ import models.User;
 import java.io.*;
 import java.util.ArrayList;
 
-public class FileOperations implements Serializable {   //FIXME trudne do testu, sciezka w parametrze!!!!!
-    public static void saveUserList(ArrayList<User> user) {
+public class FileOperations implements Serializable {
+    public static void saveUserList(ArrayList<User> user, String fileName) {
         try {
-            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("User.bin"));
+            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName));
             out.writeObject(user);
             out.flush();
             out.close();
@@ -18,9 +18,9 @@ public class FileOperations implements Serializable {   //FIXME trudne do testu,
         }
     }
 
-    public static ArrayList<User> loadUserList() {
+    public static ArrayList<User> loadUserList(String fileName) {
         try {
-            ObjectInputStream in = new ObjectInputStream(new FileInputStream("User.bin"));
+            ObjectInputStream in = new ObjectInputStream(new FileInputStream(fileName));
             ArrayList<User> loadArray = (ArrayList<User>) in.readObject();
             in.close();
             return loadArray;

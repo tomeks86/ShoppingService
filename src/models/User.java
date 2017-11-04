@@ -28,4 +28,8 @@ public class User implements Serializable {
     private Integer split(String string) {
         return (string.split("[ ]").length); // String.conta
     }
+
+    /*public boolean equals(User user) {
+        return (this.getUserName().equals(user.getUserName()) && (this.getPassword().equals(user.getPassword())));
+    }*/
 }
