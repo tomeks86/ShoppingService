@@ -11,7 +11,6 @@ import java.util.Scanner;
 public class Starter {
     private Scanner scanner = new Scanner(System.in);
     private UserDataBase userDataBase = new UserDataBase();
-    private User user = null;
 
     public Starter() {
         run();
@@ -31,7 +30,7 @@ public class Starter {
 
 
     private int mainMenu() {
-        System.out.println("To log in choose 1\nTo register new User choose 2\nTo exit program choose 0");
+        System.out.println("-------------------------------------\nTo log in choose 1\nTo register new User choose 2\nTo exit program choose 0");
         Tools.stringToIntBlocker(scanner);
         int value = scanner.nextInt();
         scanner.nextLine();
@@ -41,6 +40,7 @@ public class Starter {
             value = scanner.nextInt();
             scanner.nextLine();
         }
+        System.out.println("-------------------------------------");
         return value;
     }
 
@@ -49,22 +49,18 @@ public class Starter {
         switch (value) {
             case 1:
                 try {
-                    user = logIntoSystem(scanner, userDataBase);
+                    User user = logIntoSystem(scanner, userDataBase);
                     userActionsInLoggedPanel(user);
-                } catch (IllegalArgumentException e) {
+                } catch (IllegalArgumentException | NullPointerException e) {
                     System.out.println(e.getMessage());
-                } catch (NullPointerException n) {
-                    System.out.println(n.getMessage());     //<- mordo wydaje mi się, że lepiej od razu rzucić kulturalnym
-                }                                           //<- nullPointerem na poziomie metody sprawdzającej dane
+                }                                            //<- nullPointerem na poziomie metody sprawdzającej dane
                 break;                                      //<- do logowania, a nie tak jak było w wersji bardzo 1.0 czyli po
-            //<- prostu zwracać lamersko nulla i czekać aż się wypierdoli
+                                                            //<- prostu zwracać lamersko nulla i czekać aż się wypierdoli
             case 2:                                         // Tak na marginesie to ciekawi mnie troszeczkę czy to jest bad practice jak walisz nullem w takiej sytuacji
                 try {
                     registerNewUser(scanner, userDataBase);
-                } catch (IllegalArgumentException e) {
+                } catch (IllegalArgumentException | AccessControlException e) {
                     System.out.println(e.getMessage());
-                } catch (AccessControlException a) {
-                    System.out.println(a.getMessage());
                 }
                 break;
 
@@ -107,15 +103,19 @@ public class Starter {
     private void userActionsInLoggedPanel(User user) {
         AuctionDataBase auctionDataBase = new AuctionDataBase();
         boolean end = false;
-        while (end != true) {
-            System.out.printf("Pick action(1-5):\n1:Add new auction\n2:Delete auction\n3:Show existing auction\n4:Show my expired auctions\n5:Log Out\nType your pick: ");
+        while (!end) {
+            System.out.printf("-------------------------------------\nPick action(1-5):\n1:Add new auction\n2:Delete auction\n3:Show existing auction\n4:Show my expired auctions\n5:Log Out\nType your pick: ");
             Tools.stringToIntBlocker(scanner);
             int pick = scanner.nextInt();
+            scanner.nextLine();
             while (pick > 5 || pick < 1) {
+                System.out.println();
                 System.out.println("Illegal argument, pick from 1 to 5");
                 Tools.stringToIntBlocker(scanner);
                 pick = scanner.nextInt();
+                scanner.nextLine();
             }
+            System.out.println("-------------------------------------");
 
 
             switch (pick) {
@@ -136,6 +136,8 @@ public class Starter {
                 break;
             }*/
                 case 5:
+                    Tools.saveAuctionList(auctionDataBase.getListOfAllAuction());
+                    Tools.saveUserList(userDataBase.getListOfUsers());
                     end = true;
                 default:
             }

@@ -1,6 +1,8 @@
 package models;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
     private String userName, password;
 
     public User(String userName, String password) {
@@ -20,16 +22,10 @@ public class User {
     }
 
     private boolean isValid(String userName, String password) {
-
-        if (password.length() > 3 || split(userName) < 1 || split(password) < 1)
-        return true;
-
-        return false;
-
+        return (password.length() > 3 && split(userName) == 1 && split(password) == 1 && userName.length() > 0);
     }
 
     private Integer split(String string) {
-
         return (string.split("[ ]").length);
     }
 }

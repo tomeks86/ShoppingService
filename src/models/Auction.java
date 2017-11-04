@@ -1,12 +1,15 @@
 package models;
 
-public class Auction {
+import java.io.Serializable;
+
+public class Auction implements Serializable{
 
     private Integer categoryId, auctionIndex;
     private String description, title;
     private Double price;
     private User user;
     private boolean isActive;
+
 
     public String getDescription() {
         return description;
@@ -41,17 +44,14 @@ public class Auction {
         return isActive;
     }
 
-    public Auction(String description, String title, Double price, User user, Integer auctionIndex) {
+    public Auction(String description, String title, Double price, User user, Integer auctionIndex, Integer categoryId) {
         this.description = description;
         this.title = title;
         this.price = price;
         this.user = user;
         this.auctionIndex = auctionIndex;
         this.isActive = true;
+        this.categoryId = categoryId;
     }
 
-    public void setCategory(Integer category) {
-        this.categoryId = category;       // To tak na wypadek jakbysmy chcieli ustawiac kategorie dla aukcji
-
-    }
 }
