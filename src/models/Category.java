@@ -33,7 +33,7 @@ public class Category implements Serializable {
     }
 
     public boolean hasChildrenCategories(Category category){
-        return (category.getListOfChildrensCategory()!=null);
+        return (!category.getListOfChildrensCategory().isEmpty());
     }
 
     public ArrayList<Category> getListOfChildrensCategory() {
