@@ -1,9 +1,10 @@
 package views;
 
+import Helper.FileOperations;
 import models.User;
-import tools.AuctionDataBase;
-import tools.Tools;
-import tools.UserDataBase;
+import Controlers.AuctionDataBase;
+import Helper.Tools;
+import Controlers.UserDataBase;
 
 import java.security.AccessControlException;
 import java.util.Scanner;
@@ -23,8 +24,8 @@ public class Starter {
             int value = mainMenu();
             if (value > 0)
                 switcherMainMenu(value);
-            else                        //<-ta konstrukcja mi się nie dokońca podoba, jak chcesz to zmień to trochę
-                end = value;            //<- mam na myśli sam if else, wygląda średnio.
+            else
+                end = value;
         }
     }
 
@@ -53,10 +54,10 @@ public class Starter {
                     userActionsInLoggedPanel(user);
                 } catch (IllegalArgumentException | NullPointerException e) {
                     System.out.println(e.getMessage());
-                }                                            //<- nullPointerem na poziomie metody sprawdzającej dane
-                break;                                      //<- do logowania, a nie tak jak było w wersji bardzo 1.0 czyli po
-                                                            //<- prostu zwracać lamersko nulla i czekać aż się wypierdoli
-            case 2:                                         // Tak na marginesie to ciekawi mnie troszeczkę czy to jest bad practice jak walisz nullem w takiej sytuacji
+                }
+                break;
+
+            case 2:
                 try {
                     registerNewUser(scanner, userDataBase);
                 } catch (IllegalArgumentException | AccessControlException e) {
@@ -93,10 +94,10 @@ public class Starter {
         String password = scanner.nextLine();
 
         if (!userDataBase.isLoginAlreadyInUse(login)) {
-            userDataBase.addNewUser(new User(login, password));                  //<- Wydaje mi się że w naszej wersji bardzo 1.0 dało się
-            System.out.println("Register successful!");                         //<- dodać dwa nicki mariusz ale o różnych hasłach
-        } else {                                                                //<- bo porównywaliśmy obiekty a nie loginy
-            throw new AccessControlException("Login is not available!");        //<- jak możesz to "sprawdź to gówno!"
+            userDataBase.addNewUser(new User(login, password));
+            System.out.println("Register successful!");
+        } else {
+            throw new AccessControlException("Login is not available!");
         }
     }
 
@@ -136,8 +137,8 @@ public class Starter {
                 break;
             }*/
                 case 5:
-                    Tools.saveAuctionList(auctionDataBase.getListOfAllAuction());
-                    Tools.saveUserList(userDataBase.getListOfUsers());
+                    FileOperations.saveAuctionList(auctionDataBase.getListOfAllAuction());
+                    FileOperations.saveUserList(userDataBase.getListOfUsers());
                     end = true;
                 default:
             }

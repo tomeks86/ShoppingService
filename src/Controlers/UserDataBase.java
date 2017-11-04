@@ -1,5 +1,6 @@
-package tools;
+package Controlers;
 
+import Helper.FileOperations;
 import models.User;
 
 import java.util.ArrayList;
@@ -8,7 +9,7 @@ public class UserDataBase {
     private ArrayList<User> listOfUsers;
 
     public UserDataBase() {
-        listOfUsers = Tools.loadUserList();
+        listOfUsers = FileOperations.loadUserList();
         //listOfUsers = new ArrayList<User>();
     }
 

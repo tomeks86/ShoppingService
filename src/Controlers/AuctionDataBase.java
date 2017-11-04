@@ -1,5 +1,7 @@
-package tools;
+package Controlers;
 
+import Helper.FileOperations;
+import Helper.Tools;
 import models.Auction;
 import models.User;
 import views.AuctionViewer;
@@ -21,7 +23,7 @@ public class AuctionDataBase implements Serializable {
 
 
     public AuctionDataBase() {
-        listOfAllAuction = Tools.loadAuctionList();
+        listOfAllAuction = FileOperations.loadAuctionList();
         //listOfAllAuction = new ArrayList<Auction>();
     }
 

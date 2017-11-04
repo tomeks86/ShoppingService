@@ -1,9 +1,8 @@
-package tools;
+package Controlers;
 
 import models.Category;
 import views.ControlerViewer;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 
 
@@ -71,17 +70,7 @@ public class CategoryControler {
     }
 
     public void showAllCategories() {
-        // no i tu sie zaczyna zabawa
+
         ControlerViewer.viewAllCategories(mainCategory);
     }
-
-
-    public static void main(String[] args) {
-        CategoryControler categoryControler = new CategoryControler();
-        categoryControler.showAllCategories();
-
-
-    }
-
-
 }

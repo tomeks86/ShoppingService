@@ -1,9 +1,7 @@
 package views;
 
 import models.Auction;
-import models.Category;
 import models.User;
-import tools.CategoryControler;
 
 import java.util.ArrayList;
 import java.util.stream.Collectors;
