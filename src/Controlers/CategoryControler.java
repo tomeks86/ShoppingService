@@ -21,7 +21,7 @@ public class CategoryControler {
 
 
 
-
+    // FIXME jeszcze do przeniesienia createCategoryTree do category
     private void createCategoryTree(Integer categoryId, String categoryName) {
 
         // Tutaj tak jak sie umawalismy tworzymy jedna klase
