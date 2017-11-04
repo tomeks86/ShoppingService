@@ -1,17 +1,17 @@
 package views;
 
+import Controlers.UsersControler;
 import Helper.FileOperations;
-import models.User;
 import Controlers.AuctionDataBase;
 import Helper.Blockers;
-import Controlers.UserDataBase;
+import models.User;
 
 import java.security.AccessControlException;
 import java.util.Scanner;
 
 public class Starter {
     private Scanner scanner = new Scanner(System.in);
-    private UserDataBase userDataBase = new UserDataBase();
+    private UsersControler usersControler = new UsersControler();
 
     public Starter() {
         run();
@@ -50,7 +50,7 @@ public class Starter {
         switch (value) {
             case 1:
                 try {
-                    User user = logIntoSystem(scanner, userDataBase);
+                    User user = logIntoSystem(scanner);
                     userActionsInLoggedPanel(user);
                 } catch (IllegalArgumentException | NullPointerException e) {
                     System.out.println(e.getMessage());
@@ -59,7 +59,7 @@ public class Starter {
 
             case 2:
                 try {
-                    registerNewUser(scanner, userDataBase);
+                    registerNewUser(scanner);
                 } catch (IllegalArgumentException | AccessControlException e) {
                     System.out.println(e.getMessage());
                 }
@@ -69,7 +69,7 @@ public class Starter {
     }
 
 
-    private User logIntoSystem(Scanner scanner, UserDataBase userDataBase) {
+    private User logIntoSystem(Scanner scanner) {
         System.out.print("Login: ");
         String login = scanner.nextLine();
         System.out.print("Password: ");
@@ -77,24 +77,23 @@ public class Starter {
 
         User user = new User(login, password);
 
-        if (userDataBase.isUserPresentInDataBase(user)) {
+        if (usersControler.isUserPresentInDataBase(user)) {
             System.out.println("Logged in!");
-            return user;
+            return new User(login, password);
         } else {
             throw new NullPointerException("Login error !");
         }
-
     }
 
 
-    private void registerNewUser(Scanner scanner, UserDataBase userDataBase) {
+    private void registerNewUser(Scanner scanner) {
         System.out.print("Create new login: ");
         String login = scanner.nextLine();
         System.out.print("Enter your password: ");
         String password = scanner.nextLine();
 
-        if (!userDataBase.isLoginAlreadyInUse(login)) {
-            userDataBase.addNewUser(new User(login, password));
+        User user = new User(login, password);
+        if (usersControler.addNewUser(user)) {
             System.out.println("Register successful!");
         } else {
             throw new AccessControlException("Login is not available!");
@@ -138,7 +137,7 @@ public class Starter {
             }*/
                 case 5:
                     FileOperations.saveAuctionList(auctionDataBase.getListOfAllAuction());
-                    FileOperations.saveUserList(userDataBase.getListOfUsers());
+                    usersControler.saveUserList("Users.bin");
                     end = true;
                 default:
             }
