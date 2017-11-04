@@ -2,10 +2,14 @@ package models;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class Category implements Serializable {
 
     private Integer categoryId;
+
+    private HashSet<Integer> setOfCategoryId = new HashSet<>();
+    private HashSet<Integer> setOfCategoriesAvileableToAdd = new HashSet<>();
 
     public Integer getCategoryId() {
         return categoryId;
@@ -44,11 +48,28 @@ public class Category implements Serializable {
         listOfChildrensCategory.add(category);
     }
 
-    public String getCategoryName() {
-        return categoryName;
+
+    public void addChildrensCategory(Category category, Category childrenCategory) {
+        category.addChildrenCategory(childrenCategory);
     }
 
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
+    public Category createCategory(Integer categoryId, String categoryName, Category parent) {
+        setOfCategoryId.add(categoryId);
+        return new Category(categoryId, categoryName, parent);
     }
+
+    public void createHashSetOfIdAviliableToAddTo(Category category) {
+        if (category.getListOfChildrensCategory().isEmpty()) {
+            setOfCategoriesAvileableToAdd.add(category.getCategoryId());
+        } else {
+            for (Category category1 : category.getListOfChildrensCategory()) {
+                createHashSetOfIdAviliableToAddTo(category1);
+            }
+        }
+    }
+
+
+
+
+
 }

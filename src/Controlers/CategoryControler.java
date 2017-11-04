@@ -7,65 +7,43 @@ import java.util.HashSet;
 
 
 public class CategoryControler {
-    private HashSet<Integer> setOfCategoryId = new HashSet<>();
-    private HashSet<Integer> setOfCategoriesAvileableToAdd = new HashSet<>();
     private static Category mainCategory = new Category(0, "CATEGORIES");
 
-    public CategoryControler() {
-        createCategoryTree();
+    public CategoryControler(Integer categoryId, String categoryName) {
+        createCategoryTree(categoryId, categoryName);
     }
 
-    public HashSet<Integer> getSetOfCategoryId() {
-        return setOfCategoryId;
-    }
-
-    public HashSet<Integer> getSetOfCategoriesAvileableToAdd() {
-        return setOfCategoriesAvileableToAdd;
-    }
 
     public static Category getMainCategory() {
         return mainCategory;
     }
 
-    private void addChildrensCategory(Category category, Category childrenCategory) {
-        category.addChildrenCategory(childrenCategory);
-    }
-
-    private Category createCategory(Integer categoryId, String categoryName, Category parent) {
-        setOfCategoryId.add(categoryId);
-        return new Category(categoryId, categoryName, parent);
-    }
-
-    private void createHashSetOfIdAviliableToAddTo(Category category) {
-        if (category.getListOfChildrensCategory().isEmpty()) {
-            setOfCategoriesAvileableToAdd.add(category.getCategoryId());
-        } else {
-            for (Category category1 : category.getListOfChildrensCategory()) {
-                createHashSetOfIdAviliableToAddTo(category1);
-            }
-        }
-    }
 
 
 
-    private void createCategoryTree() {
+
+    private void createCategoryTree(Integer categoryId, String categoryName) {
+
         // Tutaj tak jak sie umawalismy tworzymy jedna klase
-        Category vehicles = createCategory(1, "VEHICLES", mainCategory); // zeby od niej zaczynac wyswietlanie i tak dalej
-        Category clothes = createCategory(2, "CLOTHES", mainCategory);
-        Category underwear = createCategory(3, "UNDERWEAR", clothes);
-        Category tshirts = createCategory(4, "T-SHIRTS", clothes);
-        Category cars = createCategory(5, "CARS", vehicles);
-        Category tires = createCategory(6, "TIRES", vehicles);
+
+        Category category = new Category(categoryId,categoryName);
+
+        Category vehicles = category.createCategory(1, "VEHICLES", mainCategory); // zeby od niej zaczynac wyswietlanie i tak dalej
+        Category clothes = category.createCategory(2, "CLOTHES", mainCategory);
+        Category underwear = category.createCategory(3, "UNDERWEAR", clothes);
+        Category tshirts = category.createCategory(4, "T-SHIRTS", clothes);
+        Category cars = category.createCategory(5, "CARS", vehicles);
+        Category tires = category.createCategory(6, "TIRES", vehicles);
 // FIXME root nazwa = null, nie potrzebuje zadnej nazwy
 
-        addChildrensCategory(mainCategory, vehicles);
-        addChildrensCategory(mainCategory, clothes);
-        addChildrensCategory(vehicles, cars);
-        addChildrensCategory(vehicles, tires);
-        addChildrensCategory(clothes, underwear);
-        addChildrensCategory(clothes, tshirts);
+        category.addChildrensCategory(mainCategory, vehicles);
+        category.addChildrensCategory(mainCategory, clothes);
+        category.addChildrensCategory(vehicles, cars);
+        category.addChildrensCategory(vehicles, tires);
+        category.addChildrensCategory(clothes, underwear);
+        category.addChildrensCategory(clothes, tshirts);
 
-        createHashSetOfIdAviliableToAddTo(mainCategory); //FIXME komentarz na poczatku o co cho z ta metoda
+        category.createHashSetOfIdAviliableToAddTo(mainCategory); //FIXME komentarz na poczatku o co cho z ta metoda
 
     }
 
