@@ -3,7 +3,7 @@ package views;
 import Helper.FileOperations;
 import models.User;
 import Controlers.AuctionDataBase;
-import Helper.Tools;
+import Helper.Blockers;
 import Controlers.UserDataBase;
 
 import java.security.AccessControlException;
@@ -32,12 +32,12 @@ public class Starter {
 
     private int mainMenu() {
         System.out.println("-------------------------------------\nTo log in choose 1\nTo register new User choose 2\nTo exit program choose 0");
-        Tools.stringToIntBlocker(scanner);
+        Blockers.stringToIntBlocker(scanner);
         int value = scanner.nextInt();
         scanner.nextLine();
         while (value != 0 && value != 1 && value != 2) {
             System.out.println("Did you try to enter 0, 1 or 2?");
-            Tools.stringToIntBlocker(scanner);
+            Blockers.stringToIntBlocker(scanner);
             value = scanner.nextInt();
             scanner.nextLine();
         }
@@ -106,13 +106,13 @@ public class Starter {
         boolean end = false;
         while (!end) {
             System.out.printf("-------------------------------------\nPick action(1-5):\n1:Add new auction\n2:Delete auction\n3:Show existing auction\n4:Show my expired auctions\n5:Log Out\nType your pick: ");
-            Tools.stringToIntBlocker(scanner);
+            Blockers.stringToIntBlocker(scanner);
             int pick = scanner.nextInt();
             scanner.nextLine();
             while (pick > 5 || pick < 1) {
                 System.out.println();
                 System.out.println("Illegal argument, pick from 1 to 5");
-                Tools.stringToIntBlocker(scanner);
+                Blockers.stringToIntBlocker(scanner);
                 pick = scanner.nextInt();
                 scanner.nextLine();
             }

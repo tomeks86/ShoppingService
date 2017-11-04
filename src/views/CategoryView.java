@@ -2,11 +2,11 @@ package views;
 
 import models.Category;
 
-public class ControlerViewer {
+public class CategoryView {
 
     public static void viewAllCategories(Category mainCategory) {
         /*Category category = mainCategory;
-        if (!mainCategory.getListOfChildrensCategory().isEmpty()) {
+//        if (!mainCategory.getListOfChildrensCategory().isEmpty()) { //TODO serio kurwa sout ?!
             for (int i = 0; i < mainCategory.getListOfChildrensCategory().size(); i++) {
 
                 while (!category.getListOfChildrensCategory().isEmpty()) {

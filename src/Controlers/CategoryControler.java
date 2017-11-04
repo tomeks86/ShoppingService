@@ -1,7 +1,7 @@
 package Controlers;
 
 import models.Category;
-import views.ControlerViewer;
+import views.CategoryView;
 
 import java.util.HashSet;
 
@@ -56,7 +56,7 @@ public class CategoryControler {
         Category tshirts = createCategory(4, "T-SHIRTS", clothes);
         Category cars = createCategory(5, "CARS", vehicles);
         Category tires = createCategory(6, "TIRES", vehicles);
-
+// FIXME root nazwa = null, nie potrzebuje zadnej nazwy
 
         addChildrensCategory(mainCategory, vehicles);
         addChildrensCategory(mainCategory, clothes);
@@ -65,12 +65,11 @@ public class CategoryControler {
         addChildrensCategory(clothes, underwear);
         addChildrensCategory(clothes, tshirts);
 
-        createHashSetOfIdAviliableToAddTo(mainCategory);
+        createHashSetOfIdAviliableToAddTo(mainCategory); //FIXME komentarz na poczatku o co cho z ta metoda
 
     }
 
     public void showAllCategories() {
-
-        ControlerViewer.viewAllCategories(mainCategory);
+        CategoryView.viewAllCategories(mainCategory);
     }
 }

@@ -26,6 +26,6 @@ public class User implements Serializable {
     }
 
     private Integer split(String string) {
-        return (string.split("[ ]").length);
+        return (string.split("[ ]").length); // String.conta
     }
 }

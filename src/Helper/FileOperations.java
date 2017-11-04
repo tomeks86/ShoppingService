@@ -6,7 +6,7 @@ import models.User;
 import java.io.*;
 import java.util.ArrayList;
 
-public class FileOperations implements Serializable {
+public class FileOperations implements Serializable {   //FIXME trudne do testu, sciezka w parametrze!!!!!
     public static void saveUserList(ArrayList<User> user) {
         try {
             ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("User.bin"));

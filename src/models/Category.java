@@ -17,7 +17,7 @@ public class Category implements Serializable {
 
     private String categoryName;
     private ArrayList<Category> listOfChildrensCategory;
-    Category parent;
+    private Category parent;
 
     public Category(Integer categoryId, String categoryName) {
         this.categoryId = categoryId;
@@ -32,7 +32,7 @@ public class Category implements Serializable {
         listOfChildrensCategory = new ArrayList<>();
     }
 
-    public boolean hasChildrenCategories(Category category){
+    public boolean hasChildrenCategories(Category category) {
         return (!category.getListOfChildrensCategory().isEmpty());
     }
 

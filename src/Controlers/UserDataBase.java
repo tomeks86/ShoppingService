@@ -9,8 +9,8 @@ public class UserDataBase {
     private ArrayList<User> listOfUsers;
 
     public UserDataBase() {
-        listOfUsers = FileOperations.loadUserList();
-        //listOfUsers = new ArrayList<User>();
+        listOfUsers = FileOperations.loadUserList(); //  FIXME load/save -- nie static, przyjmuje w parametrze scie
+
     }
 
     public ArrayList<User> getListOfUsers() {
@@ -18,7 +18,7 @@ public class UserDataBase {
     }
 
     public boolean addNewUser(User user) {
-        listOfUsers.add(user);
+        listOfUsers.add(user);  // FIXME tutaj dac zapis listy
         return true;
 
     }

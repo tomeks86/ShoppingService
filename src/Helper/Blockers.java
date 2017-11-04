@@ -6,7 +6,7 @@ import java.util.Scanner;
 /**
  * Created by Kamil on 2017-10-30.
  */
-public class Tools implements Serializable {
+public class Blockers implements Serializable {
 
     public static void stringToIntBlocker(Scanner scanner) {
         while (!scanner.hasNextInt()) {
