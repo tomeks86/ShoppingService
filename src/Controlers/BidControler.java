@@ -12,14 +12,13 @@ import java.io.IOException;
 public class BidControler {
     public boolean bidAuction(User buyer, Auction auction, Double price, AuctionDataBase auctionDataBase) {
         AuctionView auctionView = new AuctionView();
-        auction.bidPrice(price);
+        boolean flag = auction.bidPrice(price);
         auction.setActualWinnerOfAuction(buyer);
         try {
             FileOperations.saveAuctionList(auctionDataBase.getListOfAllAuction(), "Auction.bin");
-            return true;
         }catch (IOException e ){
          auctionView.showComunicatWhenFileNotSaved();
         }
-        return false;
+        return flag;
     }
 }

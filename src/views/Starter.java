@@ -159,11 +159,11 @@ public class Starter {
                         Auction auction = bidInterface.returnAuction(scanner, auctionDataBase,user,auctionControler);
                         Double price = bidInterface.returnPrice(scanner, auctionDataBase);
 
-                        bidControler.bidAuction(user, auction, price, auctionDataBase);
+
                       
                         try {
                             boolean Sold = bidControler.bidAuction(user,auction, price, auctionDataBase);
-                            if (!Sold) auctionView.printCongratulationMessage(auction, user);
+                            if (Sold) auctionView.printCongratulationMessage(auction, user);
                             else auctionView.printCurrentOffer(auction);
 
                         } catch (IllegalStateException e) {
