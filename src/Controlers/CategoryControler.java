@@ -13,8 +13,7 @@ public class CategoryControler {
     }*/
 
     public void showAllCategories() {
-        Category category = new Category();
-        categoryView.viewAllCategories(category.getMainCategory());
+        categoryView.viewAllCategories(Category.getMainCategory(), "");
     }
 
     public HashSet<Integer> getSetOfCategoriesAvailableToAdd() {

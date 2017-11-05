@@ -10,7 +10,7 @@ public class Category implements Serializable {
     private ArrayList<Category> listOfChildrensCategory;
     private Category parent;
 
-    private static Category mainCategory = new Category(0, "CATEGORIES");
+    public static Category mainCategory = new Category(0, "CATEGORIES");
 
     private HashSet<Integer> setOfCategoryId = new HashSet<>();
 
@@ -45,7 +45,21 @@ public class Category implements Serializable {
     }
 
     public Category() {
-        createCategoryTree();
+        Category vehicles = createCategory(1, "VEHICLES", mainCategory); // zeby od niej zaczynac wyswietlanie i tak dalej
+        Category clothes = createCategory(2, "CLOTHES", mainCategory);
+        Category underwear = createCategory(3, "UNDERWEAR", clothes);
+        Category tshirts = createCategory(4, "T-SHIRTS", clothes);
+        Category cars = createCategory(5, "CARS", vehicles);
+        Category tires = createCategory(6, "TIRES", vehicles);
+
+        addChildrensCategory(mainCategory, vehicles);
+        addChildrensCategory(mainCategory, clothes);
+        addChildrensCategory(vehicles, cars);
+        addChildrensCategory(vehicles, tires);
+        addChildrensCategory(clothes, underwear);
+        addChildrensCategory(clothes, tshirts);
+
+        createHashSetOfIdAviliableToAddTo(mainCategory); // auctions can only be added to categories without children
     }
 
     public boolean hasChildrenCategories(Category category) {
@@ -85,7 +99,7 @@ public class Category implements Serializable {
         return this.getCategoryId() + " " + this.getCategoryName();
     }
 
-    private void createCategoryTree() {
+    private Category createCategoryTree(Category mainCategory) {
         Category vehicles = createCategory(1, "VEHICLES", mainCategory); // zeby od niej zaczynac wyswietlanie i tak dalej
         Category clothes = createCategory(2, "CLOTHES", mainCategory);
         Category underwear = createCategory(3, "UNDERWEAR", clothes);
@@ -101,7 +115,7 @@ public class Category implements Serializable {
         addChildrensCategory(clothes, tshirts);
 
         createHashSetOfIdAviliableToAddTo(mainCategory); // auctions can only be added to categories without children
-
+        return mainCategory;
     }
 
 
