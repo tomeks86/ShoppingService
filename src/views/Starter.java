@@ -138,12 +138,11 @@ public class Starter {
                 case 2: {
                     AuctionControler auctionControler = new AuctionControler();
                     AuctionInterface auctionInterface = new AuctionInterface();
-                    AuctionView auctionView = new AuctionView();
                     try {
                         Auction auction = auctionInterface.searchIdOfAuctionToRemove(user, auctionDataBase, auctionControler);
                         auctionControler.removeAuction(auctionDataBase, auction, user);
                     }catch (NullPointerException e){
-                        auctionView.showComunicatWhenAuctionNotRemoved();
+                        auctionControler.getMessageWhenCannotRemoveAuction();
                     }
                     break;
                 }
@@ -156,7 +155,7 @@ public class Starter {
                     if (bidInterface.shouldContinueWithBid(scanner)) {
                         Auction auction = bidInterface.returnAuction(scanner, auctionDataBase,user,auctionControler);
                         Double price = bidInterface.returnPrice(scanner, auctionDataBase);
-                        bidControler.bidAuction(user, auction, price);
+                        bidControler.bidAuction(user, auction, price, auctionDataBase);
                     }
                     break;
                 }
