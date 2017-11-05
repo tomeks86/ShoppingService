@@ -15,7 +15,6 @@ public class CategoryView {
                 viewAllCategories(category1, tab);
             }
         } else return;
-    }
 
     /*public static void main(String[] args) {
         CategoryView categoryView = new CategoryView();

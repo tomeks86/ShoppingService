@@ -15,7 +15,10 @@ public class AuctionDataBase implements Serializable {
     private ArrayList<Auction> listOfAllAuction;
 
     public int getIndexAuction() {
-        return indexAuction;
+        if (!listOfAllAuction.isEmpty())
+        return (listOfAllAuction.get(listOfAllAuction.size()-1).getAuctionIndex() +1 );
+        else
+            return indexAuction;
     }
 
     public AuctionDataBase() {
@@ -29,10 +32,10 @@ public class AuctionDataBase implements Serializable {
 
 
     public boolean addAuction(Auction auction) {
-        listOfAllAuction.add(auction);
-        indexAuction++;
         try {
-            FileOperations.saveAuctionList(listOfAllAuction,"Auction.bin");
+            listOfAllAuction.add(auction);
+            indexAuction++;
+            FileOperations.saveAuctionList(listOfAllAuction, "Auction.bin");
         } catch (IOException e) {
             return false;
         }
