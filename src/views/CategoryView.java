@@ -9,11 +9,11 @@ public class CategoryView {
     public void viewAllCategories(Category mainCategory, String tab) {
         System.out.println(tab + mainCategory.toString());
         tab += "\t";
-        if (mainCategory.hasChildrenCategories(mainCategory)) {
+        if (!mainCategory.getListOfChildrensCategory().isEmpty()) {
             for (Category category1 : mainCategory.getListOfChildrensCategory()) {
                 viewAllCategories(category1, tab);
             }
-        }
+        } else return;
     }
 
     public static void main(String[] args) {

@@ -31,7 +31,7 @@ public class AuctionControler implements Serializable {
         AuctionInterface auctionInterface = new AuctionInterface();
         CategoryView categoryView = new CategoryView();
         Category category = new Category();
-        categoryView.viewAllCategories(category.getMainCategory()," ");
+        categoryView.viewAllCategories(category.mainCategory," ");
         Integer catIdToPrintAuctions = auctionInterface.choseCategoryId("Write id of category to which would you like to show auctions (Write 0 to see all) : ", categoryControler.getSetOfCategoryId());
         AuctionView.printAllAuctions(filtrListToCategory(auctionDataBase.getListOfAllAuction(), catIdToPrintAuctions));
     }
