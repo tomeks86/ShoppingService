@@ -6,6 +6,7 @@ import Databases.AuctionDataBase;
 import Helper.Blockers;
 import Helper.FileOperations;
 import models.Auction;
+import models.Category;
 import models.User;
 import views.AuctionView;
 
@@ -47,7 +48,7 @@ public class AuctionInterface {
         return (new Auction(auctionInterface.creatingString("Description of auction: "),
                 auctionInterface.creatingString("Title :"),
                 auctionInterface.creatingDuble("Price: "), user, indexAuction,
-                auctionControler.choseCategoryForAddedAuctions()));
+                auctionControler.choseCategoryForAddedAuctions(auctionInterface)));
     }
 
 
@@ -55,6 +56,9 @@ public class AuctionInterface {
         Auction auction = new Auction();
         AuctionInterface auctionInterface = new AuctionInterface();
         int idCategory = auctionInterface.creatingInteger(text);
+        Category category = new Category();
+        System.out.println(category.getSetOfCategoriesAvileableToAdd());
+        System.out.println(category.getSetOfCategoryId());
 
         while (!auction.isCategoryValid(set, idCategory)) {
             idCategory = auctionInterface.creatingInteger(text);

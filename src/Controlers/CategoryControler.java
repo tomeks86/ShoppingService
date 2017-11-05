@@ -18,10 +18,12 @@ public class CategoryControler {
     }
 
     public HashSet<Integer> getSetOfCategoriesAvailableToAdd() {
-        return null;
+        Category category = new Category();
+        return category.getSetOfCategoriesAvileableToAdd();
     }
 
     public HashSet<Integer> getSetOfCategoryId() {
-        return null;
+        Category category = new Category();
+        return category.getSetOfCategoryId();
     }
 }
