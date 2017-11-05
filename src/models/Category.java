@@ -45,21 +45,7 @@ public class Category implements Serializable {
     }
 
     public Category() {
-        Category vehicles = createCategory(1, "VEHICLES", mainCategory); // zeby od niej zaczynac wyswietlanie i tak dalej
-        Category clothes = createCategory(2, "CLOTHES", mainCategory);
-        Category underwear = createCategory(3, "UNDERWEAR", clothes);
-        Category tshirts = createCategory(4, "T-SHIRTS", clothes);
-        Category cars = createCategory(5, "CARS", vehicles);
-        Category tires = createCategory(6, "TIRES", vehicles);
-
-        addChildrensCategory(mainCategory, vehicles);
-        addChildrensCategory(mainCategory, clothes);
-        addChildrensCategory(vehicles, cars);
-        addChildrensCategory(vehicles, tires);
-        addChildrensCategory(clothes, underwear);
-        addChildrensCategory(clothes, tshirts);
-
-        createHashSetOfIdAviliableToAddTo(mainCategory); // auctions can only be added to categories without children
+        if (mainCategory.listOfChildrensCategory.isEmpty()) mainCategory = createCategoryTree(mainCategory);
     }
 
     public boolean hasChildrenCategories(Category category) {
@@ -117,6 +103,4 @@ public class Category implements Serializable {
         createHashSetOfIdAviliableToAddTo(mainCategory); // auctions can only be added to categories without children
         return mainCategory;
     }
-
-
 }

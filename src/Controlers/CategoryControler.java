@@ -8,12 +8,13 @@ import java.util.HashSet;
 
 public class CategoryControler {
     CategoryView categoryView = new CategoryView();
+    Category category = new Category();
 
     /*public CategoryControler(Integer categoryId, String categoryName) {
     }*/
 
     public void showAllCategories() {
-        categoryView.viewAllCategories(Category.getMainCategory(), "");
+        categoryView.viewAllCategories(category.getMainCategory(), "");
     }
 
     public HashSet<Integer> getSetOfCategoriesAvailableToAdd() {

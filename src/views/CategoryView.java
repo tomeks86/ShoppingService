@@ -15,10 +15,11 @@ public class CategoryView {
                 viewAllCategories(category1, tab);
             }
         } else return;
+    }
 
-    /*public static void main(String[] args) {
+    public static void main(String[] args) {
         CategoryView categoryView = new CategoryView();
         Category category = new Category();
         categoryView.viewAllCategories(category.mainCategory, "");
-    }*/
+    }
 }
