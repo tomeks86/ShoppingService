@@ -1,6 +1,7 @@
 package views;
 
 import models.Auction;
+import models.Category;
 import models.User;
 
 import java.io.Serializable;
@@ -22,6 +23,8 @@ public class AuctionView implements Serializable{
     }
 
     public static void printAllAuctions(ArrayList<Auction> listofAllAuction) {
+        Category category = new Category();
+        CategoryView.viewAllCategories(category.getMainCategory());
         for (Auction auction : listofAllAuction) {
             if (auction.isActive()) {
                 System.out.println("ID: " + auction.getAuctionIndex() + "\nTytle: " + auction.getTitle() + "\nDescription : " + auction.getDescription() + "\nPrice : " + auction.getPrice());

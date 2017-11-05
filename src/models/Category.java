@@ -19,7 +19,7 @@ public class Category implements Serializable {
         return categoryId;
     }
 
-    public static Category getMainCategory() {
+    public Category getMainCategory() {
         return mainCategory;
     }
 

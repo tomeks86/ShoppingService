@@ -3,6 +3,7 @@ package Controlers;
 import Databases.AuctionDataBase;
 import interfaceWithUsers.AuctionInterface;
 import models.Auction;
+import models.User;
 import views.AuctionView;
 
 import java.io.Serializable;
@@ -14,12 +15,8 @@ import java.util.stream.Collectors;
 
 public class AuctionControler implements Serializable {
 
-
-
-
-
     public void addAuction(AuctionDataBase dataBase, Auction auction) {
-        dataBase.addAuction(auction);// FIXME blad braku miejsca na dysku rzucic w database
+        dataBase.addAuction(auction);
         AuctionView auctionView = new AuctionView();
         if (dataBase.addAuction(auction))
             auctionView.showComunicatWhenAuctionAdded();
@@ -71,8 +68,9 @@ public class AuctionControler implements Serializable {
     }
 
 
-    public void removeAuction(AuctionDataBase auctionDataBase, Auction auction) {
+    public void removeAuction(AuctionDataBase auctionDataBase, Auction auction, User user) {
         AuctionView auctionView = new AuctionView();
+        auctionView.printUserAuctions(auctionDataBase.getListOfAllAuction(),user);
         try {
             auctionDataBase.removeAuction(auction);
             auctionView.printingMessages("Auction added");
