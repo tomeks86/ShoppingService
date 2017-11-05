@@ -100,6 +100,8 @@ public class AuctionControler implements Serializable {
             if (auction.getAuctionIndex().equals(auctionId)
                     && (!auction.getUser().getUserName().equals(user.getUserName()))
                     && (!auction.getUser().getPassword().equals(user.getPassword()))
+                    && (!auction.getBuyer().getUserName().equals(user.getUserName()))
+                    && (!auction.getBuyer().getPassword().equals(user.getPassword()))
                     && auction.isActive())
                 return auction;
         }

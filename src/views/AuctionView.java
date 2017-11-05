@@ -85,4 +85,8 @@ public class AuctionView implements Serializable{
             }
         }
     }
+
+    public void printErrorWhenWrongAuctionChosenToBid() {
+        System.out.println("There is no such auction, bid impossible, you are owner of auction or already have highest bid");
+    }
 }
