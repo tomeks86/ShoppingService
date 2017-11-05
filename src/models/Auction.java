@@ -25,6 +25,10 @@ public class Auction implements Serializable {
         return description;
     }
 
+    public int getBidCounter() {
+        return bidCounter;
+    }
+
     public void setActive(boolean active) {
         isActive = active;
     }

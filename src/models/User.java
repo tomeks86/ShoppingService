@@ -29,7 +29,7 @@ public class User implements Serializable {
         return (string.split("[ ]").length); // String.conta
     }
 
-    /*public boolean equals(User user) {
+    public boolean equals(User user) {
         return (this.getUserName().equals(user.getUserName()) && (this.getPassword().equals(user.getPassword())));
-    }*/
+    }
 }

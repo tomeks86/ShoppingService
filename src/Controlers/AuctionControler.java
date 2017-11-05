@@ -112,4 +112,12 @@ public class AuctionControler implements Serializable {
         AuctionView auctionView = new AuctionView();
         auctionView.showComunicatWhenAuctionNotRemoved();
     }
+
+    public ArrayList<Auction> getUserExpiredAuctions(User user, AuctionDataBase auctionDataBase) {
+        ArrayList<Auction> expiredAuctions = new ArrayList<>();
+        for (Auction auction : auctionDataBase.getListOfAllAuction()) {
+            if (auction.getUser().equals(user) && !auction.isActive()) expiredAuctions.add(auction);
+        }
+        return expiredAuctions;
+    }
 }

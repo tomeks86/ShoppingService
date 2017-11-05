@@ -14,6 +14,7 @@ import models.UserDataBase;
 
 import java.io.IOException;
 import java.security.AccessControlException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Starter {
@@ -170,13 +171,16 @@ public class Starter {
                         } catch (NullPointerException e) {
                             bidControler.messageWhenNoSuchAuctionToBid();
                         }
+                        }
+                        break;
                     }
-                    break;
-                }
-            /*case 4: {
-                categoryCont.printAuctionToRemove(user);
+            case 4: {
+                AuctionControler auctionControler = new AuctionControler();
+                AuctionView auctionView = new AuctionView();
+                ArrayList<Auction> expiredAuctions = auctionControler.getUserExpiredAuctions(user, auctionDataBase);
+                auctionView.printUserExpiredAuctions(expiredAuctions);
                 break;
-            }*/
+            }
                 case 5:
                     end = true;
                 default:

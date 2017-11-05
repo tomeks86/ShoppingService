@@ -76,6 +76,16 @@ public class AuctionView implements Serializable{
 
     }
 
+    public void printUserExpiredAuctions(ArrayList<Auction> expiredAuctions) {
+        for (Auction auction : expiredAuctions) {
+            if (auction.getBidCounter() < 3) {
+                System.out.println(auction.toString() + "; (removed by user)");
+            } else {
+                System.out.println(auction.toString() + "; bought by user: " + auction.getBuyer().getUserName());
+            }
+        }
+    }
+
     public void printErrorWhenWrongAuctionChosenToBid() {
         System.out.println("There is no such auction, bid impossible, you are owner of auction or already have highest bid");
     }
