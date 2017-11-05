@@ -129,7 +129,7 @@ public class Starter {
                 case 1: {
                     AuctionControler auctionControler = new AuctionControler();
                     AuctionInterface auctionInterface = new AuctionInterface();
-                    Auction auction = auctionInterface.createAuctionToAdd(user);
+                    Auction auction = auctionInterface.createAuctionToAdd(user,auctionControler,auctionInterface,auctionDataBase);
                     auctionControler.addAuction(auctionDataBase, auction);
                     break;
                 }

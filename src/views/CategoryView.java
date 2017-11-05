@@ -7,7 +7,7 @@ import javax.swing.*;
 public class CategoryView {
 
 
-    public void viewAllCategories(Category mainCategory) {
+    public static void viewAllCategories(Category mainCategory) {
         Category category = mainCategory;
         System.out.println(category.toString());
         if (!category.hasChildrenCategories(category)) {

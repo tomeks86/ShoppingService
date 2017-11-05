@@ -15,10 +15,6 @@ import java.util.stream.Collectors;
 
 public class AuctionControler implements Serializable {
 
-
-
-
-
     public void addAuction(AuctionDataBase dataBase, Auction auction) {
         dataBase.addAuction(auction);
         AuctionView auctionView = new AuctionView();
