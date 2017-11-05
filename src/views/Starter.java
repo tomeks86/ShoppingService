@@ -1,9 +1,10 @@
 package views;
 
+import Controlers.BidControler;
 import Controlers.UsersControler;
 import Databases.AuctionDataBase;
-import Helper.FileOperations;
 import interfaceWithUsers.AuctionInterface;
+import interfaceWithUsers.BidInterface;
 import models.Auction;
 import models.User;
 import Controlers.AuctionControler;
@@ -108,6 +109,7 @@ public class Starter {
     }
 
     private void userActionsInLoggedPanel(User user) {
+
         AuctionDataBase auctionDataBase = new AuctionDataBase();
         boolean end = false;
         while (!end) {
@@ -129,7 +131,7 @@ public class Starter {
                 case 1: {
                     AuctionControler auctionControler = new AuctionControler();
                     AuctionInterface auctionInterface = new AuctionInterface();
-                    Auction auction = auctionInterface.createAuctionToAdd(user,auctionControler,auctionInterface,auctionDataBase);
+                    Auction auction = auctionInterface.createAuctionToAdd(user, auctionControler, auctionInterface, auctionDataBase);
                     auctionControler.addAuction(auctionDataBase, auction);
                     break;
                 }
@@ -137,12 +139,20 @@ public class Starter {
                     AuctionControler auctionControler = new AuctionControler();
                     AuctionInterface auctionInterface = new AuctionInterface();
                     Auction auction = auctionInterface.searchIdOfAuctionToRemove(user, auctionDataBase);
-                    auctionControler.removeAuction(auctionDataBase, auction,user);
+                    auctionControler.removeAuction(auctionDataBase, auction, user);
                     break;
                 }
                 case 3: {
                     AuctionControler auctionControler = new AuctionControler();
+                    BidInterface bidInterface = new BidInterface();
+                    BidControler bidControler = new BidControler();
                     auctionControler.getAuctions(auctionDataBase);
+
+                    if (bidInterface.shouldContinueWithBid(scanner)) {
+                        Auction auction = bidInterface.returnAuction(scanner, auctionDataBase,user);
+                        Double price = bidInterface.returnPrice(scanner, auctionDataBase);
+                        bidControler.bidAuction(auction, price);
+                    }
                     break;
                 }
             /*case 4: {
