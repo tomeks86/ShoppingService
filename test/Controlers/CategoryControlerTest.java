@@ -9,23 +9,28 @@ import org.junit.rules.ExpectedException;
 import static org.junit.Assert.*;
 
 public class CategoryControlerTest {
-
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
     public CategoryControler testObject;
 
+    @Test
+    public void showAllCategories1() throws Exception {
 
-    @After
-    public void tearDown() throws Exception {
     }
 
     @Test
-    public void getMainCategory() throws Exception {
+    public void getSetOfCategoriesAvailableToAdd() throws Exception {
+
     }
 
     @Test
-    public void showAllCategories() throws Exception {
+    public void getSetOfCategoryId() throws Exception {
+
     }
+
+
+
+
 
 }

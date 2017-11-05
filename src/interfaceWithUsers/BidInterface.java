@@ -17,10 +17,9 @@ public class BidInterface {
             decision = scanner.nextLine();
             decision = Blockers.emptyStringBlocker(decision, scanner);
         }
-        if (decision.equals("y"))
+        if (decision.equals("y")) {
             return true;
-        else
-            return false;
+        } else return false;
     }
 
     public Auction returnAuction(Scanner scanner, AuctionDataBase auctionDataBase, User user, AuctionControler auctionControler) {

@@ -3,6 +3,7 @@ package views;
 import Controlers.BidControler;
 import Controlers.UsersControler;
 import Databases.AuctionDataBase;
+import Helper.FileOperations;
 import interfaceWithUsers.AuctionInterface;
 import interfaceWithUsers.BidInterface;
 import models.Auction;
@@ -11,6 +12,7 @@ import Controlers.AuctionControler;
 import Helper.Blockers;
 import models.UserDataBase;
 
+import java.io.IOException;
 import java.security.AccessControlException;
 import java.util.Scanner;
 
@@ -149,6 +151,7 @@ public class Starter {
                 }
                 case 3: {
                     AuctionControler auctionControler = new AuctionControler();
+                    AuctionView auctionView = new AuctionView();
                     BidInterface bidInterface = new BidInterface();
                     BidControler bidControler = new BidControler();
                     auctionControler.getAuctions(auctionDataBase);
@@ -156,7 +159,18 @@ public class Starter {
                     if (bidInterface.shouldContinueWithBid(scanner)) {
                         Auction auction = bidInterface.returnAuction(scanner, auctionDataBase,user,auctionControler);
                         Double price = bidInterface.returnPrice(scanner, auctionDataBase);
-                        bidControler.bidAuction(user, auction, price);
+                        try {
+                            boolean notSold = bidControler.bidAuction(auction, price);
+                            if (notSold) auctionView.printCongratulationMessage(auction, user);
+                            else auctionView.printCurrentOffer(auction);
+                            try {
+                                FileOperations.saveAuctionList(auctionDataBase.getListOfAllAuction(), "Auction.bin");
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        } catch (IllegalStateException e) {
+                            auctionView.printTooLowOffer(auction);
+                        }
                     }
                     break;
                 }
