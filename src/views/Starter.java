@@ -8,7 +8,7 @@ import models.Auction;
 import models.User;
 import Controlers.AuctionControler;
 import Helper.Blockers;
-import Controlers.UserDataBase;
+import models.UserDataBase;
 
 import java.security.AccessControlException;
 import java.util.Scanner;
@@ -150,8 +150,6 @@ public class Starter {
                 break;
             }*/
                 case 5:
-                    FileOperations.saveAuctionList(auctionDataBase.getListOfAllAuction());
-                    usersControler.saveUserList("Users.bin");
                     end = true;
                 default:
             }

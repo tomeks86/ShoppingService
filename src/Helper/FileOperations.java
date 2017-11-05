@@ -30,7 +30,7 @@ public class FileOperations implements Serializable {
         }
     }
 
-    public static void saveAuctionList(ArrayList<Auction> auction, String text) {
+    public static void saveAuctionList(ArrayList<Auction> auction, String text) throws IOException {
         try {
             ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(text));
             out.writeObject(auction);

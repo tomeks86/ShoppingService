@@ -8,10 +8,11 @@ import java.util.HashSet;
 
 public class CategoryControler {
     private HashSet<Integer> setOfCategoryId = new HashSet<>();
-    private HashSet<Integer> setOfCategoriesAvileableToAdd = new HashSet<>();
+    private HashSet<Integer> setOfCategoriesAvailableToAdd = new HashSet<>();
     private static Category mainCategory = new Category(0, "CATEGORIES");
 
     public CategoryControler() {
+        setOfCategoryId.add(0);
         createCategoryTree();
     }
 
@@ -19,8 +20,8 @@ public class CategoryControler {
         return setOfCategoryId;
     }
 
-    public HashSet<Integer> getSetOfCategoriesAvileableToAdd() {
-        return setOfCategoriesAvileableToAdd;
+    public HashSet<Integer> getSetOfCategoriesAvailableToAdd() {
+        return setOfCategoriesAvailableToAdd;
     }
 
     public static Category getMainCategory() {
@@ -38,7 +39,7 @@ public class CategoryControler {
 
     private void createHashSetOfIdAviliableToAddTo(Category category) {
         if (category.getListOfChildrensCategory().isEmpty()) {
-            setOfCategoriesAvileableToAdd.add(category.getCategoryId());
+            setOfCategoriesAvailableToAdd.add(category.getCategoryId());
         } else {
             for (Category category1 : category.getListOfChildrensCategory()) {
                 createHashSetOfIdAviliableToAddTo(category1);

@@ -41,4 +41,8 @@ public class AuctionView implements Serializable{
     public void printingMessages(String text) {
         System.out.println(text);
     }
+
+    public void showComunicatWhenAuctionNotAdded() {
+        System.out.println("Problem occurred while adding auction, auction not added");
+    }
 }

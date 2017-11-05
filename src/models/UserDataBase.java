@@ -1,4 +1,4 @@
-package Controlers;
+package models;
 
 import Helper.FileOperations;
 import models.User;

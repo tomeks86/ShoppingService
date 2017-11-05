@@ -5,6 +5,7 @@ import Helper.FileOperations;
 import models.Auction;
 
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -30,7 +31,11 @@ public class AuctionDataBase implements Serializable {
     public boolean addAuction(Auction auction) {
         listOfAllAuction.add(auction);
         indexAuction++;
-        FileOperations.saveAuctionList(listOfAllAuction,"Auction.bin");
+        try {
+            FileOperations.saveAuctionList(listOfAllAuction,"Auction.bin");
+        } catch (IOException e) {
+            return false;
+        }
         return true;
     }
 

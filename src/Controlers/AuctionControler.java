@@ -3,7 +3,6 @@ package Controlers;
 import Databases.AuctionDataBase;
 import interfaceWithUsers.AuctionInterface;
 import models.Auction;
-import models.User;
 import views.AuctionView;
 
 import java.io.Serializable;
@@ -20,9 +19,12 @@ public class AuctionControler implements Serializable {
 
 
     public void addAuction(AuctionDataBase dataBase, Auction auction) {
-        dataBase.addAuction(auction);
+        dataBase.addAuction(auction);// FIXME blad braku miejsca na dysku rzucic w database
         AuctionView auctionView = new AuctionView();
-        auctionView.showComunicatWhenAuctionAdded();
+        if (dataBase.addAuction(auction))
+            auctionView.showComunicatWhenAuctionAdded();
+        else
+            auctionView.showComunicatWhenAuctionNotAdded();
     }
 
     public void getAuctions(AuctionDataBase auctionDataBase) {
@@ -36,7 +38,7 @@ public class AuctionControler implements Serializable {
         CategoryControler categoryControler = new CategoryControler();
         AuctionInterface auctionInterface = new AuctionInterface();
         categoryControler.showAllCategories();
-        return auctionInterface.choseCategoryId("Chose id of category to which you would like to add auction: ", categoryControler.getSetOfCategoriesAvileableToAdd());
+        return auctionInterface.choseCategoryId("Chose id of category to which you would like to add auction: ", categoryControler.getSetOfCategoriesAvailableToAdd());
     }
 
     public static ArrayList<Auction> filtrListToCategory(ArrayList<Auction> listofAllAuction, Integer categoryId) {
