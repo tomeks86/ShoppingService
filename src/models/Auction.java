@@ -16,7 +16,9 @@ public class Auction implements Serializable {
     private boolean isActive;
     AuctionView auctionView = new AuctionView();
 
-public Auction() {}
+    public Auction() {
+    }
+
     public String getDescription() {
 
         return description;
@@ -76,10 +78,29 @@ public Auction() {}
         for (Auction auction : auctionDataBase.getListOfAllAuction()) {
             if (auction.getAuctionIndex().equals(auctionId)
                     && auction.getUser().getUserName().equals(user.getUserName())
-                    && auction.getUser().getPassword().equals(user.getPassword()))
+                    && auction.getUser().getPassword().equals(user.getPassword())
+                    && auction.isActive())
                 return auction;
         }
         throw new NullPointerException("There is no such auction to remove! ");
     }
 
+    public Auction checkAccessToBidAuction(AuctionDataBase auctionDataBase, Integer auctionId,User user) {
+        for (Auction auction : auctionDataBase.getListOfAllAuction()) {
+            if (auction.getAuctionIndex().equals(auctionId)
+                    && (!auction.getUser().getUserName().equals(user.getUserName()))
+                    && (!auction.getUser().getPassword().equals(user.getPassword()))
+                    && auction.isActive())
+                return auction;
+        }
+        throw new NullPointerException("There is no such auction to bid! ");
+    }
+
+    public void bidPrice(Double price) {
+        setPrice(price);
+    }
+
+    private void setPrice(Double price) {
+        this.price = price;
+    }
 }
