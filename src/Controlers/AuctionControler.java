@@ -3,8 +3,10 @@ package Controlers;
 import Databases.AuctionDataBase;
 import interfaceWithUsers.AuctionInterface;
 import models.Auction;
+import models.Category;
 import models.User;
 import views.AuctionView;
+import views.CategoryView;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -16,7 +18,7 @@ import java.util.stream.Collectors;
 public class AuctionControler implements Serializable {
 
     public void addAuction(AuctionDataBase dataBase, Auction auction) {
-        dataBase.addAuction(auction);
+
         AuctionView auctionView = new AuctionView();
         if (dataBase.addAuction(auction))
             auctionView.showComunicatWhenAuctionAdded();
@@ -27,13 +29,15 @@ public class AuctionControler implements Serializable {
     public void getAuctions(AuctionDataBase auctionDataBase) {
         CategoryControler categoryControler = new CategoryControler();
         AuctionInterface auctionInterface = new AuctionInterface();
+        CategoryView categoryView = new CategoryView();
+        Category category = new Category();
+        categoryView.viewAllCategories(category.mainCategory," ");
         Integer catIdToPrintAuctions = auctionInterface.choseCategoryId("Write id of category to which would you like to show auctions (Write 0 to see all) : ", categoryControler.getSetOfCategoryId());
         AuctionView.printAllAuctions(filtrListToCategory(auctionDataBase.getListOfAllAuction(), catIdToPrintAuctions));
     }
 
-    public Integer choseCategoryForAddedAuctions() {
+    public Integer choseCategoryForAddedAuctions(AuctionInterface auctionInterface) {
         CategoryControler categoryControler = new CategoryControler();
-        AuctionInterface auctionInterface = new AuctionInterface();
         categoryControler.showAllCategories();
         return auctionInterface.choseCategoryId("Chose id of category to which you would like to add auction: ", categoryControler.getSetOfCategoriesAvailableToAdd());
     }
@@ -71,12 +75,9 @@ public class AuctionControler implements Serializable {
     public void removeAuction(AuctionDataBase auctionDataBase, Auction auction, User user) {
         AuctionView auctionView = new AuctionView();
         auctionView.printUserAuctions(auctionDataBase.getListOfAllAuction(),user);
-        try {
-            auctionDataBase.removeAuction(auction);
-            auctionView.printingMessages("Auction added");
-        } catch (NullPointerException e) {
-            auctionView.printingMessages("Auction adding Failed !! ");
-        }
-
+        if (auctionDataBase.removeAuction(auction))
+            auctionView.showComunicatWhenAuctionRemoved();
+        else
+            auctionView.showComunicatWhenAuctionNotRemoved();
     }
 }

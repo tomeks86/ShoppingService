@@ -20,20 +20,21 @@ public class CategoryControler {
         if (mainCategory.getListOfChildrensCategory().isEmpty()) idCategoriesAvailableToAdd.add(mainCategory.getCategoryId());
         else {
             for (Category cat : mainCategory.getListOfChildrensCategory()){
-                idCategoriesAvailableToAdd.add(idOfEmptyChild(cat));
+                idCategoriesAvailableToAdd.addAll(idOfEmptyChild(cat));
             }
         }
         return idCategoriesAvailableToAdd;
     }
 
-    private Integer idOfEmptyChild(Category cat) {
-        if (cat.getListOfChildrensCategory().isEmpty()) return cat.getCategoryId();
+    private HashSet<Integer> idOfEmptyChild(Category cat) {
+        HashSet<Integer> ids = new HashSet<>();
+        if (cat.getListOfChildrensCategory().isEmpty()) ids.add(cat.getCategoryId());
         else {
             for (Category cat1 : cat.getListOfChildrensCategory()) {
-                return idOfEmptyChild(cat1);
+                ids.addAll(idOfEmptyChild(cat1));
             }
         }
-        return null;
+        return ids;
     }
 
     public HashSet<Integer> getSetOfCategoryId() {
