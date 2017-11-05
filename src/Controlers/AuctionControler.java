@@ -105,4 +105,9 @@ public class AuctionControler implements Serializable {
         }
         throw new NullPointerException("There is no such auction to bid! ");
     }
+
+    public void getMessageWhenCannotRemoveAuction(){
+        AuctionView auctionView = new AuctionView();
+        auctionView.showComunicatWhenAuctionNotRemoved();
+    }
 }
