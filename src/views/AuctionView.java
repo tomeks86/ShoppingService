@@ -22,7 +22,7 @@ public class AuctionView implements Serializable{
         }
     }
 
-    public static void printAllAuctions(ArrayList<Auction> listofAllAuction) {
+    public void printAllAuctions(ArrayList<Auction> listofAllAuction) {
         Category category = new Category();
         CategoryView categoryView = new CategoryView();
         categoryView.viewAllCategories(category.mainCategory, "");
@@ -32,8 +32,12 @@ public class AuctionView implements Serializable{
                 System.out.println("----------------------");
             }
         }
-
     }
+
+    public void printTooLowOffer(Auction auction) {
+        System.out.println("Your offer was too low, you need to give more than " + auction.getPrice());
+    }
+
     public void printsErrorWhenWrongCategoryChosen() {
         System.out.println("There is no such category ! ");
     }
@@ -56,5 +60,13 @@ public class AuctionView implements Serializable{
 
     public void showComunicatWhenAuctionNotRemoved() {
         System.out.println("Problems occurred, auction not removed! Try again. ");
+    }
+
+    public void printCongratulationMessage(Auction auction, User user) {
+        System.out.println("Congratulations " + user.getUserName() + "! You've just bouhgt: " + auction.toString());
+    }
+
+    public void printCurrentOffer(Auction auction) {
+        System.out.println("You've made a bid, the current offer is: " + auction.toString());
     }
 }

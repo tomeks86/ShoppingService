@@ -144,6 +144,7 @@ public class Starter {
                 }
                 case 3: {
                     AuctionControler auctionControler = new AuctionControler();
+                    AuctionView auctionView = new AuctionView();
                     BidInterface bidInterface = new BidInterface();
                     BidControler bidControler = new BidControler();
                     auctionControler.getAuctions(auctionDataBase);
@@ -151,7 +152,13 @@ public class Starter {
                     if (bidInterface.shouldContinueWithBid(scanner)) {
                         Auction auction = bidInterface.returnAuction(scanner, auctionDataBase,user,auctionControler);
                         Double price = bidInterface.returnPrice(scanner, auctionDataBase);
-                        bidControler.bidAuction(auction, price);
+                        try {
+                            boolean notSold = bidControler.bidAuction(auction, price);
+                            if (notSold) auctionView.printCongratulationMessage(auction, user);
+                            else auctionView.printCurrentOffer(auction);
+                        } catch (IllegalArgumentException e) {
+                            auctionView.printTooLowOffer(auction);
+                        }
                     }
                     break;
                 }

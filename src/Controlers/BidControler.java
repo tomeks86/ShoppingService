@@ -4,7 +4,7 @@ import Databases.AuctionDataBase;
 import models.Auction;
 
 public class BidControler {
-    public void bidAuction(Auction auction, Double price) {
-        auction.bidPrice(price);
+    public boolean bidAuction(Auction auction, Double price) {
+        return auction.bidPrice(price);
     }
 }

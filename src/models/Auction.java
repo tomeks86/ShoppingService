@@ -75,8 +75,9 @@ public class Auction implements Serializable {
 
 
 
-    public void bidPrice(Double price) {
+    public boolean bidPrice(Double price) {
         setPrice(price);
+        return true;
     }
 
     private void setPrice(Double price) {
