@@ -1,5 +1,6 @@
 package interfaceWithUsers;
 
+import Controlers.AuctionControler;
 import Databases.AuctionDataBase;
 import Helper.Blockers;
 import Helper.Inputors;
@@ -22,10 +23,10 @@ public class BidInterface {
             return false;
     }
 
-    public Auction returnAuction(Scanner scanner, AuctionDataBase auctionDataBase, User user) {
-        Auction auction = new Auction();
+    public Auction returnAuction(Scanner scanner, AuctionDataBase auctionDataBase, User user, AuctionControler auctionControler) {
+
         Integer id = Inputors.creatingInteger(scanner, "Type id of auction you want to bid: ");
-        return (auction.checkAccessToBidAuction(auctionDataBase,id,user));
+        return (auctionControler.checkAccessToBidAuction(auctionDataBase,id,user));
     }
 
     public Double returnPrice(Scanner scanner, AuctionDataBase auctionDataBase) {

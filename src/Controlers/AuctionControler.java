@@ -80,4 +80,26 @@ public class AuctionControler implements Serializable {
         else
             auctionView.showComunicatWhenAuctionNotRemoved();
     }
+    public Auction checkingAccesToRemoveAuction(User user, AuctionDataBase auctionDataBase, int auctionId) {
+
+        for (Auction auction : auctionDataBase.getListOfAllAuction()) {
+            if (auction.getAuctionIndex().equals(auctionId)
+                    && auction.getUser().getUserName().equals(user.getUserName())
+                    && auction.getUser().getPassword().equals(user.getPassword())
+                    && auction.isActive())
+                return auction;
+        }
+        throw new NullPointerException("There is no such auction to remove! ");
+    }
+
+    public Auction checkAccessToBidAuction(AuctionDataBase auctionDataBase, Integer auctionId ,User user) {
+        for (Auction auction : auctionDataBase.getListOfAllAuction()) {
+            if (auction.getAuctionIndex().equals(auctionId)
+                    && (!auction.getUser().getUserName().equals(user.getUserName()))
+                    && (!auction.getUser().getPassword().equals(user.getPassword()))
+                    && auction.isActive())
+                return auction;
+        }
+        throw new NullPointerException("There is no such auction to bid! ");
+    }
 }

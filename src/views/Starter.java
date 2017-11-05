@@ -138,7 +138,7 @@ public class Starter {
                 case 2: {
                     AuctionControler auctionControler = new AuctionControler();
                     AuctionInterface auctionInterface = new AuctionInterface();
-                    Auction auction = auctionInterface.searchIdOfAuctionToRemove(user, auctionDataBase);
+                    Auction auction = auctionInterface.searchIdOfAuctionToRemove(user, auctionDataBase,auctionControler);
                     auctionControler.removeAuction(auctionDataBase, auction, user);
                     break;
                 }
@@ -149,7 +149,7 @@ public class Starter {
                     auctionControler.getAuctions(auctionDataBase);
 
                     if (bidInterface.shouldContinueWithBid(scanner)) {
-                        Auction auction = bidInterface.returnAuction(scanner, auctionDataBase,user);
+                        Auction auction = bidInterface.returnAuction(scanner, auctionDataBase,user,auctionControler);
                         Double price = bidInterface.returnPrice(scanner, auctionDataBase);
                         bidControler.bidAuction(auction, price);
                     }
