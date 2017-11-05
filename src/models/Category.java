@@ -2,13 +2,22 @@ package models;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class Category implements Serializable {
 
     private Integer categoryId;
+    private static Category mainCategory = new Category(0, "CATEGORIES");
 
+    private HashSet<Integer> setOfCategoryId = new HashSet<>();
+
+    private HashSet<Integer> setOfCategoriesAvileableToAdd = new HashSet<>();
     public Integer getCategoryId() {
         return categoryId;
+    }
+
+    public static Category getMainCategory() {
+        return mainCategory;
     }
 
     public Category getParent() {
@@ -44,11 +53,51 @@ public class Category implements Serializable {
         listOfChildrensCategory.add(category);
     }
 
-    public String getCategoryName() {
-        return categoryName;
+
+    public void addChildrensCategory(Category category, Category childrenCategory) {
+        category.addChildrenCategory(childrenCategory);
     }
 
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
+    public Category createCategory(Integer categoryId, String categoryName, Category parent) {
+        setOfCategoryId.add(categoryId);
+        return new Category(categoryId, categoryName, parent);
     }
+
+    public void createHashSetOfIdAviliableToAddTo(Category category) {
+        if (category.getListOfChildrensCategory().isEmpty()) {
+            setOfCategoriesAvileableToAdd.add(category.getCategoryId());
+        } else {
+            for (Category category1 : category.getListOfChildrensCategory()) {
+                createHashSetOfIdAviliableToAddTo(category1);
+            }
+        }
+    }
+
+
+
+    private void createCategoryTree() {
+
+        // Tutaj tak jak sie umawalismy tworzymy jedna klase
+
+
+        Category vehicles = createCategory(1, "VEHICLES", mainCategory); // zeby od niej zaczynac wyswietlanie i tak dalej
+        Category clothes = createCategory(2, "CLOTHES", mainCategory);
+        Category underwear = createCategory(3, "UNDERWEAR", clothes);
+        Category tshirts = createCategory(4, "T-SHIRTS", clothes);
+        Category cars = createCategory(5, "CARS", vehicles);
+        Category tires = createCategory(6, "TIRES", vehicles);
+// FIXME root nazwa = null, nie potrzebuje zadnej nazwy
+
+        addChildrensCategory(mainCategory, vehicles);
+        addChildrensCategory(mainCategory, clothes);
+        addChildrensCategory(vehicles, cars);
+        addChildrensCategory(vehicles, tires);
+        addChildrensCategory(clothes, underwear);
+        addChildrensCategory(clothes, tshirts);
+
+        createHashSetOfIdAviliableToAddTo(mainCategory); //FIXME komentarz na poczatku o co cho z ta metoda
+
+    }
+
+
 }
