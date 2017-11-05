@@ -1,10 +1,14 @@
 package views;
 
 import Controlers.UsersControler;
+import Databases.AuctionDataBase;
 import Helper.FileOperations;
-import Controlers.AuctionDataBase;
-import Helper.Blockers;
+import interfaceWithUsers.AuctionInterface;
+import models.Auction;
 import models.User;
+import Controlers.AuctionControler;
+import Helper.Blockers;
+import Controlers.UserDataBase;
 
 import java.security.AccessControlException;
 import java.util.Scanner;
@@ -12,6 +16,8 @@ import java.util.Scanner;
 public class Starter {
     private Scanner scanner = new Scanner(System.in);
     private UsersControler usersControler = new UsersControler();
+    private UserDataBase userDataBase = new UserDataBase();
+    private AuctionDataBase auctionDataBase = new AuctionDataBase();
 
     public Starter() {
         run();
@@ -83,6 +89,7 @@ public class Starter {
         } else {
             throw new NullPointerException("Login error !");
         }
+
     }
 
 
@@ -120,15 +127,22 @@ public class Starter {
 
             switch (pick) {
                 case 1: {
-                    auctionDataBase.addAuction(user);
+                    AuctionControler auctionControler = new AuctionControler();
+                    AuctionInterface auctionInterface = new AuctionInterface();
+                    Auction auction = auctionInterface.createAuctionToAdd(user);
+                    auctionControler.addAuction(auctionDataBase, auction);
                     break;
                 }
                 case 2: {
-                    auctionDataBase.removeAuction(user);
+                    AuctionControler auctionControler = new AuctionControler();
+                    AuctionInterface auctionInterface = new AuctionInterface();
+                    Auction auction = auctionInterface.searchIdOfAuctionToRemove(user, auctionDataBase);
+                    auctionControler.removeAuction(auctionDataBase, auction);
                     break;
                 }
                 case 3: {
-                    auctionDataBase.printAllAuctions();
+                    AuctionControler auctionControler = new AuctionControler();
+                    auctionControler.getAuctions(auctionDataBase);
                     break;
                 }
             /*case 4: {
