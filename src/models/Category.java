@@ -8,27 +8,11 @@ public class Category implements Serializable {
     private Integer categoryId;
     private String categoryName;
     private ArrayList<Category> listOfChildrensCategory;
-    private Category parent;
 
     public static Category mainCategory = new Category(0, "CATEGORIES");
 
-    private HashSet<Integer> setOfCategoryId = new HashSet<>();
-
-    private HashSet<Integer> setOfCategoriesAvileableToAdd = new HashSet<>();
     public Integer getCategoryId() {
         return categoryId;
-    }
-
-    public Category getMainCategory() {
-        return mainCategory;
-    }
-
-    public Category getParent() {
-        return parent;
-    }
-
-    public String getCategoryName() {
-        return categoryName;
     }
 
     public Category(Integer categoryId, String categoryName) {
@@ -40,7 +24,6 @@ public class Category implements Serializable {
     public Category(Integer categoryId, String categoryName, Category parent) {
         this.categoryId = categoryId;
         this.categoryName = categoryName;
-        this.parent = parent;
         listOfChildrensCategory = new ArrayList<>();
     }
 
@@ -48,8 +31,8 @@ public class Category implements Serializable {
         if (mainCategory.listOfChildrensCategory.isEmpty()) mainCategory = createCategoryTree(mainCategory);
     }
 
-    public boolean hasChildrenCategories(Category category) {
-        return (!category.getListOfChildrensCategory().isEmpty());
+    public String getCategoryName() {
+        return categoryName;
     }
 
     public ArrayList<Category> getListOfChildrensCategory() {
@@ -66,18 +49,7 @@ public class Category implements Serializable {
     }
 
     public Category createCategory(Integer categoryId, String categoryName, Category parent) {
-        setOfCategoryId.add(categoryId);
         return new Category(categoryId, categoryName, parent);
-    }
-
-    public void createHashSetOfIdAviliableToAddTo(Category category) {
-        if (category.getListOfChildrensCategory().isEmpty()) {
-            setOfCategoriesAvileableToAdd.add(category.getCategoryId());
-        } else {
-            for (Category category1 : category.getListOfChildrensCategory()) {
-                createHashSetOfIdAviliableToAddTo(category1);
-            }
-        }
     }
 
     @Override
@@ -100,7 +72,6 @@ public class Category implements Serializable {
         addChildrensCategory(clothes, underwear);
         addChildrensCategory(clothes, tshirts);
 
-        createHashSetOfIdAviliableToAddTo(mainCategory); // auctions can only be added to categories without children
         return mainCategory;
     }
 }
