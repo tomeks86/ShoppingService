@@ -137,7 +137,7 @@ public class Starter {
                     AuctionControler auctionControler = new AuctionControler();
                     AuctionInterface auctionInterface = new AuctionInterface();
                     Auction auction = auctionInterface.searchIdOfAuctionToRemove(user, auctionDataBase);
-                    auctionControler.removeAuction(auctionDataBase, auction);
+                    auctionControler.removeAuction(auctionDataBase, auction,user);
                     break;
                 }
                 case 3: {

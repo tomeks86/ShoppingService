@@ -6,6 +6,7 @@ import javax.swing.*;
 
 public class CategoryView {
 
+
     public void viewAllCategories(Category mainCategory) {
         Category category = mainCategory;
         System.out.println(category.toString());
@@ -16,6 +17,7 @@ public class CategoryView {
         } else return;
 
 /*        if (!mainCategory.getListOfChildrensCategory().isEmpty()) { //TODO serio kurwa sout ?!
+
             for (int i = 0; i < mainCategory.getListOfChildrensCategory().size(); i++) {
 
                 while (!category.getListOfChildrensCategory().isEmpty()) {
