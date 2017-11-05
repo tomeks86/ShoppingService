@@ -43,8 +43,14 @@ public class AuctionDataBase implements Serializable {
     }
 
 
-    public void removeAuction(Auction auction) {
-        auction.setActive(false);
+    public boolean removeAuction(Auction auction) {
+        try {
+            auction.setActive(false);
+            FileOperations.saveAuctionList(listOfAllAuction,"Auction.bin");
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
     }
 
 
