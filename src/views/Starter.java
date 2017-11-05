@@ -143,7 +143,7 @@ public class Starter {
                     try {
                         Auction auction = auctionInterface.searchIdOfAuctionToRemove(user, auctionDataBase, auctionControler);
                         auctionControler.removeAuction(auctionDataBase, auction, user);
-                    }catch (NullPointerException e){
+                    } catch (NullPointerException e) {
                         auctionControler.getMessageWhenCannotRemoveAuction();
                     }
                     break;
@@ -156,18 +156,19 @@ public class Starter {
                     auctionControler.getAuctions(auctionDataBase);
 
                     if (bidInterface.shouldContinueWithBid(scanner)) {
-                        Auction auction = bidInterface.returnAuction(scanner, auctionDataBase,user,auctionControler);
-                        Double price = bidInterface.returnPrice(scanner, auctionDataBase);
-
-
-                      
                         try {
-                            boolean Sold = bidControler.bidAuction(user,auction, price, auctionDataBase);
-                            if (Sold) auctionView.printCongratulationMessage(auction, user);
-                            else auctionView.printCurrentOffer(auction);
+                            Auction auction = bidInterface.returnAuction(scanner, auctionDataBase, user, auctionControler);
+                            Double price = bidInterface.returnPrice(scanner, auctionDataBase);
+                            try {
+                                boolean Sold = bidControler.bidAuction(user, auction, price, auctionDataBase);
+                                if (Sold) auctionView.printCongratulationMessage(auction, user);
+                                else auctionView.printCurrentOffer(auction);
 
-                        } catch (IllegalStateException e) {
-                            auctionView.printTooLowOffer(auction);
+                            } catch (IllegalStateException e) {
+                                auctionView.printTooLowOffer(auction);
+                            }
+                        } catch (NullPointerException e) {
+                            bidControler.messageWhenNoSuchAuctionToBid();
                         }
                     }
                     break;

@@ -21,4 +21,9 @@ public class BidControler {
         }
         return flag;
     }
+
+    public void messageWhenNoSuchAuctionToBid() {
+        AuctionView auctionView = new AuctionView();
+        auctionView.printErrorWhenWrongAuctionChosenToBid();
+    }
 }
