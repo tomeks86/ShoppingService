@@ -56,9 +56,6 @@ public class AuctionInterface {
         Auction auction = new Auction();
         AuctionInterface auctionInterface = new AuctionInterface();
         int idCategory = auctionInterface.creatingInteger(text);
-        Category category = new Category();
-        System.out.println(category.getSetOfCategoriesAvileableToAdd());
-        System.out.println(category.getSetOfCategoryId());
 
         while (!auction.isCategoryValid(set, idCategory)) {
             idCategory = auctionInterface.creatingInteger(text);

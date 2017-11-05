@@ -54,12 +54,12 @@ public class Category implements Serializable {
     }
 
     public Category() {
-        if (mainCategory.getListOfChildrensCategory().isEmpty())
+
             mainCategory = createCategoryTree(mainCategory);
     }
 
     public boolean hasChildrenCategories(Category category) {
-        return (category.getListOfChildrensCategory().isEmpty());
+        return (!category.getListOfChildrensCategory().isEmpty());
     }
 
     public ArrayList<Category> getListOfChildrensCategory() {
