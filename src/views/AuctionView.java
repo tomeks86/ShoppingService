@@ -17,6 +17,7 @@ public class AuctionView implements Serializable{
                     && auction.getUser().getPassword().equals(user.getPassword())
                     && auction.isActive()) {
                 System.out.println("Index : " + auction.getAuctionIndex() + "\ttitle: " + auction.getTitle());
+                System.out.println((auction.getBuyer()==null) ? "\nNo bids" : "\nActual highest bid by: "  + auction.getBuyer().getUserName());
                 System.out.println("-----");
             }
         }
@@ -29,6 +30,7 @@ public class AuctionView implements Serializable{
         for (Auction auction : listofAllAuction) {
             if (auction.isActive()) {
                 System.out.println("ID: " + auction.getAuctionIndex() + "\nTytle: " + auction.getTitle() + "\nDescription : " + auction.getDescription() + "\nPrice : " + auction.getPrice());
+                System.out.println((auction.getBuyer()==null) ? "\nNo bids" : "\nActual highest bid by: "  + auction.getBuyer().getUserName());
                 System.out.println("----------------------");
             }
         }
