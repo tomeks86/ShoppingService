@@ -32,7 +32,7 @@ public class AuctionControler implements Serializable {
         AuctionView auctionView = new AuctionView();
         CategoryView categoryView = new CategoryView();
         Category category = new Category();
-        categoryView.viewAllCategories(category.mainCategory," ");
+        categoryView.viewAllCategories(category.mainCategory, " ");
         Integer catIdToPrintAuctions = auctionInterface.choseCategoryId("Write id of category to which would you like to show auctions (Write 0 to see all) : ", categoryControler.getSetOfCategoryId());
         auctionView.printAllAuctions(filtrListToCategory(auctionDataBase.getListOfAllAuction(), catIdToPrintAuctions));
     }
@@ -75,12 +75,14 @@ public class AuctionControler implements Serializable {
 
     public void removeAuction(AuctionDataBase auctionDataBase, Auction auction, User user) {
         AuctionView auctionView = new AuctionView();
-        auctionView.printUserAuctions(auctionDataBase.getListOfAllAuction(),user);
-        if (auctionDataBase.removeAuction(auction))
-            auctionView.showComunicatWhenAuctionRemoved();
-        else
+        if (auction != null) {
+            auctionView.printUserAuctions(auctionDataBase.getListOfAllAuction(), user);
+            if (auctionDataBase.removeAuction(auction))
+                auctionView.showComunicatWhenAuctionRemoved();
+        } else
             auctionView.showComunicatWhenAuctionNotRemoved();
     }
+
     public Auction checkingAccesToRemoveAuction(User user, AuctionDataBase auctionDataBase, int auctionId) {
 
         for (Auction auction : auctionDataBase.getListOfAllAuction()) {
@@ -93,7 +95,7 @@ public class AuctionControler implements Serializable {
         throw new NullPointerException("There is no such auction to remove! ");
     }
 
-    public Auction checkAccessToBidAuction(AuctionDataBase auctionDataBase, Integer auctionId ,User user) {
+    public Auction checkAccessToBidAuction(AuctionDataBase auctionDataBase, Integer auctionId, User user) {
         for (Auction auction : auctionDataBase.getListOfAllAuction()) {
             if (auction.getAuctionIndex().equals(auctionId)
                     && (!auction.getUser().getUserName().equals(user.getUserName()))

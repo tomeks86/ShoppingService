@@ -2,9 +2,11 @@ package Controlers;
 
 import Databases.AuctionDataBase;
 import models.Auction;
+import models.User;
 
 public class BidControler {
-    public boolean bidAuction(Auction auction, Double price) {
-        return auction.bidPrice(price);
+    public void bidAuction(User buyer, Auction auction, Double price) {
+        auction.bidPrice(price);
+        auction.setActualWinnerOfAuction(buyer);
     }
 }

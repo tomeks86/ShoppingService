@@ -13,7 +13,7 @@ public class Auction implements Serializable {
     private String description, title;
     private Double price;
     private int bidCounter;
-    private User user;
+    private User user, buyer;
     private boolean isActive;
     AuctionView auctionView = new AuctionView();
 
@@ -54,6 +54,14 @@ public class Auction implements Serializable {
         return isActive;
     }
 
+    private void setBuyer(User buyer) {
+        this.buyer = buyer;
+    }
+
+    public User getBuyer() {
+        return buyer;
+    }
+
     public Auction(String description, String title, Double price, User user, Integer auctionIndex, Integer categoryId) {
         this.description = description;
         this.title = title;
@@ -75,6 +83,9 @@ public class Auction implements Serializable {
 
     }
 
+    public void setActualWinnerOfAuction(User buyer){
+        setBuyer(buyer);
+    }
 
 
     public boolean bidPrice(Double price) {
