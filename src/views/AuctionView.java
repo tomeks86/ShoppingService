@@ -22,6 +22,7 @@ public class AuctionView implements Serializable{
     }
 
     public static void printAllAuctions(ArrayList<Auction> listofAllAuction) {
+        CategoryView.viewAllCategories();
         for (Auction auction : listofAllAuction) {
             if (auction.isActive()) {
                 System.out.println("ID: " + auction.getAuctionIndex() + "\nTytle: " + auction.getTitle() + "\nDescription : " + auction.getDescription() + "\nPrice : " + auction.getPrice());

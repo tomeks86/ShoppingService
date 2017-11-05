@@ -4,7 +4,7 @@ import models.Category;
 
 public class CategoryView {
 
-    public static void viewAllCategories(Category mainCategory) {
+    public static void viewAllCategories() {
         /*Category category = mainCategory;
 //        if (!mainCategory.getListOfChildrensCategory().isEmpty()) { //TODO serio kurwa sout ?!
             for (int i = 0; i < mainCategory.getListOfChildrensCategory().size(); i++) {
