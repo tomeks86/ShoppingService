@@ -7,12 +7,21 @@ import java.util.HashSet;
 
 
 public class CategoryControler {
+    Category category = new Category();
+    CategoryView categoryView = new CategoryView();
 
-    public CategoryControler(Integer categoryId, String categoryName) {
-    }
-
+    /*public CategoryControler(Integer categoryId, String categoryName) {
+    }*/
 
     public void showAllCategories() {
-        CategoryView.viewAllCategories(Category.getMainCategory());
+        categoryView.viewAllCategories(Category.getMainCategory(), "");
+    }
+
+    public HashSet<Integer> getSetOfCategoriesAvailableToAdd() {
+        return null;
+    }
+
+    public HashSet<Integer> getSetOfCategoryId() {
+        return null;
     }
 }
