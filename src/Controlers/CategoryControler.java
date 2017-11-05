@@ -7,70 +7,21 @@ import java.util.HashSet;
 
 
 public class CategoryControler {
-    private HashSet<Integer> setOfCategoryId = new HashSet<>();
-    private HashSet<Integer> setOfCategoriesAvailableToAdd = new HashSet<>();
-    private static Category mainCategory = new Category(0, "CATEGORIES");
+    Category category = new Category();
+    CategoryView categoryView = new CategoryView();
 
-    public CategoryControler() {
-        setOfCategoryId.add(0);
-        createCategoryTree();
-    }
+    /*public CategoryControler(Integer categoryId, String categoryName) {
+    }*/
 
-    public HashSet<Integer> getSetOfCategoryId() {
-        return setOfCategoryId;
+    public void showAllCategories() {
+        categoryView.viewAllCategories(Category.getMainCategory());
     }
 
     public HashSet<Integer> getSetOfCategoriesAvailableToAdd() {
-        return setOfCategoriesAvailableToAdd;
+        return null;
     }
 
-    public static Category getMainCategory() {
-        return mainCategory;
-    }
-
-    private void addChildrensCategory(Category category, Category childrenCategory) {
-        category.addChildrenCategory(childrenCategory);
-    }
-
-    private Category createCategory(Integer categoryId, String categoryName, Category parent) {
-        setOfCategoryId.add(categoryId);
-        return new Category(categoryId, categoryName, parent);
-    }
-
-    private void createHashSetOfIdAviliableToAddTo(Category category) {
-        if (category.getListOfChildrensCategory().isEmpty()) {
-            setOfCategoriesAvailableToAdd.add(category.getCategoryId());
-        } else {
-            for (Category category1 : category.getListOfChildrensCategory()) {
-                createHashSetOfIdAviliableToAddTo(category1);
-            }
-        }
-    }
-
-
-
-    private void createCategoryTree() {
-        // Tutaj tak jak sie umawalismy tworzymy jedna klase
-        Category vehicles = createCategory(1, "VEHICLES", mainCategory); // zeby od niej zaczynac wyswietlanie i tak dalej
-        Category clothes = createCategory(2, "CLOTHES", mainCategory);
-        Category underwear = createCategory(3, "UNDERWEAR", clothes);
-        Category tshirts = createCategory(4, "T-SHIRTS", clothes);
-        Category cars = createCategory(5, "CARS", vehicles);
-        Category tires = createCategory(6, "TIRES", vehicles);
-// FIXME root nazwa = null, nie potrzebuje zadnej nazwy
-
-        addChildrensCategory(mainCategory, vehicles);
-        addChildrensCategory(mainCategory, clothes);
-        addChildrensCategory(vehicles, cars);
-        addChildrensCategory(vehicles, tires);
-        addChildrensCategory(clothes, underwear);
-        addChildrensCategory(clothes, tshirts);
-
-        createHashSetOfIdAviliableToAddTo(mainCategory); //FIXME komentarz na poczatku o co cho z ta metoda
-
-    }
-
-    public void showAllCategories() {
-        CategoryView.viewAllCategories(mainCategory);
+    public HashSet<Integer> getSetOfCategoryId() {
+        return null;
     }
 }
