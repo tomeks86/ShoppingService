@@ -23,9 +23,6 @@ public class AuctionView implements Serializable{
     }
 
     public static void printAllAuctions(ArrayList<Auction> listofAllAuction) {
-        Category category = new Category();
-        CategoryView categoryView = new CategoryView();
-        categoryView.viewAllCategories(category.getMainCategory(), "");
         for (Auction auction : listofAllAuction) {
             if (auction.isActive()) {
                 System.out.println("ID: " + auction.getAuctionIndex() + "\nTytle: " + auction.getTitle() + "\nDescription : " + auction.getDescription() + "\nPrice : " + auction.getPrice());
@@ -48,5 +45,13 @@ public class AuctionView implements Serializable{
 
     public void showComunicatWhenAuctionNotAdded() {
         System.out.println("Problem occurred while adding auction, auction not added");
+    }
+
+    public void showComunicatWhenAuctionRemoved() {
+        System.out.println("Auction removed");
+    }
+
+    public void showComunicatWhenAuctionNotRemoved() {
+        System.out.println("Problems occurred, auction not removed! Try again. ");
     }
 }

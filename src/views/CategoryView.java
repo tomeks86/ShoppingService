@@ -7,14 +7,13 @@ import javax.swing.*;
 public class CategoryView {
 
     public void viewAllCategories(Category mainCategory, String tab) {
-        Category category = mainCategory;
-        System.out.println(tab + category.toString());
+        System.out.println(tab + mainCategory.toString());
         tab += "\t";
-        if (category.hasChildrenCategories(category)) {
-            for (Category category1 : category.getListOfChildrensCategory()) {
+        if (mainCategory.hasChildrenCategories(mainCategory)) {
+            for (Category category1 : mainCategory.getListOfChildrensCategory()) {
                 viewAllCategories(category1, tab);
             }
-        } else return;
+        }
     }
 
     public static void main(String[] args) {

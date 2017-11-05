@@ -15,6 +15,15 @@ public class Category implements Serializable {
     private HashSet<Integer> setOfCategoryId = new HashSet<>();
 
     private HashSet<Integer> setOfCategoriesAvileableToAdd = new HashSet<>();
+
+    public HashSet<Integer> getSetOfCategoryId() {
+        return setOfCategoryId;
+    }
+
+    public HashSet<Integer> getSetOfCategoriesAvileableToAdd() {
+        return setOfCategoriesAvileableToAdd;
+    }
+
     public Integer getCategoryId() {
         return categoryId;
     }
@@ -45,7 +54,8 @@ public class Category implements Serializable {
     }
 
     public Category() {
-        if (mainCategory.listOfChildrensCategory.isEmpty()) mainCategory = createCategoryTree(mainCategory);
+
+            mainCategory = createCategoryTree(mainCategory);
     }
 
     public boolean hasChildrenCategories(Category category) {
@@ -86,6 +96,7 @@ public class Category implements Serializable {
     }
 
     private Category createCategoryTree(Category mainCategory) {
+
         Category vehicles = createCategory(1, "VEHICLES", mainCategory); // zeby od niej zaczynac wyswietlanie i tak dalej
         Category clothes = createCategory(2, "CLOTHES", mainCategory);
         Category underwear = createCategory(3, "UNDERWEAR", clothes);
@@ -100,7 +111,10 @@ public class Category implements Serializable {
         addChildrensCategory(clothes, underwear);
         addChildrensCategory(clothes, tshirts);
 
-        createHashSetOfIdAviliableToAddTo(mainCategory); // auctions can only be added to categories without children
+        createHashSetOfIdAviliableToAddTo(mainCategory);
+        setOfCategoryId.add(0);
         return mainCategory;
     }
+
+
 }

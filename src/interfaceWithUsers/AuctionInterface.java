@@ -6,6 +6,7 @@ import Databases.AuctionDataBase;
 import Helper.Blockers;
 import Helper.FileOperations;
 import models.Auction;
+import models.Category;
 import models.User;
 import views.AuctionView;
 
@@ -47,7 +48,7 @@ public class AuctionInterface {
         return (new Auction(auctionInterface.creatingString("Description of auction: "),
                 auctionInterface.creatingString("Title :"),
                 auctionInterface.creatingDuble("Price: "), user, indexAuction,
-                auctionControler.choseCategoryForAddedAuctions()));
+                auctionControler.choseCategoryForAddedAuctions(auctionInterface)));
     }
 
 
