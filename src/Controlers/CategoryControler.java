@@ -14,7 +14,7 @@ public class CategoryControler {
     }*/
 
     public void showAllCategories() {
-        categoryView.viewAllCategories(Category.getMainCategory());
+        categoryView.viewAllCategories(Category.getMainCategory(), "");
     }
 
     public HashSet<Integer> getSetOfCategoriesAvailableToAdd() {
