@@ -12,6 +12,7 @@ public class Auction implements Serializable {
     private Integer categoryId, auctionIndex;
     private String description, title;
     private Double price;
+    private int bidCounter;
     private User user;
     private boolean isActive;
     AuctionView auctionView = new AuctionView();
@@ -57,6 +58,7 @@ public class Auction implements Serializable {
         this.description = description;
         this.title = title;
         this.price = price;
+        this.bidCounter = 0;
         this.user = user;
         this.auctionIndex = auctionIndex;
         this.isActive = true;
@@ -76,11 +78,29 @@ public class Auction implements Serializable {
 
 
     public boolean bidPrice(Double price) {
-        setPrice(price);
-        return true;
+
+        if (price > this.getPrice()) {
+            setPrice(price);
+            this.bidCounter++;
+            if (this.bidCounter == 3) {
+                this.isActive = false;
+                return true;
+            } else return false;
+
+        } else {
+           throw new IllegalStateException("Price is too low");
+        }
     }
+
+
+
 
     private void setPrice(Double price) {
         this.price = price;
+    }
+
+    @Override
+    public String toString() {
+        return this.description + " price: " + this.getPrice();
     }
 }

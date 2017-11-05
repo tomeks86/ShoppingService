@@ -67,6 +67,6 @@ public class AuctionView implements Serializable{
     }
 
     public void printCurrentOffer(Auction auction) {
-        System.out.println("You've made a bid, the current offer is: " + auction.toString());
+        System.out.println("You've made a bid, the current for: " + auction.toString());
     }
 }
