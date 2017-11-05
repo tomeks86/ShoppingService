@@ -75,4 +75,14 @@ public class AuctionView implements Serializable{
         System.out.println("You've made a bid, the current for: " + auction.toString());
 
     }
+
+    public void printUserExpiredAuctions(ArrayList<Auction> expiredAuctions) {
+        for (Auction auction : expiredAuctions) {
+            if (auction.getBidCounter() < 3) {
+                System.out.println(auction.toString() + "; (removed by user)");
+            } else {
+                System.out.println(auction.toString() + "; bought by user: " + auction.getBuyer().getUserName());
+            }
+        }
+    }
 }
