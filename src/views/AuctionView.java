@@ -65,6 +65,7 @@ public class AuctionView implements Serializable{
 
     public void showComunicatWhenFileNotSaved() {
         System.out.println("Cannot save file !");
+    }
 
     public void printCongratulationMessage(Auction auction, User user) {
         System.out.println("Congratulations " + user.getUserName() + "! You've just bouhgt: " + auction.toString());

@@ -162,14 +162,10 @@ public class Starter {
                         bidControler.bidAuction(user, auction, price, auctionDataBase);
                       
                         try {
-                            boolean notSold = bidControler.bidAuction(auction, price);
-                            if (notSold) auctionView.printCongratulationMessage(auction, user);
+                            boolean Sold = bidControler.bidAuction(user,auction, price, auctionDataBase);
+                            if (!Sold) auctionView.printCongratulationMessage(auction, user);
                             else auctionView.printCurrentOffer(auction);
-                            try {
-                                FileOperations.saveAuctionList(auctionDataBase.getListOfAllAuction(), "Auction.bin");
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
+
                         } catch (IllegalStateException e) {
                             auctionView.printTooLowOffer(auction);
                         }
