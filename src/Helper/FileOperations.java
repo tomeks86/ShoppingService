@@ -30,9 +30,9 @@ public class FileOperations implements Serializable {
         }
     }
 
-    public static void saveAuctionList(ArrayList<Auction> auction) {
+    public static void saveAuctionList(ArrayList<Auction> auction, String text) throws IOException {
         try {
-            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Auction.bin"));
+            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(text));
             out.writeObject(auction);
             out.flush();
             out.close();
@@ -41,9 +41,9 @@ public class FileOperations implements Serializable {
         }
     }
 
-    public static ArrayList<Auction> loadAuctionList() {
+    public static ArrayList<Auction> loadAuctionList(String text) {
         try {
-            ObjectInputStream in = new ObjectInputStream(new FileInputStream("Auction.bin"));
+            ObjectInputStream in = new ObjectInputStream(new FileInputStream(text));
             ArrayList<Auction> loadArray = (ArrayList<Auction>) in.readObject();
             in.close();
             return loadArray;
@@ -51,7 +51,6 @@ public class FileOperations implements Serializable {
 
             return new ArrayList<Auction>();
         } catch (ClassNotFoundException e) {
-
             return new ArrayList<Auction>();
         }
 

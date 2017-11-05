@@ -1,15 +1,15 @@
 package views;
 
-import Controlers.AuctionDataBase;
 import models.Auction;
 import models.User;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class AuctionView {
+public class AuctionView implements Serializable{
 
 
-    public static void printUserAuctions(ArrayList<Auction> listOfuserAuctions, User user) {
+    public void printUserAuctions(ArrayList<Auction> listOfuserAuctions, User user) {
         System.out.println("Active " + user.getUserName() + " auctions: \n--");
         for (Auction auction : listOfuserAuctions) {
             if (auction.getUser().getUserName().equals(user.getUserName())
@@ -30,6 +30,19 @@ public class AuctionView {
         }
 
     }
+    public void printsErrorWhenWrongCategoryChosen() {
+        System.out.println("There is no such category ! ");
+    }
 
+    public void showComunicatWhenAuctionAdded() {
+        System.out.println("Auction added! ");
+    }
 
+    public void printingMessages(String text) {
+        System.out.println(text);
+    }
+
+    public void showComunicatWhenAuctionNotAdded() {
+        System.out.println("Problem occurred while adding auction, auction not added");
+    }
 }

@@ -4,8 +4,6 @@ import Helper.FileOperations;
 import models.User;
 import models.UserDataBase;
 
-import java.util.ArrayList;
-
 public class UsersControler {
     private UserDataBase userDataBase;
 
