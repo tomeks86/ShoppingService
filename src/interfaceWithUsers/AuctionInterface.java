@@ -40,15 +40,9 @@ public class AuctionInterface {
         return integerValue;
     }
 
-    public Auction createAuctionToAdd(User user) {
-        AuctionControler auctionControler = new AuctionControler();
-        AuctionInterface auctionInterface = new AuctionInterface();
-        AuctionDataBase auctionDataBase = new AuctionDataBase();
+    public Auction createAuctionToAdd(User user,AuctionControler auctionControler,AuctionInterface auctionInterface,AuctionDataBase auctionDataBase) {
         ArrayList<Auction> listOfAllAuction = auctionDataBase.getListOfAllAuction();
         int indexAuction = auctionDataBase.getIndexAuction();
-
-        /*if (listOfAllAuction.get(listOfAllAuction.size() - 1).getAuctionIndex() > 1)
-            indexAuction = listOfAllAuction.get(listOfAllAuction.size() - 1).getAuctionIndex() + 1;*/
 
         return (new Auction(auctionInterface.creatingString("Description of auction: "),
                 auctionInterface.creatingString("Title :"),

@@ -15,7 +15,10 @@ public class AuctionDataBase implements Serializable {
     private ArrayList<Auction> listOfAllAuction;
 
     public int getIndexAuction() {
+        if (!listOfAllAuction.isEmpty())
         return (listOfAllAuction.get(listOfAllAuction.size()-1).getAuctionIndex() +1 );
+        else
+            return indexAuction;
     }
 
     public AuctionDataBase() {
