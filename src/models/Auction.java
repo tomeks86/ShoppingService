@@ -1,17 +1,24 @@
 package models;
 
-import java.io.Serializable;
+import Databases.AuctionDataBase;
+import views.AuctionView;
 
-public class Auction implements Serializable{
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
+
+public class Auction implements Serializable {
 
     private Integer categoryId, auctionIndex;
     private String description, title;
     private Double price;
     private User user;
     private boolean isActive;
+    AuctionView auctionView = new AuctionView();
 
-
+public Auction() {}
     public String getDescription() {
+
         return description;
     }
 
@@ -52,6 +59,27 @@ public class Auction implements Serializable{
         this.auctionIndex = auctionIndex;
         this.isActive = true;
         this.categoryId = categoryId;
+    }
+
+    public boolean isCategoryValid(HashSet<Integer> categorySet, Integer idCategory) {
+        if (categorySet.contains(idCategory))
+            return true;
+        else {
+            auctionView.printsErrorWhenWrongCategoryChosen();
+            return false;
+        }
+
+    }
+
+    public Auction checkingAccesToRemoveAuction(User user, AuctionDataBase auctionDataBase, int auctionId) {
+
+        for (Auction auction : auctionDataBase.getListOfAllAuction()) {
+            if (auction.getAuctionIndex().equals(auctionId)
+                    && auction.getUser().getUserName().equals(user.getUserName())
+                    && auction.getUser().getPassword().equals(user.getPassword()))
+                return auction;
+        }
+        throw new NullPointerException("There is no such auction to remove! ");
     }
 
 }

@@ -1,8 +1,11 @@
 package views;
 
+import Databases.AuctionDataBase;
 import Helper.FileOperations;
+import interfaceWithUsers.AuctionInterface;
+import models.Auction;
 import models.User;
-import Controlers.AuctionDataBase;
+import Controlers.AuctionControler;
 import Helper.Blockers;
 import Controlers.UserDataBase;
 
@@ -12,6 +15,7 @@ import java.util.Scanner;
 public class Starter {
     private Scanner scanner = new Scanner(System.in);
     private UserDataBase userDataBase = new UserDataBase();
+    private AuctionDataBase auctionDataBase = new AuctionDataBase();
 
     public Starter() {
         run();
@@ -102,7 +106,7 @@ public class Starter {
     }
 
     private void userActionsInLoggedPanel(User user) {
-        AuctionDataBase auctionDataBase = new AuctionDataBase();
+
         boolean end = false;
         while (!end) {
             System.out.printf("-------------------------------------\nPick action(1-5):\n1:Add new auction\n2:Delete auction\n3:Show existing auction\n4:Show my expired auctions\n5:Log Out\nType your pick: ");
@@ -121,15 +125,22 @@ public class Starter {
 
             switch (pick) {
                 case 1: {
-                    auctionDataBase.addAuction(user);
+                    AuctionControler auctionControler = new AuctionControler();
+                    AuctionInterface auctionInterface = new AuctionInterface();
+                    Auction auction = auctionInterface.createAuctionToAdd(user);
+                    auctionControler.addAuction(auctionDataBase, auction);
                     break;
                 }
                 case 2: {
-                    auctionDataBase.removeAuction(user);
+                    AuctionControler auctionControler = new AuctionControler();
+                    AuctionInterface auctionInterface = new AuctionInterface();
+                    Auction auction = auctionInterface.searchIdOfAuctionToRemove(user, auctionDataBase);
+                    auctionControler.removeAuction(auctionDataBase, auction);
                     break;
                 }
                 case 3: {
-                    auctionDataBase.printAllAuctions();
+                    AuctionControler auctionControler = new AuctionControler();
+                    auctionControler.getAuctions(auctionDataBase);
                     break;
                 }
             /*case 4: {
@@ -137,8 +148,7 @@ public class Starter {
                 break;
             }*/
                 case 5:
-                    FileOperations.saveAuctionList(auctionDataBase.getListOfAllAuction());
-                    FileOperations.saveUserList(userDataBase.getListOfUsers());
+                    FileOperations.saveUserList(userDataBase.getListOfUsers(), "User.bin");
                     end = true;
                 default:
             }

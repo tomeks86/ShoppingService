@@ -6,10 +6,12 @@ import models.User;
 import java.io.*;
 import java.util.ArrayList;
 
-public class FileOperations implements Serializable {   //FIXME trudne do testu, sciezka w parametrze!!!!!
-    public static void saveUserList(ArrayList<User> user) {
+public class FileOperations implements Serializable {
+
+
+    public static void saveUserList(ArrayList<User> user, String text) {
         try {
-            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("User.bin"));
+            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(text));
             out.writeObject(user);
             out.flush();
             out.close();
@@ -18,9 +20,9 @@ public class FileOperations implements Serializable {   //FIXME trudne do testu,
         }
     }
 
-    public static ArrayList<User> loadUserList() {
+    public static ArrayList<User> loadUserList(String text) {
         try {
-            ObjectInputStream in = new ObjectInputStream(new FileInputStream("User.bin"));
+            ObjectInputStream in = new ObjectInputStream(new FileInputStream(text));
             ArrayList<User> loadArray = (ArrayList<User>) in.readObject();
             in.close();
             return loadArray;
@@ -30,9 +32,9 @@ public class FileOperations implements Serializable {   //FIXME trudne do testu,
         }
     }
 
-    public static void saveAuctionList(ArrayList<Auction> auction) {
+    public static void saveAuctionList(ArrayList<Auction> auction, String text) {
         try {
-            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Auction.bin"));
+            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(text));
             out.writeObject(auction);
             out.flush();
             out.close();
@@ -41,9 +43,9 @@ public class FileOperations implements Serializable {   //FIXME trudne do testu,
         }
     }
 
-    public static ArrayList<Auction> loadAuctionList() {
+    public static ArrayList<Auction> loadAuctionList(String text) {
         try {
-            ObjectInputStream in = new ObjectInputStream(new FileInputStream("Auction.bin"));
+            ObjectInputStream in = new ObjectInputStream(new FileInputStream(text));
             ArrayList<Auction> loadArray = (ArrayList<Auction>) in.readObject();
             in.close();
             return loadArray;
@@ -51,7 +53,6 @@ public class FileOperations implements Serializable {   //FIXME trudne do testu,
 
             return new ArrayList<Auction>();
         } catch (ClassNotFoundException e) {
-
             return new ArrayList<Auction>();
         }
 

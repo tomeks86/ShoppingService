@@ -9,7 +9,7 @@ public class UserDataBase {
     private ArrayList<User> listOfUsers;
 
     public UserDataBase() {
-        listOfUsers = FileOperations.loadUserList(); //  FIXME load/save -- nie static, przyjmuje w parametrze scie
+        listOfUsers = FileOperations.loadUserList("User.bin"); //  FIXME load/save -- nie static, przyjmuje w parametrze scie
 
     }
 
