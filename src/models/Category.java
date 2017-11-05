@@ -5,8 +5,11 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 public class Category implements Serializable {
-
     private Integer categoryId;
+    private String categoryName;
+    private ArrayList<Category> listOfChildrensCategory;
+    private Category parent;
+
     private static Category mainCategory = new Category(0, "CATEGORIES");
 
     private HashSet<Integer> setOfCategoryId = new HashSet<>();
@@ -24,9 +27,9 @@ public class Category implements Serializable {
         return parent;
     }
 
-    private String categoryName;
-    private ArrayList<Category> listOfChildrensCategory;
-    private Category parent;
+    public String getCategoryName() {
+        return categoryName;
+    }
 
     public Category(Integer categoryId, String categoryName) {
         this.categoryId = categoryId;
@@ -39,6 +42,10 @@ public class Category implements Serializable {
         this.categoryName = categoryName;
         this.parent = parent;
         listOfChildrensCategory = new ArrayList<>();
+    }
+
+    public Category() {
+        createCategoryTree();
     }
 
     public boolean hasChildrenCategories(Category category) {
@@ -73,20 +80,18 @@ public class Category implements Serializable {
         }
     }
 
-
+    @Override
+    public String toString() {
+        return this.getCategoryId() + " " + this.getCategoryName();
+    }
 
     private void createCategoryTree() {
-
-        // Tutaj tak jak sie umawalismy tworzymy jedna klase
-
-
         Category vehicles = createCategory(1, "VEHICLES", mainCategory); // zeby od niej zaczynac wyswietlanie i tak dalej
         Category clothes = createCategory(2, "CLOTHES", mainCategory);
         Category underwear = createCategory(3, "UNDERWEAR", clothes);
         Category tshirts = createCategory(4, "T-SHIRTS", clothes);
         Category cars = createCategory(5, "CARS", vehicles);
         Category tires = createCategory(6, "TIRES", vehicles);
-// FIXME root nazwa = null, nie potrzebuje zadnej nazwy
 
         addChildrensCategory(mainCategory, vehicles);
         addChildrensCategory(mainCategory, clothes);
@@ -95,7 +100,7 @@ public class Category implements Serializable {
         addChildrensCategory(clothes, underwear);
         addChildrensCategory(clothes, tshirts);
 
-        createHashSetOfIdAviliableToAddTo(mainCategory); //FIXME komentarz na poczatku o co cho z ta metoda
+        createHashSetOfIdAviliableToAddTo(mainCategory); // auctions can only be added to categories without children
 
     }
 
