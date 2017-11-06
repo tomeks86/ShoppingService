@@ -1,20 +1,15 @@
 package interfaceWithUsers;
 
 import Controlers.AuctionControler;
-import Controlers.CategoryControler;
 import Databases.AuctionDataBase;
-import Helper.Blockers;
-import Helper.FileOperations;
 import Helper.Inputors;
 import models.Auction;
-import models.Category;
 import models.User;
 import views.AuctionView;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Scanner;
-import java.util.Set;
 
 public class AuctionInterface {
     private Scanner scanner = new Scanner(System.in);
@@ -22,7 +17,7 @@ public class AuctionInterface {
 
 
 
-    public Auction createAuctionToAdd(User user,AuctionControler auctionControler,AuctionInterface auctionInterface,AuctionDataBase auctionDataBase) {
+    public Auction createAuctionToAdd(User user, AuctionControler auctionControler, AuctionInterface auctionInterface, AuctionDataBase auctionDataBase) {
         ArrayList<Auction> listOfAllAuction = auctionDataBase.getListOfAllAuction();
         int indexAuction = auctionDataBase.getIndexAuction();
 
@@ -44,7 +39,7 @@ public class AuctionInterface {
         return idCategory;
     }
 
-    public Auction searchIdOfAuctionToRemove(User user, AuctionDataBase auctionDataBase,AuctionControler auctionControler) {
+    public Auction searchIdOfAuctionToRemove(User user, AuctionDataBase auctionDataBase, AuctionControler auctionControler) {
 
         AuctionInterface auctionInterface = new AuctionInterface();
         AuctionView auctionView = new AuctionView();

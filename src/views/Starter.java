@@ -1,18 +1,16 @@
 package views;
 
+import Controlers.AuctionControler;
 import Controlers.BidControler;
 import Controlers.UsersControler;
 import Databases.AuctionDataBase;
-import Helper.FileOperations;
 import interfaceWithUsers.AuctionInterface;
 import interfaceWithUsers.BidInterface;
 import models.Auction;
 import models.User;
-import Controlers.AuctionControler;
 import Helper.Blockers;
 import models.UserDataBase;
 
-import java.io.IOException;
 import java.security.AccessControlException;
 import java.util.ArrayList;
 import java.util.Scanner;
