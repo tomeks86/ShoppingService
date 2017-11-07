@@ -100,15 +100,16 @@ public class AuctionControler implements Serializable {
             if (auction.getAuctionIndex().equals(auctionId)
                     && (!auction.getUser().getUserName().equals(user.getUserName()))
                     && (!auction.getUser().getPassword().equals(user.getPassword()))
-                    && (!auction.getBuyer().getUserName().equals(user.getUserName()))
-                    && (!auction.getBuyer().getPassword().equals(user.getPassword()))
-                    && auction.isActive())
-                return auction;
+                    && (auction.isActive())
+                    && ((auction.getBidCounter() == 0)
+                    || ((!auction.getBuyer().getUserName().equals(user.getUserName())) && (!auction.getBuyer().getPassword().equals(user.getPassword())))))
+                    return auction;
+
         }
         throw new NullPointerException("There is no such auction to bid! ");
     }
 
-    public void getMessageWhenCannotRemoveAuction(){
+    public void getMessageWhenCannotRemoveAuction() {
         AuctionView auctionView = new AuctionView();
         auctionView.showComunicatWhenAuctionNotRemoved();
     }
