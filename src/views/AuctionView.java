@@ -1,7 +1,6 @@
 package views;
 
 import models.Auction;
-import models.Category;
 import models.User;
 
 import java.io.Serializable;
@@ -34,7 +33,7 @@ public class AuctionView implements Serializable{
         }
     }
 
-    public void printTooLowOffer(Auction auction) {
+    void printTooLowOffer(Auction auction) {
         System.out.println("Your offer was too low, you need to give more than " + auction.getPrice());
     }
 
@@ -67,16 +66,16 @@ public class AuctionView implements Serializable{
         System.out.println("Cannot save file !");
     }
 
-    public void printCongratulationMessage(Auction auction, User user) {
+    void printCongratulationMessage(Auction auction, User user) {
         System.out.println("Congratulations " + user.getUserName() + "! You've just bouhgt: " + auction.toString());
     }
 
-    public void printCurrentOffer(Auction auction) {
+    void printCurrentOffer(Auction auction) {
         System.out.println("You've made a bid, the current for: " + auction.toString());
 
     }
 
-    public void printUserExpiredAuctions(ArrayList<Auction> expiredAuctions) {
+    void printUserExpiredAuctions(ArrayList<Auction> expiredAuctions) {
         for (Auction auction : expiredAuctions) {
             if (auction.getBidCounter() < 3) {
                 System.out.println(auction.toString() + "; (removed by user)");

@@ -2,7 +2,6 @@ package models;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
 
 public class Category implements Serializable {
     private Integer categoryId;
@@ -15,13 +14,13 @@ public class Category implements Serializable {
         return categoryId;
     }
 
-    public Category(Integer categoryId, String categoryName) {
+    private Category(Integer categoryId, String categoryName) {
         this.categoryId = categoryId;
         this.categoryName = categoryName;
         listOfChildrensCategory = new ArrayList<>();
     }
 
-    public Category(Integer categoryId, String categoryName, Category parent) {
+    private Category(Integer categoryId, String categoryName, Category parent) {
         this.categoryId = categoryId;
         this.categoryName = categoryName;
         listOfChildrensCategory = new ArrayList<>();
@@ -31,7 +30,7 @@ public class Category implements Serializable {
         if (mainCategory.listOfChildrensCategory.isEmpty()) mainCategory = createCategoryTree(mainCategory);
     }
 
-    public String getCategoryName() {
+    private String getCategoryName() {
         return categoryName;
     }
 
@@ -39,16 +38,16 @@ public class Category implements Serializable {
         return listOfChildrensCategory;
     }
 
-    public void addChildrenCategory(Category category) {
+    private void addChildrenCategory(Category category) {
         listOfChildrensCategory.add(category);
     }
 
 
-    public void addChildrensCategory(Category category, Category childrenCategory) {
+    private void addChildrensCategory(Category category, Category childrenCategory) {
         category.addChildrenCategory(childrenCategory);
     }
 
-    public Category createCategory(Integer categoryId, String categoryName, Category parent) {
+    private Category createCategory(Integer categoryId, String categoryName, Category parent) {
         return new Category(categoryId, categoryName, parent);
     }
 

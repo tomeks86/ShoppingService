@@ -15,7 +15,7 @@ public class Blockers implements Serializable {
         }
     }
 
-    public static void stringToDoubleBlocker(Scanner scanner) {
+    static void stringToDoubleBlocker(Scanner scanner) {
         while (!scanner.hasNextDouble()) {
             System.out.println("Try with an double");
             scanner.nextLine();

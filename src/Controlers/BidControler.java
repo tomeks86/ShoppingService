@@ -2,7 +2,6 @@ package Controlers;
 
 import Databases.AuctionDataBase;
 import Helper.FileOperations;
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import models.Auction;
 import models.User;
 import views.AuctionView;

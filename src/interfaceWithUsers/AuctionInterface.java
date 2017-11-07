@@ -1,20 +1,14 @@
 package interfaceWithUsers;
 
 import Controlers.AuctionControler;
-import Controlers.CategoryControler;
 import Databases.AuctionDataBase;
-import Helper.Blockers;
-import Helper.FileOperations;
 import Helper.Inputors;
 import models.Auction;
-import models.Category;
 import models.User;
 import views.AuctionView;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Scanner;
-import java.util.Set;
 
 public class AuctionInterface {
     private Scanner scanner = new Scanner(System.in);
@@ -23,7 +17,6 @@ public class AuctionInterface {
 
 
     public Auction createAuctionToAdd(User user,AuctionControler auctionControler,AuctionInterface auctionInterface,AuctionDataBase auctionDataBase) {
-        ArrayList<Auction> listOfAllAuction = auctionDataBase.getListOfAllAuction();
         int indexAuction = auctionDataBase.getIndexAuction();
 
         return (new Auction(Inputors.creatingString(scanner, "Description of auction: "),
@@ -35,7 +28,6 @@ public class AuctionInterface {
 
     public Integer choseCategoryId(String text, HashSet<Integer> set) {
         Auction auction = new Auction();
-        AuctionInterface auctionInterface = new AuctionInterface();
         int idCategory = Inputors.creatingInteger(scanner, text);
 
         while (!auction.isCategoryValid(set, idCategory)) {
@@ -46,7 +38,6 @@ public class AuctionInterface {
 
     public Auction searchIdOfAuctionToRemove(User user, AuctionDataBase auctionDataBase,AuctionControler auctionControler) {
 
-        AuctionInterface auctionInterface = new AuctionInterface();
         AuctionView auctionView = new AuctionView();
         auctionView.printUserAuctions(auctionDataBase.getListOfAllAuction(), user);
         int indexToRemove = Inputors.creatingInteger(scanner, "Write id of auction which you would like to delete : ");

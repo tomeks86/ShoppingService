@@ -6,16 +6,15 @@ import views.CategoryView;
 import java.util.HashSet;
 
 
-public class CategoryControler {
-    CategoryView categoryView = new CategoryView();
-    Category category = new Category();
+class CategoryController {
+    private CategoryView categoryView = new CategoryView();
 
-    public void showAllCategories() {
-        categoryView.viewAllCategories(category.mainCategory, "");
+    void showAllCategories() {
+        categoryView.viewAllCategories(Category.mainCategory, "");
     }
 
-    public HashSet<Integer> getSetOfCategoriesAvailableToAdd() {
-        Category mainCategory = category.mainCategory;
+    HashSet<Integer> getSetOfCategoriesAvailableToAdd() {
+        Category mainCategory = Category.mainCategory;
         HashSet<Integer> idCategoriesAvailableToAdd = new HashSet<>();
         if (mainCategory.getListOfChildrensCategory().isEmpty()) idCategoriesAvailableToAdd.add(mainCategory.getCategoryId());
         else {
@@ -37,8 +36,8 @@ public class CategoryControler {
         return ids;
     }
 
-    public HashSet<Integer> getSetOfCategoryId() {
-        Category mainCategory = category.mainCategory;
+    HashSet<Integer> getSetOfCategoryId() {
+        Category mainCategory = Category.mainCategory;
         HashSet<Integer> IDOfCategories = new HashSet<>();
         IDOfCategories.add(mainCategory.getCategoryId());
         if (!mainCategory.getListOfChildrensCategory().isEmpty()) {

@@ -1,13 +1,12 @@
 package Controlers;
 
-import Helper.FileOperations;
 import models.User;
 import models.UserDataBase;
 
 public class UsersControler {
     private UserDataBase userDataBase;
 
-    public UsersControler(String userDataBaseFileName) {
+    UsersControler(String userDataBaseFileName) {
         userDataBase = new UserDataBase(userDataBaseFileName);
     }
 
@@ -23,7 +22,4 @@ public class UsersControler {
         return userDataBase.isUserPresentInDataBase(user);
     }
 
-    public void saveUserList(String fileName) {
-        FileOperations.saveUserList(userDataBase.getListOfUsers(), fileName);
-    }
 }

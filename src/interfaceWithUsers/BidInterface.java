@@ -17,9 +17,7 @@ public class BidInterface {
             decision = scanner.nextLine();
             decision = Blockers.emptyStringBlocker(decision, scanner);
         }
-        if (decision.equals("y")) {
-            return true;
-        } else return false;
+        return decision.equals("y");
     }
 
     public Auction returnAuction(Scanner scanner, AuctionDataBase auctionDataBase, User user, AuctionControler auctionControler) {
@@ -28,7 +26,7 @@ public class BidInterface {
         return (auctionControler.checkAccessToBidAuction(auctionDataBase,id,user));
     }
 
-    public Double returnPrice(Scanner scanner, AuctionDataBase auctionDataBase) {
+    public Double returnPrice(Scanner scanner) {
         return Inputors.creatingDuble(scanner,"Type amount of your bid: ");
     }
 }

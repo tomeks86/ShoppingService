@@ -27,23 +27,21 @@ public class AuctionControler implements Serializable {
     }
 
     public void getAuctions(AuctionDataBase auctionDataBase) {
-        CategoryControler categoryControler = new CategoryControler();
+        CategoryController categoryController = new CategoryController();
         AuctionInterface auctionInterface = new AuctionInterface();
-        AuctionView auctionView = new AuctionView();
         CategoryView categoryView = new CategoryView();
-        Category category = new Category();
-        categoryView.viewAllCategories(category.mainCategory, " ");
-        Integer catIdToPrintAuctions = auctionInterface.choseCategoryId("Write id of category to which would you like to show auctions (Write 0 to see all) : ", categoryControler.getSetOfCategoryId());
-        auctionView.printAllAuctions(filtrListToCategory(auctionDataBase.getListOfAllAuction(), catIdToPrintAuctions));
+        categoryView.viewAllCategories(Category.mainCategory, " ");
+        Integer catIdToPrintAuctions = auctionInterface.choseCategoryId("Write id of category to which would you like to show auctions (Write 0 to see all) : ", categoryController.getSetOfCategoryId());
+        AuctionView.printAllAuctions(filtrListToCategory(auctionDataBase.getListOfAllAuction(), catIdToPrintAuctions));
     }
 
     public Integer choseCategoryForAddedAuctions(AuctionInterface auctionInterface) {
-        CategoryControler categoryControler = new CategoryControler();
-        categoryControler.showAllCategories();
-        return auctionInterface.choseCategoryId("Chose id of category to which you would like to add auction: ", categoryControler.getSetOfCategoriesAvailableToAdd());
+        CategoryController categoryController = new CategoryController();
+        categoryController.showAllCategories();
+        return auctionInterface.choseCategoryId("Chose id of category to which you would like to add auction: ", categoryController.getSetOfCategoriesAvailableToAdd());
     }
 
-    public static ArrayList<Auction> filtrListToCategory(ArrayList<Auction> listofAllAuction, Integer categoryId) {
+    private static ArrayList<Auction> filtrListToCategory(ArrayList<Auction> listofAllAuction, Integer categoryId) {
         if (categoryId == 1) {
             return listofAllAuction.stream()
                     .filter(a -> (a.getCategoryId().equals(1) || a.getCategoryId().equals(5) || a.getCategoryId().equals(6)))

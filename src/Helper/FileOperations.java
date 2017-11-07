@@ -26,7 +26,7 @@ public class FileOperations implements Serializable {
             return loadArray;
         } catch (IOException | ClassNotFoundException e) {
 
-            return new ArrayList<User>();
+            return new ArrayList<>();
         }
     }
 
@@ -47,11 +47,9 @@ public class FileOperations implements Serializable {
             ArrayList<Auction> loadArray = (ArrayList<Auction>) in.readObject();
             in.close();
             return loadArray;
-        } catch (IOException e) {
+        } catch (IOException | ClassNotFoundException e) {
 
-            return new ArrayList<Auction>();
-        } catch (ClassNotFoundException e) {
-            return new ArrayList<Auction>();
+            return new ArrayList<>();
         }
 
     }

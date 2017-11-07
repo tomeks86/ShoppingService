@@ -1,18 +1,14 @@
 package Controlers;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import static org.junit.Assert.*;
-
-public class CategoryControlerTest {
+public class CategoryControllerTest {
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
-    public CategoryControler testObject;
+    public CategoryController testObject;
 
     @Test
     public void showAllCategories1() throws Exception {
