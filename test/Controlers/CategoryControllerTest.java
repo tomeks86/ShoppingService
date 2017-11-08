@@ -1,29 +1,55 @@
 package Controlers;
 
-import org.junit.Rule;
+
+import models.Category;
+import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
+
+import java.util.HashSet;
+
+import org.junit.Assert.*;
 
 public class CategoryControllerTest {
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
 
-    public CategoryController testObject;
+    private CategoryController testObject;
+    private Category category;
 
-    @Test
-    public void showAllCategories1() throws Exception {
-
+    @Before
+    public void setUp(){
+        testObject = new CategoryController();
+        category = new Category();
     }
 
     @Test
-    public void getSetOfCategoriesAvailableToAdd() throws Exception {
+    public void shouldReturnTrueIfCreatedHashSetOfEmptyChildIsCorrect(){
+        HashSet<Integer> pattern = new HashSet<>();
+        HashSet<Integer> tested = testObject.getSetOfCategoriesAvailableToAdd();
+        pattern.add(3);
+        pattern.add(4);
+        pattern.add(5);
+        pattern.add(6);
 
+        Assert.assertEquals(pattern,tested);
     }
+
 
     @Test
-    public void getSetOfCategoryId() throws Exception {
+    public void shouldReturnTrueIfCreatedHashSetOfAllCategoriesIsCorrect(){
+        HashSet<Integer> pattern = new HashSet<>();
+        HashSet<Integer> tested = testObject.getSetOfCategoryId();
+        pattern.add(0);
+        pattern.add(1);
+        pattern.add(2);
+        pattern.add(3);
+        pattern.add(4);
+        pattern.add(5);
+        pattern.add(6);
 
+        Assert.assertEquals(pattern,tested);
     }
+
+
 
 
 
