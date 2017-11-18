@@ -21,9 +21,9 @@ public class AuctionControler implements Serializable {
 
         AuctionView auctionView = new AuctionView();
         if (dataBase.addAuction(auction))
-            auctionView.showComunicatWhenAuctionAdded();
+            System.out.println(auctionView.showComunicatWhenAuctionAdded());
         else
-            auctionView.showComunicatWhenAuctionNotAdded();
+            System.out.println(auctionView.showComunicatWhenAuctionNotAdded());
     }
 
     public void getAuctions(AuctionDataBase auctionDataBase) {
@@ -77,9 +77,9 @@ public class AuctionControler implements Serializable {
         if (auction != null) {
             auctionView.printUserAuctions(auctionDataBase.getListOfAllAuction(), user);
             if (auctionDataBase.removeAuction(auction))
-                auctionView.showComunicatWhenAuctionRemoved();
+                System.out.println(auctionView.showComunicatWhenAuctionRemoved());
         } else
-            auctionView.showComunicatWhenAuctionNotRemoved();
+            System.out.println(auctionView.showComunicatWhenAuctionNotRemoved());
     }
 
     public Auction checkingAccesToRemoveAuction(User user, AuctionDataBase auctionDataBase, int auctionId) {
@@ -110,7 +110,7 @@ public class AuctionControler implements Serializable {
 
     public void getMessageWhenCannotRemoveAuction() {
         AuctionView auctionView = new AuctionView();
-        auctionView.showComunicatWhenAuctionNotRemoved();
+        System.out.println(auctionView.showComunicatWhenAuctionNotRemoved());
     }
 
     public ArrayList<Auction> getUserExpiredAuctions(User user, AuctionDataBase auctionDataBase) {

@@ -6,7 +6,7 @@ import models.User;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class AuctionView implements Serializable{
+public class AuctionView implements Serializable {
 
 
     public void printUserAuctions(ArrayList<Auction> listOfuserAuctions, User user) {
@@ -16,7 +16,7 @@ public class AuctionView implements Serializable{
                     && auction.getUser().getPassword().equals(user.getPassword())
                     && auction.isActive()) {
                 System.out.println("Index : " + auction.getAuctionIndex() + "\ttitle: " + auction.getTitle());
-                System.out.println((auction.getBuyer()==null) ? "\nNo bids" : "\nActual highest bid by: "  + auction.getBuyer().getUserName());
+                System.out.println((auction.getBuyer() == null) ? "\nNo bids" : "\nActual highest bid by: " + auction.getBuyer().getUserName());
                 System.out.println("-----");
             }
         }
@@ -27,65 +27,69 @@ public class AuctionView implements Serializable{
         for (Auction auction : listofAllAuction) {
             if (auction.isActive()) {
                 System.out.println("ID: " + auction.getAuctionIndex() + "\nTytle: " + auction.getTitle() + "\nDescription : " + auction.getDescription() + "\nPrice : " + auction.getPrice());
-                System.out.println((auction.getBuyer()==null) ? "\nNo bids" : "\nActual highest bid by: "  + auction.getBuyer().getUserName());
+                System.out.println((auction.getBuyer() == null) ? "\nNo bids" : "\nActual highest bid by: " + auction.getBuyer().getUserName());
                 System.out.println("----------------------");
             }
         }
     }
 
-    void printTooLowOffer(Auction auction) {
-        System.out.println("Your offer was too low, you need to give more than " + auction.getPrice());
-    }
-
-    public void printsErrorWhenWrongCategoryChosen() {
-        System.out.println("There is no such category ! ");
-    }
-
-    public void showComunicatWhenAuctionAdded() {
-        System.out.println("Auction added! ");
-    }
-
-    public void printingMessages(String text) {
-        System.out.println(text);
-    }
-
-    public void showComunicatWhenAuctionNotAdded() {
-        System.out.println("Problem occurred while adding auction, auction not added");
-    }
-
-    public void showComunicatWhenAuctionRemoved() {
-        System.out.println("Auction removed");
-    }
-
-    public void showComunicatWhenAuctionNotRemoved() {
-        System.out.println("Problems occurred, auction not removed! Try again. ");
-    }
-
-
-    public void showComunicatWhenFileNotSaved() {
-        System.out.println("Cannot save file !");
-    }
-
-    void printCongratulationMessage(Auction auction, User user) {
-        System.out.println("Congratulations " + user.getUserName() + "! You've just bouhgt: " + auction.toString());
-    }
-
-    void printCurrentOffer(Auction auction) {
-        System.out.println("You've made a bid, the current for: " + auction.toString());
+    String printTooLowOffer(Auction auction) {
+        return "Your offer was too low, you need to give more than " + auction.getPrice();
 
     }
 
-    void printUserExpiredAuctions(ArrayList<Auction> expiredAuctions) {
+    public String printsErrorWhenWrongCategoryChosen() {
+        return "There is no such category ! ";
+    }
+
+    public String showComunicatWhenAuctionAdded() {
+
+        return "Auction added! ";
+    }
+
+    public String showComunicatWhenAuctionNotAdded() {
+        return "Problem occurred while adding auction, auction not added";
+    }
+
+    public String showComunicatWhenAuctionRemoved() {
+
+        return "Auction removed";
+    }
+
+    public String showComunicatWhenAuctionNotRemoved() {
+        return "Problems occurred, auction not removed! Try again. ";
+    }
+
+
+    public String showComunicatWhenFileNotSaved() {
+
+        return "Cannot save file !";
+    }
+
+    String printCongratulationMessage(Auction auction, User user) {
+        return ("Congratulations " + user.getUserName() + "! You've just bouhgt: " + auction.toString());
+    }
+
+    String printCurrentOffer(Auction auction) {
+        return "You've made a bid, the current for: " + auction.toString();
+
+    }
+
+    String printUserExpiredAuctions(ArrayList<Auction> expiredAuctions) {
+        StringBuilder sb = new StringBuilder();
         for (Auction auction : expiredAuctions) {
             if (auction.getBidCounter() < 3) {
-                System.out.println(auction.toString() + "; (removed by user)");
+                sb.append(auction.toString() + ": (removed by user)");
             } else {
-                System.out.println(auction.toString() + "; bought by user: " + auction.getBuyer().getUserName());
+                sb.append(auction.toString() + ": bought by user: " + auction.getBuyer().getUserName());
             }
+            if(!(expiredAuctions.indexOf(auction) == expiredAuctions.size()-1))
+            sb.append("\n");
         }
+        return sb.toString();
     }
 
-    public void printErrorWhenWrongAuctionChosenToBid() {
-        System.out.println("There is no such auction, bid impossible, you are owner of auction or already have highest bid");
+    public String printErrorWhenWrongAuctionChosenToBid() {
+        return "There is no such auction, bid impossible, you are owner of auction or already have highest bid";
     }
 }

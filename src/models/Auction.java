@@ -80,7 +80,7 @@ public class Auction implements Serializable {
         if (categorySet.contains(idCategory))
             return true;
         else {
-            auctionView.printsErrorWhenWrongCategoryChosen();
+            System.out.println(auctionView.printsErrorWhenWrongCategoryChosen());
             return false;
         }
 
