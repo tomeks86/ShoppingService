@@ -41,7 +41,6 @@ public class AuctionControler implements Serializable {
         return auctionInterface.choseCategoryId("Chose id of category to which you would like to add auction: ", categoryController.getSetOfCategoriesAvailableToAdd());
     }
 
-
     public void removeAuction(AuctionDataBase auctionDataBase, Auction auction, User user) {
         AuctionView auctionView = new AuctionView();
         if (auction != null) {
@@ -72,7 +71,7 @@ public class AuctionControler implements Serializable {
                     && (auction.isActive())
                     && ((auction.getBidCounter() == 0)
                     || ((!auction.getBuyer().getUserName().equals(user.getUserName())) && (!auction.getBuyer().getPassword().equals(user.getPassword())))))
-                    return auction;
+                return auction;
 
         }
         throw new NullPointerException("There is no such auction to bid! ");
@@ -84,10 +83,12 @@ public class AuctionControler implements Serializable {
     }
 
     public ArrayList<Auction> getUserExpiredAuctions(User user, AuctionDataBase auctionDataBase) {
-        ArrayList<Auction> expiredAuctions = new ArrayList<>();
-        for (Auction auction : auctionDataBase.getListOfAllAuctions()) {
-            if (auction.getUser().equals(user) && !auction.isActive()) expiredAuctions.add(auction);
-        }
+        ArrayList<Auction> expiredAuctions = new ArrayList<>(auctionDataBase.getListOfAllAuction().stream()
+                .filter(auction -> auction.getUser().getPassword().equals(user.getPassword())
+                        && auction.getUser().getUserName().equals(user.getUserName())
+                        && !auction.isActive())
+                .collect(Collectors.toCollection(ArrayList::new)));
+
         return expiredAuctions;
     }
 }
