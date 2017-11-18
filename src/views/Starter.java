@@ -10,6 +10,7 @@ import interfaceWithUsers.BidInterface;
 import models.Auction;
 import models.User;
 
+import java.math.BigDecimal;
 import java.security.AccessControlException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -154,7 +155,7 @@ public class Starter {
                     if (bidInterface.shouldContinueWithBid(scanner)) {
                         try {
                             Auction auction = bidInterface.returnAuction(scanner, auctionDataBase, user, auctionControler);
-                            Double price = bidInterface.returnPrice(scanner);
+                            BigDecimal price = bidInterface.returnPrice(scanner);
                             try {
                                 boolean Sold = bidControler.bidAuction(user, auction, price, auctionDataBase);
                                 if (Sold) auctionView.printCongratulationMessage(auction, user);

@@ -7,9 +7,10 @@ import models.User;
 import views.AuctionView;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 
 public class BidControler {
-    public boolean bidAuction(User buyer, Auction auction, Double price, AuctionDataBase auctionDataBase) {
+    public boolean bidAuction(User buyer, Auction auction, BigDecimal price, AuctionDataBase auctionDataBase) {
         AuctionView auctionView = new AuctionView();
         boolean flag = auction.bidPrice(price);
         auction.setActualWinnerOfAuction(buyer);

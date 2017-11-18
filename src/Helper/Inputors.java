@@ -1,5 +1,6 @@
 package Helper;
 
+import java.math.BigDecimal;
 import java.util.Scanner;
 
 public class Inputors {
@@ -9,10 +10,10 @@ public class Inputors {
         return scanner.nextLine();
     }
 
-    public static Double creatingDuble(Scanner scanner, String order) {
+    public static BigDecimal creatingDuble(Scanner scanner, String order) {
         System.out.println(order);
         Blockers.stringToDoubleBlocker(scanner);
-        Double doubleValue = scanner.nextDouble();
+        BigDecimal doubleValue = scanner.nextBigDecimal();
         scanner.nextLine();
         return doubleValue;
     }

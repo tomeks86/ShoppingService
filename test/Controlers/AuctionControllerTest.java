@@ -10,6 +10,7 @@ import org.junit.rules.ExpectedException;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -40,7 +41,7 @@ public class AuctionControllerTest {
 
     @Test
     public void sholudReturnTrueIfAuctionAddedToArrayListOfAuctions() {
-        Auction auction = new Auction("some test auction", "Some test Title", 41.0, owner, 14, 6);
+        Auction auction = new Auction("some test auction", "Some test Title", new BigDecimal(41.0), owner, 14, 6);
         testObject.addAuction(auctionDataBase, auction);
         auctionArrayList.add(auction);
         Assert.assertEquals(auctionDataBase.getListOfAllAuction(), auctionArrayList);
@@ -48,9 +49,9 @@ public class AuctionControllerTest {
 
     @Test
     public void shouldReturnTrueIfAuctionRemovedFromArrayListOfAuction() {
-        Auction auction = new Auction("some test auction", "Some test Title", 42.0, owner, 14, 6);
-        Auction auction1 = new Auction("some test auction", "Some test Title", 43.0, owner, 15, 6);
-        Auction auction2 = new Auction("some test auction", "Some test Title", 44.0, owner, 18, 5);
+        Auction auction = new Auction("some test auction", "Some test Title", new BigDecimal(42.0), owner, 14, 6);
+        Auction auction1 = new Auction("some test auction", "Some test Title", new BigDecimal(43.0), owner, 15, 6);
+        Auction auction2 = new Auction("some test auction", "Some test Title", new BigDecimal(44.0), owner, 18, 5);
 
         testObject.addAuction(auctionDataBase, auction);
         testObject.addAuction(auctionDataBase, auction1);
@@ -67,7 +68,7 @@ public class AuctionControllerTest {
 
     @Test
     public void shouldReturnTrueIfAccessToRemoveAuctionGranted() {
-        Auction auction = new Auction("some test auction", "Some test Title", 42.0, owner, 14, 6);
+        Auction auction = new Auction("some test auction", "Some test Title", new BigDecimal(42.0), owner, 14, 6);
         testObject.addAuction(auctionDataBase, auction);
 
         Auction auction1 = testObject.checkingAccesToRemoveAuction(owner, auctionDataBase, 14);
@@ -77,7 +78,7 @@ public class AuctionControllerTest {
 
     @Test
     public void shouldThrowNullPointerExceptionWhenPassWrongIdToRemoveAuction() {
-        Auction auction = new Auction("some test auction", "Some test Title", 42.0, owner, 14, 6);
+        Auction auction = new Auction("some test auction", "Some test Title", new BigDecimal(42.0), owner, 14, 6);
         testObject.addAuction(auctionDataBase, auction);
 
         thrown.expect(NullPointerException.class);
@@ -88,7 +89,7 @@ public class AuctionControllerTest {
 
     @Test
     public void shouldThrowNullPointerExceptionWhenPassWrongUserToRemoveAuction() {
-        Auction auction = new Auction("some test auction", "Some test Title", 42.0, owner, 14, 6);
+        Auction auction = new Auction("some test auction", "Some test Title", new BigDecimal(42.0), owner, 14, 6);
         testObject.addAuction(auctionDataBase, auction);
 
         User testUser = new User("testLogin", "testPassword");
@@ -101,7 +102,7 @@ public class AuctionControllerTest {
 
     @Test
     public void shouldThrowNullPointerExceptionWhenTryToRemoveAlreadyDeletedAuction() {
-        Auction auction = new Auction("some test auction", "Some test Title", 42.0, owner, 14, 6);
+        Auction auction = new Auction("some test auction", "Some test Title", new BigDecimal(42.0), owner, 14, 6);
         testObject.addAuction(auctionDataBase, auction);
         auctionDataBase.removeAuction(auction);
 
@@ -113,7 +114,7 @@ public class AuctionControllerTest {
 
     @Test
     public void shouldReturnTrueIfAccessToBidAuctionGranted() {
-        Auction auction = new Auction("some test auction", "Some test Title", 42.0, owner, 14, 6);
+        Auction auction = new Auction("some test auction", "Some test Title", new BigDecimal(42.0), owner, 14, 6);
         testObject.addAuction(auctionDataBase, auction);
 
         User testUser = new User("testLogin", "testPassword");
@@ -125,7 +126,7 @@ public class AuctionControllerTest {
 
     @Test
     public void shouldThrowNullPointerExceptionWhenPassWrongIdToBidAuction() {
-        Auction auction = new Auction("some test auction", "Some test Title", 42.0, owner, 14, 6);
+        Auction auction = new Auction("some test auction", "Some test Title", new BigDecimal(42.0), owner, 14, 6);
         testObject.addAuction(auctionDataBase, auction);
 
         User testUser = new User("testLogin", "testPassword");
@@ -138,7 +139,7 @@ public class AuctionControllerTest {
 
     @Test
     public void shouldThrowNullPointerExceptionWhenPassOwnerToBidAuction() {
-        Auction auction = new Auction("some test auction", "Some test Title", 42.0, owner, 14, 6);
+        Auction auction = new Auction("some test auction", "Some test Title", new BigDecimal(42.0), owner, 14, 6);
         testObject.addAuction(auctionDataBase, auction);
 
         User testUser = new User("testLogin", "testPassword");
@@ -151,7 +152,7 @@ public class AuctionControllerTest {
 
     @Test
     public void shouldThrowNullPointerExceptionWhenPassActualWinnerToBidAuction() {
-        Auction auction = new Auction("some test auction", "Some test Title", 42.0, owner, 14, 6);
+        Auction auction = new Auction("some test auction", "Some test Title", new BigDecimal(42.0), owner, 14, 6);
         testObject.addAuction(auctionDataBase, auction);
 
         User testUser = new User("testLogin", "testPassword");
@@ -159,14 +160,14 @@ public class AuctionControllerTest {
         thrown.expect(NullPointerException.class);
         thrown.expectMessage("There is no such auction to bid! ");
 
-        auction.bidPrice(45.0);
+        auction.bidPrice(new BigDecimal(45.0));
         auction.setActualWinnerOfAuction(testUser);
         testObject.checkAccessToBidAuction(auctionDataBase, 14, testUser);
     }
 
     @Test
     public void shouldThrowNullPointerExceptionWhenTryToBidDeletedAuction() {
-        Auction auction = new Auction("some test auction", "Some test Title", 42.0, owner, 14, 6);
+        Auction auction = new Auction("some test auction", "Some test Title", new BigDecimal(42.0), owner, 14, 6);
         testObject.addAuction(auctionDataBase, auction);
         auctionDataBase.removeAuction(auction);
 
@@ -180,9 +181,9 @@ public class AuctionControllerTest {
 
     @Test
     public void shouldReturnTrueIfUserExpiredAuctionsFilterWell(){
-        Auction auction = new Auction("some test auction", "Some test Title", 42.0, owner, 14, 6);
-        Auction auction1 = new Auction("some test auction", "Some test Title", 42.0, owner, 14, 6);
-        Auction auction2 = new Auction("some test auction", "Some test Title", 42.0, owner, 14, 6);
+        Auction auction = new Auction("some test auction", "Some test Title", new BigDecimal(42.0), owner, 14, 6);
+        Auction auction1 = new Auction("some test auction", "Some test Title", new BigDecimal(42.0), owner, 14, 6);
+        Auction auction2 = new Auction("some test auction", "Some test Title", new BigDecimal(42.0), owner, 14, 6);
         testObject.addAuction(auctionDataBase,auction);
         testObject.addAuction(auctionDataBase,auction1);
         testObject.addAuction(auctionDataBase,auction2);

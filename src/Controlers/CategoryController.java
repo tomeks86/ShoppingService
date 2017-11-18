@@ -1,5 +1,6 @@
 package Controlers;
 
+import com.sun.org.apache.xml.internal.resolver.Catalog;
 import models.Category;
 import views.CategoryView;
 
@@ -10,7 +11,8 @@ class CategoryController {
     private CategoryView categoryView = new CategoryView();
 
     void showAllCategories() {
-        categoryView.viewAllCategories(Category.mainCategory, "");
+        Category category = new Category();
+        categoryView.viewAllCategories(category.mainCategory, "");
     }
 
     HashSet<Integer> getSetOfCategoriesAvailableToAdd() {
