@@ -10,6 +10,7 @@ import views.CategoryView;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 //OSobny pakiet na przetrymywanie danych , controler - >
 // dodac klase user controler met login i ona odwołuje sie do userdatabase
@@ -83,7 +84,7 @@ public class AuctionControler implements Serializable {
     }
 
     public ArrayList<Auction> getUserExpiredAuctions(User user, AuctionDataBase auctionDataBase) {
-        ArrayList<Auction> expiredAuctions = new ArrayList<>(auctionDataBase.getListOfAllAuction().stream()
+        ArrayList<Auction> expiredAuctions = new ArrayList<>(auctionDataBase.getListOfAllAuctions().stream()
                 .filter(auction -> auction.getUser().getPassword().equals(user.getPassword())
                         && auction.getUser().getUserName().equals(user.getUserName())
                         && !auction.isActive())
