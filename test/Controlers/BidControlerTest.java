@@ -32,7 +32,7 @@ public class BidControlerTest {
     public void shouldReturnFalseWhenSuccessfullyBidAuction() {
         User buyer = new User("login1", "password1");
         assertFalse(testBidControler.bidAuction(buyer,
-                auctionDataBase.getListOfAllAuction().get(auctionDataBase.getListOfAllAuction().size() - 1), new BigDecimal(46.0), auctionDataBase));
+                auctionDataBase.getListOfAllAuctions().get(auctionDataBase.getListOfAllAuctions().size() - 1), new BigDecimal(46.0), auctionDataBase));
     }
 
     @Test
@@ -41,13 +41,13 @@ public class BidControlerTest {
         User buyer2 = new User("User2", "pass2");
         User buyer3 = new User("User3", "pass3");
         testBidControler.bidAuction(buyer1,
-                auctionDataBase.getListOfAllAuction().get(auctionDataBase.getListOfAllAuction().size() - 1), new BigDecimal(46.0), auctionDataBase);
+                auctionDataBase.getListOfAllAuctions().get(auctionDataBase.getListOfAllAuctions().size() - 1), new BigDecimal(46.0), auctionDataBase);
 
         testBidControler.bidAuction(buyer2,
-                auctionDataBase.getListOfAllAuction().get(auctionDataBase.getListOfAllAuction().size() - 1), new BigDecimal(47.0), auctionDataBase);
+                auctionDataBase.getListOfAllAuctions().get(auctionDataBase.getListOfAllAuctions().size() - 1), new BigDecimal(47.0), auctionDataBase);
 
         assertTrue(testBidControler.bidAuction(buyer3,
-                auctionDataBase.getListOfAllAuction().get(auctionDataBase.getListOfAllAuction().size() - 1), new BigDecimal(48.0), auctionDataBase));
+                auctionDataBase.getListOfAllAuctions().get(auctionDataBase.getListOfAllAuctions().size() - 1), new BigDecimal(48.0), auctionDataBase));
     }
 
     @Test
@@ -58,7 +58,7 @@ public class BidControlerTest {
         thrown.expectMessage("Price is too low");
 
         testBidControler.bidAuction(buyer,
-                auctionDataBase.getListOfAllAuction().get(auctionDataBase.getListOfAllAuction().size() - 1), new BigDecimal(44.0), auctionDataBase);
+                auctionDataBase.getListOfAllAuctions().get(auctionDataBase.getListOfAllAuctions().size() - 1), new BigDecimal(44.0), auctionDataBase);
 
     }
 
@@ -70,7 +70,7 @@ public class BidControlerTest {
         thrown.expectMessage("Price is too low");
 
         testBidControler.bidAuction(buyer,
-                auctionDataBase.getListOfAllAuction().get(auctionDataBase.getListOfAllAuction().size() - 1), new BigDecimal(45.0), auctionDataBase);
+                auctionDataBase.getListOfAllAuctions().get(auctionDataBase.getListOfAllAuctions().size() - 1), new BigDecimal(45.0), auctionDataBase);
 
     }
 

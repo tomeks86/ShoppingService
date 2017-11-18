@@ -3,39 +3,41 @@ package Databases;
 import Helper.FileOperations;
 
 import models.Auction;
+import models.Category;
 
 
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class AuctionDataBase implements Serializable {
 
     private int indexAuction = 1;
-    private ArrayList<Auction> listOfAllAuction;
+    private ArrayList<Auction> listOfAllAuctions;
 
     public int getIndexAuction() {
-        if (!listOfAllAuction.isEmpty())
-        return (listOfAllAuction.get(listOfAllAuction.size()-1).getAuctionIndex() +1 );
+        if (!listOfAllAuctions.isEmpty())
+            return (listOfAllAuctions.get(listOfAllAuctions.size() - 1).getAuctionIndex() + 1);
         else
             return indexAuction;
     }
 
     public AuctionDataBase() {
-        listOfAllAuction = FileOperations.loadAuctionList("Auction.bin");
+        listOfAllAuctions = FileOperations.loadAuctionList("Auction.bin");
     }
 
 
-    public ArrayList<Auction> getListOfAllAuction() {
-        return listOfAllAuction;
+    public ArrayList<Auction> getListOfAllAuctions() {
+        return listOfAllAuctions;
     }
 
 
     public boolean addAuction(Auction auction) {
         try {
-            listOfAllAuction.add(auction);
+            listOfAllAuctions.add(auction);
             indexAuction++;
-            FileOperations.saveAuctionList(listOfAllAuction, "Auction.bin");
+            FileOperations.saveAuctionList(listOfAllAuctions, "Auction.bin");
         } catch (IOException e) {
             return false;
         }
@@ -46,7 +48,7 @@ public class AuctionDataBase implements Serializable {
     public boolean removeAuction(Auction auction) {
         try {
             auction.setActive(false);
-            FileOperations.saveAuctionList(listOfAllAuction,"Auction.bin");
+            FileOperations.saveAuctionList(listOfAllAuctions, "Auction.bin");
             return true;
         } catch (IOException e) {
             return false;
@@ -54,5 +56,11 @@ public class AuctionDataBase implements Serializable {
     }
 
 
-
+    public ArrayList<Auction> filterListToCategory(Integer categoryId) {
+        Category category = new Category();
+        ArrayList<Integer> ids = category.getSubCategoriesIds(categoryId);
+        return listOfAllAuctions.stream()
+                .filter(a -> ids.contains(a.getCategoryId()))
+                .collect(Collectors.toCollection(ArrayList::new));
+    }
 }

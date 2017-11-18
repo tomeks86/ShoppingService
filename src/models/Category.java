@@ -2,6 +2,7 @@ package models;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class Category implements Serializable {
     private Integer categoryId;
@@ -49,6 +50,32 @@ public class Category implements Serializable {
 
     private Category createCategory(Integer categoryId, String categoryName, Category parent) {
         return new Category(categoryId, categoryName, parent);
+    }
+
+    public ArrayList<Integer> getSubCategoriesIds(Integer categoryId) {
+        ArrayList<Integer> ids = new ArrayList<>();
+        LinkedList<Category> next = new LinkedList<>();
+        next.add(mainCategory);
+        while (next.size() != 0) {
+            Category current = next.pop();
+            if (current.getCategoryId() == categoryId) {
+                ids.add(categoryId);
+                next.clear();
+                if (current.getListOfChildrensCategory() != null) next.addAll(current.getListOfChildrensCategory());
+                while (next.size() != 0) {
+                    current = next.pop();
+                    if (current.getListOfChildrensCategory() != null)
+                        next.addAll(current.getListOfChildrensCategory());
+                    ids.add(current.getCategoryId());
+                }
+            }
+            else if (current.getCategoryId() != categoryId && current.getListOfChildrensCategory() != null) {
+                for (Category category : current.getListOfChildrensCategory()) {
+                    next.add(category);
+                }
+            }
+        }
+        return ids;
     }
 
     @Override
