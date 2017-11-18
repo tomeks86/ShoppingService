@@ -13,9 +13,4 @@ public class CategoryView {
             }
         }
     }
-
-    public static void main(String[] args) {
-        CategoryView categoryView = new CategoryView();
-        categoryView.viewAllCategories(Category.mainCategory, "");
-    }
 }
