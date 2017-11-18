@@ -32,7 +32,7 @@ public class CategoryViewTest {
     @Test
     public void shouldShowAllCategories() throws Exception {
         categoryView.viewAllCategories(category.mainCategory, "");
-        assertTrue(systemOutRule.getLog().matches("0 CATEGORIES\\n(\\t*\\d+ \\D+\n)*"));
+        assertTrue(systemOutRule.getLog().matches("0 CATEGORIES\\r?\\n(\\t*\\d+ \\D+\\r?\\n)*"));
     }
 
 }
