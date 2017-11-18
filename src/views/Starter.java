@@ -1,18 +1,15 @@
 package views;
 
+import Controlers.AuctionControler;
 import Controlers.BidControler;
 import Controlers.UsersControler;
 import Databases.AuctionDataBase;
-import Helper.FileOperations;
+import Helper.Blockers;
 import interfaceWithUsers.AuctionInterface;
 import interfaceWithUsers.BidInterface;
 import models.Auction;
 import models.User;
-import Controlers.AuctionControler;
-import Helper.Blockers;
-import models.UserDataBase;
 
-import java.io.IOException;
 import java.security.AccessControlException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -20,8 +17,6 @@ import java.util.Scanner;
 public class Starter {
     private Scanner scanner = new Scanner(System.in);
     private UsersControler usersControler = new UsersControler();
-    private UserDataBase userDataBase = new UserDataBase();
-    private AuctionDataBase auctionDataBase = new AuctionDataBase();
 
     public Starter() {
         run();
@@ -159,7 +154,7 @@ public class Starter {
                     if (bidInterface.shouldContinueWithBid(scanner)) {
                         try {
                             Auction auction = bidInterface.returnAuction(scanner, auctionDataBase, user, auctionControler);
-                            Double price = bidInterface.returnPrice(scanner, auctionDataBase);
+                            Double price = bidInterface.returnPrice(scanner);
                             try {
                                 boolean Sold = bidControler.bidAuction(user, auction, price, auctionDataBase);
                                 if (Sold) auctionView.printCongratulationMessage(auction, user);

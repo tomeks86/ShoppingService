@@ -1,10 +1,8 @@
 package models;
 
-import Databases.AuctionDataBase;
 import views.AuctionView;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashSet;
 
 public class Auction implements Serializable {
@@ -15,7 +13,7 @@ public class Auction implements Serializable {
     private int bidCounter;
     private User user, buyer;
     private boolean isActive;
-    AuctionView auctionView = new AuctionView();
+    private AuctionView auctionView = new AuctionView();
 
     public Auction() {
     }
