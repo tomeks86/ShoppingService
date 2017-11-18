@@ -17,13 +17,13 @@ public class BidControler {
         try {
             FileOperations.saveAuctionList(auctionDataBase.getListOfAllAuction(), "Auction.bin");
         }catch (IOException e ){
-         auctionView.showComunicatWhenFileNotSaved();
+            System.out.println(auctionView.showComunicatWhenFileNotSaved());
         }
         return flag;
     }
 
     public void messageWhenNoSuchAuctionToBid() {
         AuctionView auctionView = new AuctionView();
-        auctionView.printErrorWhenWrongAuctionChosenToBid();
+        System.out.println(auctionView.printErrorWhenWrongAuctionChosenToBid());
     }
 }

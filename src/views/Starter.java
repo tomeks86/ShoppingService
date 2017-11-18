@@ -158,11 +158,11 @@ public class Starter {
                             BigDecimal price = bidInterface.returnPrice(scanner);
                             try {
                                 boolean Sold = bidControler.bidAuction(user, auction, price, auctionDataBase);
-                                if (Sold) auctionView.printCongratulationMessage(auction, user);
-                                else auctionView.printCurrentOffer(auction);
+                                if (Sold) System.out.println(auctionView.printCongratulationMessage(auction, user));
+                                else System.out.println(auctionView.printCurrentOffer(auction));
 
                             } catch (IllegalStateException e) {
-                                auctionView.printTooLowOffer(auction);
+                                System.out.println(auctionView.printTooLowOffer(auction));
                             }
                         } catch (NullPointerException e) {
                             bidControler.messageWhenNoSuchAuctionToBid();
@@ -174,7 +174,7 @@ public class Starter {
                 AuctionControler auctionControler = new AuctionControler();
                 AuctionView auctionView = new AuctionView();
                 ArrayList<Auction> expiredAuctions = auctionControler.getUserExpiredAuctions(user, auctionDataBase);
-                auctionView.printUserExpiredAuctions(expiredAuctions);
+                System.out.println(auctionView.printUserExpiredAuctions(expiredAuctions));
                 break;
             }
                 case 5:
