@@ -39,7 +39,7 @@ public class AuctionInterface {
     public Auction searchIdOfAuctionToRemove(User user, AuctionDataBase auctionDataBase,AuctionControler auctionControler) {
 
         AuctionView auctionView = new AuctionView();
-        auctionView.printUserAuctions(auctionDataBase.getListOfAllAuction(), user);
+        auctionView.printUserAuctions(auctionDataBase.getListOfAllAuctions(), user);
         int indexToRemove = Inputors.creatingInteger(scanner, "Write id of auction which you would like to delete : ");
         return auctionControler.checkingAccesToRemoveAuction(user, auctionDataBase, indexToRemove);
     }

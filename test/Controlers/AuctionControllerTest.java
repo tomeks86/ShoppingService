@@ -7,8 +7,6 @@ import models.User;
 import org.junit.*;
 import org.junit.rules.ExpectedException;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.file.Files;
@@ -44,7 +42,7 @@ public class AuctionControllerTest {
         Auction auction = new Auction("some test auction", "Some test Title", new BigDecimal(41.0), owner, 14, 6);
         testObject.addAuction(auctionDataBase, auction);
         auctionArrayList.add(auction);
-        Assert.assertEquals(auctionDataBase.getListOfAllAuction(), auctionArrayList);
+        Assert.assertEquals(auctionDataBase.getListOfAllAuctions(), auctionArrayList);
     }
 
     @Test
@@ -63,7 +61,7 @@ public class AuctionControllerTest {
         testObject.removeAuction(auctionDataBase, auction1, owner);
         auctionArrayList.get(1).setActive(false);
 
-        Assert.assertEquals(auctionDataBase.getListOfAllAuction().get(1).isActive(), auctionArrayList.get(1).isActive());
+        Assert.assertEquals(auctionDataBase.getListOfAllAuctions().get(1).isActive(), auctionArrayList.get(1).isActive());
     }
 
     @Test

@@ -15,7 +15,7 @@ public class BidControler {
         boolean flag = auction.bidPrice(price);
         auction.setActualWinnerOfAuction(buyer);
         try {
-            FileOperations.saveAuctionList(auctionDataBase.getListOfAllAuction(), "Auction.bin");
+            FileOperations.saveAuctionList(auctionDataBase.getListOfAllAuctions(), "Auction.bin");
         }catch (IOException e ){
             System.out.println(auctionView.showComunicatWhenFileNotSaved());
         }

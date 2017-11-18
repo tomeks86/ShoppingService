@@ -86,14 +86,14 @@ public class Auction implements Serializable {
 
     }
 
-    public void setActualWinnerOfAuction(User buyer){
+    public void setActualWinnerOfAuction(User buyer) {
         setBuyer(buyer);
     }
 
 
     public boolean bidPrice(BigDecimal price) {
 
-        if (price.compareTo(this.getPrice()) == 1 ) {
+        if (price.compareTo(this.getPrice()) == 1) {
             setPrice(price);
             this.bidCounter++;
             if (this.bidCounter == 3) {
@@ -102,11 +102,9 @@ public class Auction implements Serializable {
             } else return false;
 
         } else {
-           throw new IllegalStateException("Price is too low");
+            throw new IllegalStateException("Price is too low");
         }
     }
-
-
 
 
     private void setPrice(BigDecimal price) {

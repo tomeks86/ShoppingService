@@ -10,7 +10,6 @@ import views.CategoryView;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 //OSobny pakiet na przetrymywanie danych , controler - >
 // dodac klase user controler met login i ona odwołuje sie do userdatabase
@@ -33,7 +32,7 @@ public class AuctionControler implements Serializable {
         Category category = new Category();
         categoryView.viewAllCategories(category.mainCategory, " ");
         Integer catIdToPrintAuctions = auctionInterface.choseCategoryId("Write id of category to which would you like to show auctions (Write 0 to see all) : ", categoryController.getSetOfCategoryId());
-        AuctionView.printAllAuctions(filtrListToCategory(auctionDataBase.getListOfAllAuction(), catIdToPrintAuctions));
+        AuctionView.printAllAuctions(auctionDataBase.filterListToCategory(catIdToPrintAuctions));
     }
 
     public Integer choseCategoryForAddedAuctions(AuctionInterface auctionInterface) {
@@ -42,41 +41,10 @@ public class AuctionControler implements Serializable {
         return auctionInterface.choseCategoryId("Chose id of category to which you would like to add auction: ", categoryController.getSetOfCategoriesAvailableToAdd());
     }
 
-    private static ArrayList<Auction> filtrListToCategory(ArrayList<Auction> listofAllAuction, Integer categoryId) {
-
-        if (categoryId == 1) {
-            return listofAllAuction.stream()
-                    .filter(a -> (a.getCategoryId().equals(1) || a.getCategoryId().equals(5) || a.getCategoryId().equals(6)))
-                    .collect(Collectors.toCollection(ArrayList::new));
-        } else if (categoryId == 5) {
-            return listofAllAuction.stream()
-                    .filter(a -> (a.getCategoryId().equals(5)))
-                    .collect(Collectors.toCollection(ArrayList::new));
-        } else if (categoryId == 6) {
-            return listofAllAuction.stream()
-                    .filter(a -> (a.getCategoryId().equals(6)))
-                    .collect(Collectors.toCollection(ArrayList::new));
-        } else if (categoryId == 2) {
-            return listofAllAuction.stream()
-                    .filter(a -> (a.getCategoryId().equals(2) || a.getCategoryId().equals(3) || a.getCategoryId().equals(4)))
-                    .collect(Collectors.toCollection(ArrayList::new));
-        } else if (categoryId == 3) {
-            return listofAllAuction.stream()
-                    .filter(a -> (a.getCategoryId().equals(3)))
-                    .collect(Collectors.toCollection(ArrayList::new));
-        } else if (categoryId == 4) {
-            return listofAllAuction.stream()
-                    .filter(a -> (a.getCategoryId().equals(4)))
-                    .collect(Collectors.toCollection(ArrayList::new));
-        }
-        return listofAllAuction;
-    }
-
-
     public void removeAuction(AuctionDataBase auctionDataBase, Auction auction, User user) {
         AuctionView auctionView = new AuctionView();
         if (auction != null) {
-            auctionView.printUserAuctions(auctionDataBase.getListOfAllAuction(), user);
+            auctionView.printUserAuctions(auctionDataBase.getListOfAllAuctions(), user);
             if (auctionDataBase.removeAuction(auction))
                 System.out.println(auctionView.showComunicatWhenAuctionRemoved());
         } else
@@ -85,7 +53,7 @@ public class AuctionControler implements Serializable {
 
     public Auction checkingAccesToRemoveAuction(User user, AuctionDataBase auctionDataBase, int auctionId) {
 
-        for (Auction auction : auctionDataBase.getListOfAllAuction()) {
+        for (Auction auction : auctionDataBase.getListOfAllAuctions()) {
             if (auction.getAuctionIndex().equals(auctionId)
                     && auction.getUser().getUserName().equals(user.getUserName())
                     && auction.getUser().getPassword().equals(user.getPassword())
@@ -96,7 +64,7 @@ public class AuctionControler implements Serializable {
     }
 
     public Auction checkAccessToBidAuction(AuctionDataBase auctionDataBase, Integer auctionId, User user) {
-        for (Auction auction : auctionDataBase.getListOfAllAuction()) {
+        for (Auction auction : auctionDataBase.getListOfAllAuctions()) {
             if (auction.getAuctionIndex().equals(auctionId)
                     && (!auction.getUser().getUserName().equals(user.getUserName()))
                     && (!auction.getUser().getPassword().equals(user.getPassword()))
@@ -115,7 +83,6 @@ public class AuctionControler implements Serializable {
     }
 
     public ArrayList<Auction> getUserExpiredAuctions(User user, AuctionDataBase auctionDataBase) {
-
         ArrayList<Auction> expiredAuctions = new ArrayList<>(auctionDataBase.getListOfAllAuction().stream()
                 .filter(auction -> auction.getUser().getPassword().equals(user.getPassword())
                         && auction.getUser().getUserName().equals(user.getUserName())
