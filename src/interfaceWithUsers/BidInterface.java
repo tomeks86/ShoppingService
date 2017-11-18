@@ -7,6 +7,7 @@ import Helper.Inputors;
 import models.Auction;
 import models.User;
 
+import java.math.BigDecimal;
 import java.util.Scanner;
 
 public class BidInterface {
@@ -26,7 +27,7 @@ public class BidInterface {
         return (auctionControler.checkAccessToBidAuction(auctionDataBase,id,user));
     }
 
-    public Double returnPrice(Scanner scanner) {
+    public BigDecimal returnPrice(Scanner scanner) {
         return Inputors.creatingDuble(scanner,"Type amount of your bid: ");
     }
 }
