@@ -8,6 +8,7 @@ import models.Auction;
 import models.User;
 
 import java.math.BigDecimal;
+import java.sql.Connection;
 import java.util.Scanner;
 
 public class BidInterface {
@@ -21,10 +22,10 @@ public class BidInterface {
         return decision.equals("y");
     }
 
-    public Auction returnAuction(Scanner scanner, AuctionDataBase auctionDataBase, User user, AuctionControler auctionControler) {
+    public Auction returnAuction(Scanner scanner, AuctionDataBase auctionDataBase, User user, AuctionControler auctionControler, Connection connection) {
 
         Integer id = Inputors.creatingInteger(scanner, "Type id of auction you want to bid: ");
-        return (auctionControler.checkAccessToBidAuction(auctionDataBase,id,user));
+        return (auctionControler.checkAccessToBidAuction(auctionDataBase,id,user, connection));
     }
 
     public BigDecimal returnPrice(Scanner scanner) {

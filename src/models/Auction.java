@@ -4,19 +4,45 @@ import views.AuctionView;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.sql.Connection;
 import java.util.HashSet;
 
 public class Auction implements Serializable {
 
-    private Integer categoryId, auctionIndex;
+    public Integer getOwnerId() {
+        return ownerId;
+    }
+
+    public Integer getBuyerId() {
+        return buyerId;
+    }
+
+    private Integer categoryId, auctionIndex, ownerId, buyerId;
     private String description, title;
     private BigDecimal price;
+
+    public Integer getOwnerid() {
+        return ownerId;
+    }
+
     private int bidCounter;
     private User user, buyer;
     private boolean isActive;
     private AuctionView auctionView = new AuctionView();
 
     public Auction() {
+    }
+
+    public Auction(String description, String title, BigDecimal price, int auctionid, int categoryid, int ownerid, boolean isActive, int buyerId, int bidCounter) {
+        this.description = description;
+        this.title = title;
+        this.price = price;
+        this.auctionIndex = auctionid;
+        this.categoryId = categoryid;
+        this.ownerId = ownerid;
+        this.isActive = isActive;
+        this.buyerId = buyerId;
+        this.bidCounter = bidCounter;
     }
 
     public String getDescription() {
@@ -86,8 +112,10 @@ public class Auction implements Serializable {
 
     }
 
-    public void setActualWinnerOfAuction(User buyer) {
+    public int setActualWinnerOfAuction(User buyer, Connection connection) {
+        this.buyerId = buyer.getUserId(connection);
         setBuyer(buyer);
+        return this.buyerId;
     }
 
 
@@ -113,6 +141,6 @@ public class Auction implements Serializable {
 
     @Override
     public String toString() {
-        return this.description + " price: " + this.getPrice();
+        return this.title + "\n" + this.description + " price: " + this.getPrice();
     }
 }

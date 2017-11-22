@@ -9,6 +9,9 @@ import views.AuctionView;
 import views.CategoryView;
 
 import java.io.Serializable;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
@@ -17,23 +20,25 @@ import java.util.stream.Collectors;
 
 public class AuctionControler implements Serializable {
 
-    public void addAuction(AuctionDataBase dataBase, Auction auction) {
+
+
+    public void addAuction(AuctionDataBase dataBase, Auction auction, Connection connection) {
 
         AuctionView auctionView = new AuctionView();
-        if (dataBase.addAuction(auction))
+        if (dataBase.addAuction(auction, connection))
             System.out.println(auctionView.showComunicatWhenAuctionAdded());
         else
             System.out.println(auctionView.showComunicatWhenAuctionNotAdded());
     }
 
-    public void getAuctions(AuctionDataBase auctionDataBase) {
+    public void getAuctions(AuctionDataBase auctionDataBase, Connection connection) {
         CategoryController categoryController = new CategoryController();
         AuctionInterface auctionInterface = new AuctionInterface();
         CategoryView categoryView = new CategoryView();
         Category category = new Category();
         categoryView.viewAllCategories(category.mainCategory, " ");
         Integer catIdToPrintAuctions = auctionInterface.choseCategoryId("Write id of category to which would you like to show auctions (Write 0 to see all) : ", categoryController.getSetOfCategoryId());
-        AuctionView.printAllAuctions(auctionDataBase.filterListToCategory(catIdToPrintAuctions));
+        AuctionView.printAllAuctions(auctionDataBase.filterListToCategory(catIdToPrintAuctions, connection));
     }
 
     public Integer choseCategoryForAddedAuctions(AuctionInterface auctionInterface) {
@@ -42,36 +47,27 @@ public class AuctionControler implements Serializable {
         return auctionInterface.choseCategoryId("Chose id of category to which you would like to add auction: ", categoryController.getSetOfCategoriesAvailableToAdd());
     }
 
-    public void removeAuction(AuctionDataBase auctionDataBase, Auction auction, User user) {
-        AuctionView auctionView = new AuctionView();
-        if (auction != null) {
-            auctionView.printUserAuctions(auctionDataBase.getListOfAllAuctions(), user);
-            if (auctionDataBase.removeAuction(auction))
-                System.out.println(auctionView.showComunicatWhenAuctionRemoved());
-        } else
-            System.out.println(auctionView.showComunicatWhenAuctionNotRemoved());
+    public void removeAuction(int idAuctionToRemove, Connection connection,AuctionDataBase auctionDataBase) {
+           auctionDataBase.removeAuction(connection,idAuctionToRemove);
     }
 
-    public Auction checkingAccesToRemoveAuction(User user, AuctionDataBase auctionDataBase, int auctionId) {
+    public int checkingAccesToRemoveAuction(ArrayList<Auction> listOfValidAuctionsToRemove, int auctionId) {
 
-        for (Auction auction : auctionDataBase.getListOfAllAuctions()) {
+        for (Auction auction : listOfValidAuctionsToRemove) {
             if (auction.getAuctionIndex().equals(auctionId)
-                    && auction.getUser().getUserName().equals(user.getUserName())
-                    && auction.getUser().getPassword().equals(user.getPassword())
                     && auction.isActive())
-                return auction;
+                return auction.getAuctionIndex();
         }
         throw new NullPointerException("There is no such auction to remove! ");
     }
 
-    public Auction checkAccessToBidAuction(AuctionDataBase auctionDataBase, Integer auctionId, User user) {
-        for (Auction auction : auctionDataBase.getListOfAllAuctions()) {
+    public Auction checkAccessToBidAuction(AuctionDataBase auctionDataBase, Integer auctionId, User user, Connection connection) {
+        for (Auction auction : auctionDataBase.getListOfAllAuctions(connection)) {
             if (auction.getAuctionIndex().equals(auctionId)
-                    && (!auction.getUser().getUserName().equals(user.getUserName()))
-                    && (!auction.getUser().getPassword().equals(user.getPassword()))
+                    && (auction.getOwnerid() != user.getUserId(connection))
                     && (auction.isActive())
-                    && ((auction.getBidCounter() == 0)
-                    || ((!auction.getBuyer().getUserName().equals(user.getUserName())) && (!auction.getBuyer().getPassword().equals(user.getPassword())))))
+                    && ((auction.getBuyerId() == null)
+                    || (auction.getBuyerId() != user.getUserId(connection))))
                 return auction;
 
         }
@@ -83,11 +79,10 @@ public class AuctionControler implements Serializable {
         System.out.println(auctionView.showComunicatWhenAuctionNotRemoved());
     }
 
-    public ArrayList<Auction> getUserExpiredAuctions(User user, AuctionDataBase auctionDataBase) {
-        ArrayList<Auction> expiredAuctions = new ArrayList<>(auctionDataBase.getListOfAllAuctions().stream()
-                .filter(auction -> auction.getUser().getPassword().equals(user.getPassword())
-                        && auction.getUser().getUserName().equals(user.getUserName())
-                        && !auction.isActive())
+    public ArrayList<Auction> getUserExpiredAuctions(User user, AuctionDataBase auctionDataBase, Connection connection) {
+        ArrayList<Auction> expiredAuctions = new ArrayList<>(auctionDataBase.getListOfAllAuctions(connection).stream()
+                .filter(auction -> (auction.getOwnerid()== user.getUserId(connection))
+                        && (!auction.isActive()))
                 .collect(Collectors.toCollection(ArrayList::new)));
 
         return expiredAuctions;

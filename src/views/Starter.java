@@ -12,18 +12,24 @@ import models.User;
 
 import java.math.BigDecimal;
 import java.security.AccessControlException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Starter {
     private Scanner scanner = new Scanner(System.in);
     private UsersControler usersControler = new UsersControler();
+    private Connection connection;
 
     public Starter() {
         run();
     }
 
     private void run() {
+
+        connection = createConnection();
 
         Integer end = -1;
         while (end != 0) {
@@ -33,6 +39,34 @@ public class Starter {
             else
                 end = value;
         }
+    }
+
+    private Connection createConnection() {
+        System.out.println("POSTGRESQL CONNECTION TESTING...");
+
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            System.out.println("Where is your PostgreSQL driver, add dependency to maven !!");
+            e.printStackTrace();
+        }
+
+        System.out.println("Postgre JDBC Driver Registred!");
+        Connection connection = null;
+
+        try {
+            connection = DriverManager.getConnection("jdbc:postgresql://127.0.0.1:5432/allegro", "andrzej", "123");
+        } catch (SQLException e) {
+            System.out.println("Connection failed!");
+            e.printStackTrace();
+        }
+
+        if (connection != null) {
+            System.out.println("You've made it, take control your database now");
+        } else
+            System.out.println("Failed to make connection with database");
+
+        return connection;
     }
 
 
@@ -56,16 +90,16 @@ public class Starter {
         switch (value) {
             case 1:
                 try {
-                    User user = logIntoSystem(scanner);
+                    User user = logIntoSystem(scanner, connection);
                     userActionsInLoggedPanel(user);
                 } catch (IllegalArgumentException | NullPointerException e) {
-                    System.out.println(e.getMessage());
+                    System.out.println("Login problems accrued");
                 }
                 break;
 
             case 2:
                 try {
-                    registerNewUser(scanner);
+                    registerNewUser(scanner, connection);
                 } catch (IllegalArgumentException | AccessControlException e) {
                     System.out.println(e.getMessage());
                 }
@@ -75,7 +109,7 @@ public class Starter {
     }
 
 
-    private User logIntoSystem(Scanner scanner) {
+    private User logIntoSystem(Scanner scanner, Connection connection) {
         System.out.print("Login: ");
         String login = scanner.nextLine();
         System.out.print("Password: ");
@@ -83,7 +117,7 @@ public class Starter {
 
         User user = new User(login, password);
 
-        if (usersControler.isUserPresentInDataBase(user)) {
+        if (usersControler.isUserPresentInDataBase(user, connection)) {
             System.out.println("Logged in!");
             return new User(login, password);
         } else {
@@ -93,14 +127,14 @@ public class Starter {
     }
 
 
-    private void registerNewUser(Scanner scanner) {
+    private void registerNewUser(Scanner scanner, Connection connection) {
         System.out.print("Create new login: ");
         String login = scanner.nextLine();
         System.out.print("Enter your password: ");
         String password = scanner.nextLine();
 
         User user = new User(login, password);
-        if (usersControler.addNewUser(user)) {
+        if (usersControler.addNewUser(user, connection)) {
             System.out.println("Register successful!");
         } else {
             throw new AccessControlException("Login is not available!");
@@ -131,15 +165,15 @@ public class Starter {
                     AuctionControler auctionControler = new AuctionControler();
                     AuctionInterface auctionInterface = new AuctionInterface();
                     Auction auction = auctionInterface.createAuctionToAdd(user, auctionControler, auctionInterface, auctionDataBase);
-                    auctionControler.addAuction(auctionDataBase, auction);
+                    auctionControler.addAuction(auctionDataBase, auction, connection);
                     break;
                 }
                 case 2: {
                     AuctionControler auctionControler = new AuctionControler();
                     AuctionInterface auctionInterface = new AuctionInterface();
                     try {
-                        Auction auction = auctionInterface.searchIdOfAuctionToRemove(user, auctionDataBase, auctionControler);
-                        auctionControler.removeAuction(auctionDataBase, auction, user);
+                        int idAuctionToRemove = auctionInterface.searchIdOfAuctionToRemove(user, auctionDataBase, auctionControler, connection);
+                        auctionControler.removeAuction(idAuctionToRemove, connection, auctionDataBase);
                     } catch (NullPointerException e) {
                         auctionControler.getMessageWhenCannotRemoveAuction();
                     }
@@ -150,33 +184,32 @@ public class Starter {
                     AuctionView auctionView = new AuctionView();
                     BidInterface bidInterface = new BidInterface();
                     BidControler bidControler = new BidControler();
-                    auctionControler.getAuctions(auctionDataBase);
+                    auctionControler.getAuctions(auctionDataBase, connection);
 
                     if (bidInterface.shouldContinueWithBid(scanner)) {
                         try {
-                            Auction auction = bidInterface.returnAuction(scanner, auctionDataBase, user, auctionControler);
+                            Auction auction = bidInterface.returnAuction(scanner, auctionDataBase, user, auctionControler, connection);
                             BigDecimal price = bidInterface.returnPrice(scanner);
                             try {
-                                boolean Sold = bidControler.bidAuction(user, auction, price, auctionDataBase);
+                                boolean Sold = bidControler.bidAuction(user, auction, price, connection,auctionDataBase);
                                 if (Sold) System.out.println(auctionView.printCongratulationMessage(auction, user));
                                 else System.out.println(auctionView.printCurrentOffer(auction));
-
                             } catch (IllegalStateException e) {
                                 System.out.println(auctionView.printTooLowOffer(auction));
                             }
                         } catch (NullPointerException e) {
                             bidControler.messageWhenNoSuchAuctionToBid();
                         }
-                        }
-                        break;
                     }
-            case 4: {
-                AuctionControler auctionControler = new AuctionControler();
-                AuctionView auctionView = new AuctionView();
-                ArrayList<Auction> expiredAuctions = auctionControler.getUserExpiredAuctions(user, auctionDataBase);
-                System.out.println(auctionView.printUserExpiredAuctions(expiredAuctions));
-                break;
-            }
+                    break;
+                }
+                case 4: {
+                    AuctionControler auctionControler = new AuctionControler();
+                    AuctionView auctionView = new AuctionView();
+                    ArrayList<Auction> expiredAuctions = auctionControler.getUserExpiredAuctions(user, auctionDataBase,connection);
+                    System.out.println(auctionView.printUserExpiredAuctions(expiredAuctions));
+                    break;
+                }
                 case 5:
                     end = true;
                 default:

@@ -7,6 +7,7 @@ import models.Auction;
 import models.User;
 import views.AuctionView;
 
+import java.sql.Connection;
 import java.util.HashSet;
 import java.util.Scanner;
 
@@ -36,12 +37,12 @@ public class AuctionInterface {
         return idCategory;
     }
 
-    public Auction searchIdOfAuctionToRemove(User user, AuctionDataBase auctionDataBase,AuctionControler auctionControler) {
+    public int searchIdOfAuctionToRemove(User user, AuctionDataBase auctionDataBase, AuctionControler auctionControler, Connection connection) {
 
         AuctionView auctionView = new AuctionView();
-        auctionView.printUserAuctions(auctionDataBase.getListOfAllAuctions(), user);
-        int indexToRemove = Inputors.creatingInteger(scanner, "Write id of auction which you would like to delete : ");
-        return auctionControler.checkingAccesToRemoveAuction(user, auctionDataBase, indexToRemove);
+        auctionView.printUserAuctions(auctionDataBase.getListOfUserAuctions(user,connection),user);
+        int idAuctioToRemove = Inputors.creatingInteger(scanner, "Write id of auction which you would like to delete : ");
+        return auctionControler.checkingAccesToRemoveAuction(auctionDataBase.getListOfUserAuctions(user,connection),idAuctioToRemove);
     }
 
 

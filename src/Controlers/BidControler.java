@@ -8,17 +8,13 @@ import views.AuctionView;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.sql.Connection;
 
 public class BidControler {
-    public boolean bidAuction(User buyer, Auction auction, BigDecimal price, AuctionDataBase auctionDataBase) {
-        AuctionView auctionView = new AuctionView();
+    public boolean bidAuction(User buyer, Auction auction, BigDecimal price, Connection connection, AuctionDataBase auctionDataBase) {
         boolean flag = auction.bidPrice(price);
-        auction.setActualWinnerOfAuction(buyer);
-        try {
-            FileOperations.saveAuctionList(auctionDataBase.getListOfAllAuctions(), "Auction.bin");
-        }catch (IOException e ){
-            System.out.println(auctionView.showComunicatWhenFileNotSaved());
-        }
+        auction.setActualWinnerOfAuction(buyer, connection);
+        auctionDataBase.updateWinnerOfAuction(connection, auction);
         return flag;
     }
 

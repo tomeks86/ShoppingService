@@ -12,22 +12,20 @@ public class AuctionView implements Serializable {
     public void printUserAuctions(ArrayList<Auction> listOfuserAuctions, User user) {
         System.out.println("Active " + user.getUserName() + " auctions: \n--");
         for (Auction auction : listOfuserAuctions) {
-            if (auction.getUser().getUserName().equals(user.getUserName())
-                    && auction.getUser().getPassword().equals(user.getPassword())
-                    && auction.isActive()) {
-                System.out.println("Index : " + auction.getAuctionIndex() + "\ttitle: " + auction.getTitle());
-                System.out.println((auction.getBuyer() == null) ? "\nNo bids" : "\nActual highest bid by: " + auction.getBuyer().getUserName());
-                System.out.println("-----");
-            }
+
+            System.out.println("Index : " + auction.getAuctionIndex() + "\ttitle: " + auction.getTitle());
+            //System.out.println((auction.getBuyer() == null) ? "\nNo bids" : "\nActual highest bid by: " + auction.getBuyer().getUserName());
+            System.out.println("-----");
+
         }
     }
 
-    public static void printAllAuctions(ArrayList<Auction> listofAllAuction) {
+    public static void printAllAuctions(ArrayList<Auction> allAuctions) {
 
-        for (Auction auction : listofAllAuction) {
+        for (Auction auction : allAuctions) {
             if (auction.isActive()) {
                 System.out.println("ID: " + auction.getAuctionIndex() + "\nTytle: " + auction.getTitle() + "\nDescription : " + auction.getDescription() + "\nPrice : " + auction.getPrice());
-                System.out.println((auction.getBuyer() == null) ? "\nNo bids" : "\nActual highest bid by: " + auction.getBuyer().getUserName());
+                //System.out.println((auction.getBuyer() == null) ? "\nNo bids" : "\nActual highest bid by: " + auction.getBuyer().getUserName());
                 System.out.println("----------------------");
             }
         }
@@ -81,10 +79,10 @@ public class AuctionView implements Serializable {
             if (auction.getBidCounter() < 3) {
                 sb.append(auction.toString() + ": (removed by user)");
             } else {
-                sb.append(auction.toString() + ": bought by user: " + auction.getBuyer().getUserName());
+                sb.append(auction.toString() + ": bought " );//by user: " + auction.getBuyer().getUserName());
             }
-            if(!(expiredAuctions.indexOf(auction) == expiredAuctions.size()-1))
-            sb.append("\n");
+            if (!(expiredAuctions.indexOf(auction) == expiredAuctions.size() - 1))
+                sb.append("\n");
         }
         return sb.toString();
     }

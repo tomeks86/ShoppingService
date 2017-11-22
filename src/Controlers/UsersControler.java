@@ -3,6 +3,8 @@ package Controlers;
 import models.User;
 import models.UserDataBase;
 
+import java.sql.Connection;
+
 public class UsersControler {
     private UserDataBase userDataBase;
 
@@ -14,12 +16,12 @@ public class UsersControler {
         userDataBase = new UserDataBase();
     }
 
-    public boolean addNewUser(User user) {
-        return userDataBase.addNewUser(user);
+    public boolean addNewUser(User user, Connection connection) {
+        return userDataBase.addNewUser(user,connection);
     }
 
-    public boolean isUserPresentInDataBase(User user) {
-        return userDataBase.isUserPresentInDataBase(user);
+    public boolean isUserPresentInDataBase(User user, Connection connection) {
+        return userDataBase.isUserPresentInDataBase(user,connection);
     }
 
 }
