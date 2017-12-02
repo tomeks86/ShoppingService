@@ -5,6 +5,7 @@ import Controlers.BidControler;
 import Controlers.UsersControler;
 import Databases.AuctionDataBase;
 import Helper.Blockers;
+import Helper.ConectToDatabase;
 import interfaceWithUsers.AuctionInterface;
 import interfaceWithUsers.BidInterface;
 import models.Auction;
@@ -42,31 +43,7 @@ public class Starter {
     }
 
     private Connection createConnection() {
-        System.out.println("POSTGRESQL CONNECTION TESTING...");
-
-        try {
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            System.out.println("Where is your PostgreSQL driver, add dependency to maven !!");
-            e.printStackTrace();
-        }
-
-        System.out.println("Postgre JDBC Driver Registred!");
-        Connection connection = null;
-
-        try {
-            connection = DriverManager.getConnection("jdbc:postgresql://127.0.0.1:5432/zenek", "zenek", "123");
-        } catch (SQLException e) {
-            System.out.println("Connection failed!");
-            e.printStackTrace();
-        }
-
-        if (connection != null) {
-            System.out.println("You've made it, take control your database now");
-        } else
-            System.out.println("Failed to make connection with database");
-
-        return connection;
+        return ConectToDatabase.getInstance().getConnection();
     }
 
 
