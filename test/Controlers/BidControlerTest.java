@@ -1,3 +1,4 @@
+/*
 package Controlers;
 
 import Databases.AuctionDataBase;
@@ -75,3 +76,4 @@ public class BidControlerTest {
     }
 
 }
+*/

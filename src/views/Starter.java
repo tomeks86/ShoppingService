@@ -154,7 +154,7 @@ public class Starter {
                 System.out.println();
                 System.out.println("Illegal argument, pick from 1 to 5");
                 Blockers.stringToIntBlocker(scanner);
-                pick = scanner.nextInt();
+                pick = scannestringToIntBlockerr.nextInt();
                 scanner.nextLine();
             }
             System.out.println("-------------------------------------");

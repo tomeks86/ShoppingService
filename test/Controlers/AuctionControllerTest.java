@@ -36,6 +36,7 @@ public class AuctionControllerTest {
         auctionArrayList = new ArrayList<>();
     }
 
+/*
 
     @Test
     public void sholudReturnTrueIfAuctionAddedToArrayListOfAuctions() {
@@ -199,6 +200,7 @@ public class AuctionControllerTest {
         Assert.assertEquals(testList, auctionArrayList);
 
     }
+*/
 
 
 }

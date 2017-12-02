@@ -98,7 +98,7 @@ public class AuctionViewTest {
         Assert.assertEquals("There is no such auction, bid impossible, you are owner of auction or already have highest bid", message);
     }
 
-    @Test
+ /*   @Test
     public void shouldReturnTrueIfprintUserExpiredAuctionsIsValid() {
         Auction auction1 = new Auction("somedsdtion", "Some test Title", new BigDecimal(45.0), new User("lasdasdl", "kssdsaksksks"), 15, 6);
 
@@ -117,6 +117,6 @@ public class AuctionViewTest {
 
         Assert.assertEquals(expected,auctions);
     }
-
+*/
 
 }
