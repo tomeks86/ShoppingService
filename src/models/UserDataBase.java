@@ -2,10 +2,7 @@ package models;
 
 import Helper.FileOperations;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class UserDataBase {
@@ -22,17 +19,24 @@ public class UserDataBase {
         listOfUsers = FileOperations.loadUserList(fileName);
     }
 
-    public ArrayList<User> getListOfUsers() {
-        return listOfUsers;
-    }
-
     public boolean addNewUser(User user, Connection connection) {
         String login = user.getUserName();
 
         if (!isLoginAlreadyInUse(login, connection)) {
             try {
                 Statement statement = connection.createStatement();
-                statement.executeUpdate("INSERT INTO users (login,password) VALUES ('" + user.getUserName() + "'" + ",'" + user.getPassword() + "')");
+                String salt = null;
+                ResultSet rs = statement.executeQuery("SELECT gen_salt('bf')");
+
+                while (rs.next()) {
+                    salt = rs.getString("gen_salt");
+                }
+                PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users (login,password,salt) VALUES (?,crypt(?,?),?)");
+                preparedStatement.setString(1, user.getUserName());
+                preparedStatement.setString(2, user.getPassword());
+                preparedStatement.setString(3, salt);
+                preparedStatement.setString(4, salt);
+                preparedStatement.executeUpdate();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -43,23 +47,17 @@ public class UserDataBase {
     }
 
     public boolean isUserPresentInDataBase(User user, Connection connection) {
-        String login = null, password = null;
+        String login = null;
         try {
-            Statement statement = connection.createStatement();
-            ResultSet resultSetLogin;
-            ResultSet rspassword;
-
-
-            resultSetLogin = statement.executeQuery("SELECT login FROM users WHERE login = '" + user.getUserName() + "'");
-            while (resultSetLogin.next()) {
-                login = resultSetLogin.getString("login");
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM users WHERE login = ? AND password = crypt(?,salt)");
+            preparedStatement.setString(1, user.getUserName());
+            preparedStatement.setString(2, user.getPassword());
+            ResultSet rs;
+            rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                login = rs.getString("login");
             }
-            rspassword = statement.executeQuery("SELECT password FROM users WHERE password = '" + user.getPassword() + "'");
-            while (rspassword.next()) {
-                password = rspassword.getString("password");
-            }
-
-            if (login.equals(user.getUserName()) && password.equals(user.getPassword()))
+            if (login.equals(user.getUserName()))
                 return true;
             else
                 return false;
@@ -73,9 +71,11 @@ public class UserDataBase {
     private boolean isLoginAlreadyInUse(String login, Connection connection) { // jezeli jest to true
         String loginCheck = null;
         try {
-            Statement statement = connection.createStatement();
             ResultSet isLoginInBase;
-            isLoginInBase = statement.executeQuery("SELECT login FROM users WHERE login = '" + login + "'");
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT login FROM users WHERE login = ?");
+            preparedStatement.setString(1, login);
+            isLoginInBase = preparedStatement.executeQuery();
+
             while (isLoginInBase.next()) {
                 loginCheck = isLoginInBase.getString("login");
             }

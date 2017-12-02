@@ -55,7 +55,7 @@ public class Starter {
         Connection connection = null;
 
         try {
-            connection = DriverManager.getConnection("jdbc:postgresql://127.0.0.1:5432/allegro", "andrzej", "123");
+            connection = DriverManager.getConnection("jdbc:postgresql://127.0.0.1:5432/zenek", "zenek", "123");
         } catch (SQLException e) {
             System.out.println("Connection failed!");
             e.printStackTrace();
@@ -154,7 +154,7 @@ public class Starter {
                 System.out.println();
                 System.out.println("Illegal argument, pick from 1 to 5");
                 Blockers.stringToIntBlocker(scanner);
-                pick = scannestringToIntBlockerr.nextInt();
+                pick = scanner.nextInt();
                 scanner.nextLine();
             }
             System.out.println("-------------------------------------");
@@ -191,7 +191,7 @@ public class Starter {
                             Auction auction = bidInterface.returnAuction(scanner, auctionDataBase, user, auctionControler, connection);
                             BigDecimal price = bidInterface.returnPrice(scanner);
                             try {
-                                boolean Sold = bidControler.bidAuction(user, auction, price, connection,auctionDataBase);
+                                boolean Sold = bidControler.bidAuction(user, auction, price, connection, auctionDataBase);
                                 if (Sold) System.out.println(auctionView.printCongratulationMessage(auction, user));
                                 else System.out.println(auctionView.printCurrentOffer(auction));
                             } catch (IllegalStateException e) {
@@ -206,7 +206,7 @@ public class Starter {
                 case 4: {
                     AuctionControler auctionControler = new AuctionControler();
                     AuctionView auctionView = new AuctionView();
-                    ArrayList<Auction> expiredAuctions = auctionControler.getUserExpiredAuctions(user, auctionDataBase,connection);
+                    ArrayList<Auction> expiredAuctions = auctionControler.getUserExpiredAuctions(user, auctionDataBase, connection);
                     System.out.println(auctionView.printUserExpiredAuctions(expiredAuctions));
                     break;
                 }

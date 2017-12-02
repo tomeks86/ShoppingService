@@ -10,10 +10,7 @@ import models.User;
 import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
@@ -40,11 +37,14 @@ public class AuctionDataBase implements Serializable {
 
 
     public boolean addAuction(Auction auction, Connection connection) {
-        Statement statement = null;
         try {
-            statement = connection.createStatement();
-            statement.executeUpdate("INSERT INTO auctions(categoryid,title,description,price,ownerid,isactiv,bidcounter) VALUES (" + auction.getCategoryId() + ",'" + auction.getTitle() + "','" + auction.getDescription() + "'," +
-                    "" + auction.getPrice() + "," + auction.getUser().getUserId(connection) + ",true,0)");
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO auctions(categoryid,title,description,price,ownerid,isactive,bidcounter) VALUES (?,?,?,?,?,true,0)");
+            preparedStatement.setInt(1, auction.getCategoryId());
+            preparedStatement.setString(2, auction.getTitle());
+            preparedStatement.setString(3, auction.getDescription());
+            preparedStatement.setBigDecimal(4, auction.getPrice());
+            preparedStatement.setInt(5, auction.getUser().getUserId(connection));
+            preparedStatement.executeUpdate();
             return true;
 
         } catch (SQLException e) {
@@ -56,8 +56,9 @@ public class AuctionDataBase implements Serializable {
 
     public boolean removeAuction(Connection connection, int idAuctionToRemove) {
         try {
-            Statement statement = connection.createStatement();
-            statement.executeUpdate("DELETE FROM auctions WHERE auctionid = " + idAuctionToRemove);
+            PreparedStatement preparedStatement = connection.prepareStatement(" UPDATE auctions SET isactive = false WHERE id = ? ");
+            preparedStatement.setInt(1, idAuctionToRemove);
+            preparedStatement.executeUpdate();
             return true;
         } catch (SQLException e) {
             return false;
@@ -84,13 +85,13 @@ public class AuctionDataBase implements Serializable {
                 String description = rs.getString("description");
                 String title = rs.getString("title");
                 BigDecimal price = rs.getBigDecimal("price");
-                int auctionid = rs.getInt("auctionid");
+                int auctionid = rs.getInt("id");
                 int categoryid = rs.getInt("categoryid");
                 int ownerid = rs.getInt("ownerid");
-                boolean isActive = rs.getBoolean("isactiv");
+                boolean isActive = rs.getBoolean("isactive");
                 int buyerId = rs.getInt("buyerid");
                 int bidCounter = rs.getInt("bidcounter");
-                allAuctions.add(new Auction(description, title, price, auctionid, categoryid, ownerid, isActive,buyerId,bidCounter));
+                allAuctions.add(new Auction(description, title, price, auctionid, categoryid, ownerid, isActive, buyerId, bidCounter));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -101,14 +102,16 @@ public class AuctionDataBase implements Serializable {
     public ArrayList<Auction> getListOfUserAuctions(User user, Connection connection) {
         ArrayList<Auction> listOfUsersAuctions = new ArrayList<>();
         try {
-            Statement statement = connection.createStatement();
+
             ResultSet rs;
-            rs = statement.executeQuery("SELECT * FROM auctions WHERE ownerid =" + user.getUserId(connection));
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM auctions WHERE ownerid = ?");
+            preparedStatement.setInt(1, user.getUserId(connection));
+            rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 String description = rs.getString("description");
                 String title = rs.getString("title");
                 BigDecimal price = rs.getBigDecimal("price");
-                int auctionid = rs.getInt("auctionid");
+                int auctionid = rs.getInt("id");
                 int categoryid = rs.getInt("categoryid");
                 listOfUsersAuctions.add(new Auction(description, title, price, user, auctionid, categoryid));
             }
@@ -121,11 +124,13 @@ public class AuctionDataBase implements Serializable {
 
     public void updateWinnerOfAuction(Connection connection, Auction auction) {
         try {
-            Statement statement = connection.createStatement();
-            statement.executeUpdate("UPDATE auctions SET buyerid ="+auction.getBuyerId() +" WHERE auctionid =" +auction.getAuctionIndex());
-            statement.executeUpdate("UPDATE auctions SET price ="+auction.getPrice() +" WHERE auctionid =" +auction.getAuctionIndex());
-            statement.executeUpdate("UPDATE auctions SET bidcounter ="+auction.getBidCounter() +" WHERE auctionid =" +auction.getAuctionIndex());
-            statement.executeUpdate("UPDATE auctions SET isactiv ="+auction.isActive() +" WHERE auctionid =" +auction.getAuctionIndex());
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE auctions SET buyerid = ?,price =?,bidcounter =?,isactive =? WHERE id = ? ");
+            preparedStatement.setInt(1, auction.getBuyerId());
+            preparedStatement.setBigDecimal(2, auction.getPrice());
+            preparedStatement.setInt(3, auction.getBidCounter());
+            preparedStatement.setBoolean(4, auction.isActive());
+            preparedStatement.setInt(5, auction.getAuctionIndex());
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
