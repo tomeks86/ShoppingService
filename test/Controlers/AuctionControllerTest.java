@@ -1,8 +1,9 @@
-/*
 package Controlers;
 
 
 import Databases.AuctionDataBase;
+import Helper.ConectToDatabase;
+import TestHelpers.DatabaseCheckout;
 import models.Auction;
 import models.User;
 import org.junit.*;
@@ -12,6 +13,10 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 
@@ -21,31 +26,41 @@ public class AuctionControllerTest {
 
     public AuctionControler testObject;
     private AuctionDataBase auctionDataBase;
-    private ArrayList<Auction> auctionArrayList;
     private User owner = new User("login", "password");
+    private Connection connection;
 
     @Before
-    public void deleteAll() {
+    public void setUp() {
+        connection = ConectToDatabase.getInstance("testallegro", "zenek", "123").getConnection();
+        auctionDataBase = new AuctionDataBase();
         try {
-            Files.delete(Paths.get("Auction.bin"));                 //TODO need to delete file before every test to clean database, we need to change construction of auctionDataBase to add possibility to put new directory for new file
-        } catch (IOException e) {
+            Statement statement = connection.createStatement();
+            statement.execute("BEGIN ");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @After
+    public void clearTable() {
+        try {
+            Statement statement = connection.createStatement();
+            statement.execute("ROLLBACK ");
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        testObject = new AuctionControler();
-        auctionDataBase = new AuctionDataBase();
-        auctionArrayList = new ArrayList<>();
     }
 
 
     @Test
-    public void sholudReturnTrueIfAuctionAddedToArrayListOfAuctions() {
+    public void sholudReturnTrueIfAuctionAddedToDatabase() {
         Auction auction = new Auction("some test auction", "Some test Title", new BigDecimal(41.0), owner, 14, 6);
-        testObject.addAuction(auctionDataBase, auction);
-        auctionArrayList.add(auction);
-        Assert.assertEquals(auctionDataBase.getListOfAllAuctions(), auctionArrayList);
-    }
+        testObject.addAuction(auctionDataBase, auction, connection);
+        Assert.assertTrue(DatabaseCheckout.assertAuctionAddedToDatabase(connection, "Some test Title", 1));
 
+    }
+/*
     @Test
     public void shouldReturnTrueIfAuctionRemovedFromArrayListOfAuction() {
         Auction auction = new Auction("some test auction", "Some test Title", new BigDecimal(42.0), owner, 14, 6);
@@ -179,15 +194,15 @@ public class AuctionControllerTest {
     }
 
     @Test
-    public void shouldReturnTrueIfUserExpiredAuctionsFilterWell(){
+    public void shouldReturnTrueIfUserExpiredAuctionsFilterWell() {
         Auction auction = new Auction("some test auction", "Some test Title", new BigDecimal(42.0), owner, 14, 6);
         Auction auction1 = new Auction("some test auction", "Some test Title", new BigDecimal(42.0), owner, 14, 6);
         Auction auction2 = new Auction("some test auction", "Some test Title", new BigDecimal(42.0), owner, 14, 6);
-        testObject.addAuction(auctionDataBase,auction);
-        testObject.addAuction(auctionDataBase,auction1);
-        testObject.addAuction(auctionDataBase,auction2);
-        testObject.removeAuction(auctionDataBase,auction,owner);
-        testObject.removeAuction(auctionDataBase,auction1,owner);
+        testObject.addAuction(auctionDataBase, auction);
+        testObject.addAuction(auctionDataBase, auction1);
+        testObject.addAuction(auctionDataBase, auction2);
+        testObject.removeAuction(auctionDataBase, auction, owner);
+        testObject.removeAuction(auctionDataBase, auction1, owner);
 
         auction.setActive(false);
         auction1.setActive(false);
@@ -199,8 +214,7 @@ public class AuctionControllerTest {
 
         Assert.assertEquals(testList, auctionArrayList);
 
-    }
+    }*/
 
 
 }
-*/

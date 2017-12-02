@@ -43,7 +43,7 @@ public class Starter {
     }
 
     private Connection createConnection() {
-        return ConectToDatabase.getInstance().getConnection();
+        return ConectToDatabase.getInstance("zenek","zenek","123").getConnection();
     }
 
 

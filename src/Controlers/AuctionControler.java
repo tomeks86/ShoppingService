@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 //OSobny pakiet na przetrymywanie danych , controler - >
 // dodac klase user controler met login i ona odwołuje sie do userdatabase
 
-public class AuctionControler implements Serializable {
+public class AuctionControler {
 
 
 

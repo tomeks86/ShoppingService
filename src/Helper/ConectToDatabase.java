@@ -9,7 +9,7 @@ public class ConectToDatabase {
     private static ConectToDatabase instance = null;
     private static Connection connection = null;
 
-    private ConectToDatabase() {
+    private ConectToDatabase(String dbName, String ownerName, String password) {
 
         System.out.println("POSTGRESQL CONNECTION TESTING...");
 
@@ -23,7 +23,7 @@ public class ConectToDatabase {
         System.out.println("Postgre JDBC Driver Registred!");
 
         try {
-            connection = DriverManager.getConnection("jdbc:postgresql://127.0.0.1:5432/zenek", "zenek", "123");
+            connection = DriverManager.getConnection("jdbc:postgresql://127.0.0.1:5432/" + dbName, ownerName, password);
         } catch (SQLException e) {
             System.out.println("Connection failed!");
             e.printStackTrace();
@@ -35,9 +35,9 @@ public class ConectToDatabase {
             System.out.println("Failed to make connection with database");
     }
 
-    public static ConectToDatabase getInstance() {
+    public static ConectToDatabase getInstance(String dbName, String ownerName, String password) {
         if (instance == null)
-            instance = new ConectToDatabase();
+            instance = new ConectToDatabase(dbName, ownerName, password);
         return instance;
     }
 
