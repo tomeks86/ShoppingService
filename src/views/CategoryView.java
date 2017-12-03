@@ -2,15 +2,13 @@ package views;
 
 import models.Category;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 public class CategoryView {
 
-    public void viewAllCategories(Category mainCategory, String tab) {
-        System.out.println(tab + mainCategory.toString());
-        tab += "\t";
-        if (!mainCategory.getListOfChildrensCategory().isEmpty()) {
-            for (Category category1 : mainCategory.getListOfChildrensCategory()) {
-                viewAllCategories(category1, tab);
-            }
-        }
+    public void showCategory(Category category) {
+        System.out.println(category.toString());
     }
 }

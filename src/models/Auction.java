@@ -7,140 +7,75 @@ import java.math.BigDecimal;
 import java.sql.Connection;
 import java.util.HashSet;
 
-public class Auction implements Serializable {
-
-    public Integer getOwnerId() {
-        return ownerId;
-    }
-
-    public Integer getBuyerId() {
-        return buyerId;
-    }
-
-    private Integer categoryId, auctionIndex, ownerId, buyerId;
-    private String description, title;
+public class Auction {
+    private Integer auctionID, ownerID, winnerID, categoryID, bidCounter;
+    private String title, descritpion;
     private BigDecimal price;
+    private boolean isactive;
 
-    public Integer getOwnerid() {
-        return ownerId;
-    }
-
-    private int bidCounter;
-    private User user, buyer;
-    private boolean isActive;
-    private AuctionView auctionView = new AuctionView();
-
-    public Auction() {
-    }
-
-    public Auction(String description, String title, BigDecimal price, int auctionid, int categoryid, int ownerid, boolean isActive, int buyerId, int bidCounter) {
-        this.description = description;
-        this.title = title;
-        this.price = price;
-        this.auctionIndex = auctionid;
-        this.categoryId = categoryid;
-        this.ownerId = ownerid;
-        this.isActive = isActive;
-        this.buyerId = buyerId;
+    public Auction(Integer auctionID, Integer ownerID, Integer winnerID, Integer categoryID, Integer bidCounter, String title, String descritpion, BigDecimal price, boolean isactive) {
+        this.auctionID = auctionID;
+        this.ownerID = ownerID;
+        this.winnerID = winnerID;
+        this.categoryID = categoryID;
         this.bidCounter = bidCounter;
+        this.title = title;
+        this.descritpion = descritpion;
+        this.price = price;
+        this.isactive = isactive;
     }
 
-    public String getDescription() {
-
-        return description;
+    public Integer getAuctionID() {
+        return auctionID;
     }
 
-    public int getBidCounter() {
+    public Integer getOwnerID() {
+        return ownerID;
+    }
+
+    public Integer getWinnerID() {
+        return winnerID;
+    }
+
+    public Integer getCategoryID() {
+        return categoryID;
+    }
+
+    public Integer getBidCounter() {
         return bidCounter;
-    }
-
-    public void setActive(boolean active) {
-        isActive = active;
-    }
-
-    public Integer getCategoryId() {
-
-        return categoryId;
-    }
-
-    public Integer getAuctionIndex() {
-        return auctionIndex;
     }
 
     public String getTitle() {
         return title;
     }
 
+    public String getDescritpion() {
+        return descritpion;
+    }
+
     public BigDecimal getPrice() {
         return price;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public boolean isActive() {
-        return isActive;
-    }
-
-    private void setBuyer(User buyer) {
-        this.buyer = buyer;
-    }
-
-    public User getBuyer() {
-        return buyer;
-    }
-
-    public Auction(String description, String title, BigDecimal price, User user, Integer auctionIndex, Integer categoryId) {
-        this.description = description;
-        this.title = title;
-        this.price = price;
-        this.bidCounter = 0;
-        this.user = user;
-        this.auctionIndex = auctionIndex;
-        this.isActive = true;
-        this.categoryId = categoryId;
-    }
-
-    public boolean isCategoryValid(HashSet<Integer> categorySet, Integer idCategory) {
-        if (categorySet.contains(idCategory))
-            return true;
-        else {
-            System.out.println(auctionView.printsErrorWhenWrongCategoryChosen());
-            return false;
-        }
-
-    }
-
-    public int setActualWinnerOfAuction(User buyer, Connection connection) {
-        this.buyerId = buyer.getUserId(connection);
-        setBuyer(buyer);
-        return this.buyerId;
-    }
-
-
-    public boolean bidPrice(BigDecimal price) {
-
-        if (price.compareTo(this.getPrice()) == 1) {
-            setPrice(price);
-            this.bidCounter++;
-            if (this.bidCounter == 3) {
-                this.isActive = false;
-                return true;
-            } else return false;
-
-        } else {
-            throw new IllegalStateException("Price is too low");
-        }
-    }
-
-
-    private void setPrice(BigDecimal price) {
-        this.price = price;
+    public boolean isIsactive() {
+        return isactive;
     }
 
     @Override
     public String toString() {
-        return this.title + "\n" + this.description + " price: " + this.getPrice();
+        //return super.toString();
+        return String.format("auction id: %d%n" +
+                "owner id: %d%n" +
+                "winner id: %d%n" +
+                "category id: %d%n" +
+                "title: %s%n" +
+                "description: %s%n" +
+                "price: %s%n" +
+                "active: %b%n", this.auctionID, this.ownerID, this.winnerID, this.categoryID, this.title, this.descritpion, this.price.toString(), this.isactive);
     }
+
+    /*public static void main(String[] args) {
+        Auction auction = new Auction(1, 3, 4, 4, 0, "dsfds", "dsdsf", new BigDecimal("32.3"), true);
+        System.out.println(auction.toString());
+    }*/
 }
