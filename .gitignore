@@ -9,3 +9,5 @@ nbdist/
 target/
 .idea/
 *.bin
+*.xml
+*.iml

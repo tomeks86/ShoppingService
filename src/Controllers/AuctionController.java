@@ -179,7 +179,7 @@ public class AuctionController {
     public ArrayList<Integer> notUsersAuctions(int userID) {
         ArrayList<Integer> auctionsID = new ArrayList<>();
         try {
-            PreparedStatement notUsersAuctionsQuerry = Starter.getConnection().prepareStatement("SELECT id, title, description, price::numeric, ownerid, categoryid, isactive, winnerid, bidcounter FROM auctions WHERE isactive AND id != ?");
+            PreparedStatement notUsersAuctionsQuerry = Starter.getConnection().prepareStatement("SELECT id, title, description, price::numeric, ownerid, categoryid, isactive, winnerid, bidcounter FROM auctions WHERE isactive AND ownerid != ?");
             notUsersAuctionsQuerry.setInt(1, userID);
             ResultSet rs = notUsersAuctionsQuerry.executeQuery();
             while (rs.next()) {
@@ -194,9 +194,10 @@ public class AuctionController {
                 Integer bidCounter = rs.getInt("bidcounter");
 
                 this.auction = new Auction(auctionID, ownerID, winnerID, categoryID, bidCounter, title, description, price, isactive);
+                auctionView.presentAuction(auction);
+                auctionsID.add(this.auction.getAuctionID());
             }
-            auctionView.presentAuction(auction);
-            auctionsID.add(this.auction.getAuctionID());
+
         } catch (SQLException e) {
             e.printStackTrace();
         }

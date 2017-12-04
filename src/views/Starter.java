@@ -250,6 +250,7 @@ public class Starter {
                     break;
                 case 3: {
                     categoryController.showAllCategories();
+                    System.out.println("my id: " + userID);
                     ArrayList<Integer> auctionsID = auctionController.notUsersAuctions(userID);
                     boolean toBid = bidController.toBidOrNot(auctionsID);
                     if (toBid) {
