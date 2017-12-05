@@ -61,7 +61,7 @@ CREATE TABLE auctions (
     isactive boolean DEFAULT true,
     winnerid integer,
     bidcounter integer DEFAULT 0,
-    CONSTRAINT auctions_bidcounter_check CHECK ((bidcounter < 3))
+    CONSTRAINT auctions_bidcounter_check CHECK ((bidcounter < 4))
 );
 
 
@@ -261,7 +261,7 @@ ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regcl
 COPY auctions (id, title, description, price, ownerid, categoryid, isactive, winnerid, bidcounter) FROM stdin;
 1	BMW	nowe sportowe BMW	120.000,00 zł	2	5	t	\N	0
 4	bluzecka	różowa bluzka M	30,00 zł	7	4	t	\N	0
-5	majtki	majtki L	20,00 zł	6	3	t	\N	0
+5	majtki	majtki L	30,00 zł	6	3	f	7	2
 \.
 
 

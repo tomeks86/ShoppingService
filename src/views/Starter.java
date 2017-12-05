@@ -254,25 +254,24 @@ public class Starter {
                     ArrayList<Integer> auctionsID = auctionController.notUsersAuctions(userID);
                     boolean toBid = bidController.toBidOrNot(auctionsID);
                     if (toBid) {
-                        //try {
-                            auctionID = bidController.getAucitionID(auctionsID);
-                            if (auctionID > -1) {
-                                int winnerID = auctionController.getAuctionByID(auctionID);
-                                if (winnerID != userID) {
-
-                                } else {
-                                    System.out.println("You are the current winner, bid blocked.");
-                                }
+                        auctionID = bidController.getAucitionID(auctionsID);
+                        auction = auctionController.getAuctionByID(auctionID);
+                        if (auction.getWinnerID().equals(userID)) {
+                            System.out.println("You are the current winner, you cannot make an offer!");
+                            break;
+                        } else {
+                            auction = bidController.prepareOffer(auction);
+                            if (auction == null) {
+                                System.out.println("Offer refused, try another time");
+                            } else {
+                                auctionController.updateAuction(auction, userID); //boolean isWinner = ...
                             }
-                        //}
+                        }
                     }
                 }
                 break;
                 case 4:
-                    /*AuctionControler auctionControler = new AuctionControler();
-                    AuctionView auctionView = new AuctionView();
-                    ArrayList<Auction> expiredAuctions = auctionControler.getUserExpiredAuctions(user, auctionDataBase, this.connection);
-                    System.out.println(auctionView.printUserExpiredAuctions(expiredAuctions));*/
+                    auctionController.showUserInactiveAuctions(userID);
                     break;
                 case 5:
                     end = true;

@@ -9,7 +9,7 @@
         <module name="ShoppingService" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
+    <bytecodeTargetLevel target="1.8">
       <module name="ShoppingService" target="1.8" />
     </bytecodeTargetLevel>
   </component>

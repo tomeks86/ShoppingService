@@ -24,7 +24,7 @@ public class AuctionController {
         int categoryID = -1;
         String title = "", descritpion;
         BigDecimal price = BigDecimal.ZERO;
-        System.out.println("Provide category id: (without parent id!)");
+        System.out.println("Provide category id:");
         while (categoryID == -1) {
             try {
                 categoryID = Integer.parseInt(Starter.getScanner().nextLine());
@@ -119,7 +119,7 @@ public class AuctionController {
 
                 this.auction = new Auction(auctionID, ownerID, winnerID, categoryID, bidCounter, title, description, price, isactive);
                 auctionsID.add(this.auction.getAuctionID());
-                auctionView.presentAuction(auction);
+                auctionView.presentAuctionLite(auction);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -132,8 +132,7 @@ public class AuctionController {
         return auctionsID;
     }
 
-    public ArrayList<Integer> showUserInactiveAuctions(int ownerID) {
-        ArrayList<Integer> auctionsID = new ArrayList();
+    public void showUserInactiveAuctions(int ownerID) {
         try {
             PreparedStatement getAuction = Starter.getConnection().prepareStatement("SELECT id, title, description, price::numeric, ownerid, categoryid, isactive, winnerid, bidcounter FROM auctions WHERE ownerid = ? AND NOT isactive");
             getAuction.setInt(1, ownerID);
@@ -144,23 +143,19 @@ public class AuctionController {
                 String description = rs.getString("description");
                 BigDecimal price = rs.getBigDecimal("price");
                 Integer categoryID = rs.getInt("categoryid");
-                boolean isactive = rs.getBoolean("isactive");
                 Integer winnerID = rs.getInt("winnerid");
                 Integer bidCounter = rs.getInt("bidcounter");
 
-                this.auction = new Auction(auctionID, ownerID, winnerID, categoryID, bidCounter, title, description, price, isactive);
+                this.auction = new Auction(auctionID, ownerID, winnerID, categoryID, bidCounter, title, description, price, false);
+                if (bidCounter == 3) {
+                    auctionView.presentSoldItem(auction);
+                } else {
+                    auctionView.presentCancelledAuction(auction);
+                }
             }
-            auctionView.presentAuction(auction);
-            auctionsID.add(this.auction.getAuctionID());
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        if (auctionsID.size() != 0) {
-            System.out.println("ID of user's auctions:");
-            auctionsID.forEach(id -> System.out.print(id + " "));
-            System.out.println();
-        } else System.out.println("You don't have any auctions.");
-        return auctionsID;
     }
 
 
@@ -179,9 +174,9 @@ public class AuctionController {
     public ArrayList<Integer> notUsersAuctions(int userID) {
         ArrayList<Integer> auctionsID = new ArrayList<>();
         try {
-            PreparedStatement notUsersAuctionsQuerry = Starter.getConnection().prepareStatement("SELECT id, title, description, price::numeric, ownerid, categoryid, isactive, winnerid, bidcounter FROM auctions WHERE isactive AND ownerid != ?");
-            notUsersAuctionsQuerry.setInt(1, userID);
-            ResultSet rs = notUsersAuctionsQuerry.executeQuery();
+            PreparedStatement notUsersAuctionsQuery = Starter.getConnection().prepareStatement("SELECT id, title, description, price::numeric, ownerid, categoryid, isactive, winnerid, bidcounter FROM auctions WHERE isactive AND ownerid != ?");
+            notUsersAuctionsQuery.setInt(1, userID);
+            ResultSet rs = notUsersAuctionsQuery.executeQuery();
             while (rs.next()) {
                 Integer auctionID = rs.getInt("id");
                 String title = rs.getString("title");
@@ -194,7 +189,7 @@ public class AuctionController {
                 Integer bidCounter = rs.getInt("bidcounter");
 
                 this.auction = new Auction(auctionID, ownerID, winnerID, categoryID, bidCounter, title, description, price, isactive);
-                auctionView.presentAuction(auction);
+                auctionView.presentAuctionLite(auction);
                 auctionsID.add(this.auction.getAuctionID());
             }
 
@@ -209,21 +204,20 @@ public class AuctionController {
         return auctionsID;
     }
 
-    public int getAuctionByID(int auctionID) {
-        int winnerID = -1;
+    public Auction getAuctionByID(int auctionID) {
         if (this.auction != null) this.auction = null;
         try {
-            PreparedStatement auctionByIDQuerry = Starter.getConnection().prepareStatement("SELECT * FROM auctions WHERE isactive AND i == ?");
-            auctionByIDQuerry.setInt(1, auctionID);
-            ResultSet rs = auctionByIDQuerry.executeQuery();
+            PreparedStatement auctionByIDQuery = Starter.getConnection().prepareStatement("SELECT id, title, description, price::numeric, ownerid, categoryid, isactive, winnerid, bidcounter FROM auctions WHERE isactive AND id = ?");
+            auctionByIDQuery.setInt(1, auctionID);
+            ResultSet rs = auctionByIDQuery.executeQuery();
             if (rs.next()) {
                 String title = rs.getString("title");
                 String description = rs.getString("description");
-                BigDecimal price = rs.getBigDecimal("price");
+                BigDecimal price = new BigDecimal(rs.getString("price"));
                 Integer ownerID = rs.getInt("ownerid");
                 Integer categoryID = rs.getInt("categoryid");
                 boolean isactive = rs.getBoolean("isactive");
-                winnerID = rs.getInt("winnerid");
+                Integer winnerID = rs.getInt("winnerid");
                 Integer bidCounter = rs.getInt("bidcounter");
 
                 this.auction = new Auction(auctionID, ownerID, winnerID, categoryID, bidCounter, title, description, price, isactive);
@@ -232,6 +226,35 @@ public class AuctionController {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return winnerID;
+        return this.auction;
+    }
+
+    public boolean updateAuction(Auction auction, int userID) {
+        try {
+            if (auction.getBidCounter()  == 2) {
+                PreparedStatement auctionUpdateQuery = Starter.getConnection().prepareStatement("UPDATE auctions SET price = ?::numeric, winnerID = ?, bidcounter = bidcounter + 1, isactive = FALSE WHERE ID = ?");
+                auctionUpdateQuery.setString(1, auction.getPrice().toString());
+                auctionUpdateQuery.setInt(2, userID);
+                auctionUpdateQuery.setInt(3, auction.getAuctionID());
+                int n = auctionUpdateQuery.executeUpdate();
+                if (n > 0) {
+                    System.out.println("Congratulations, you won the auction!");
+                    return true;
+                } else return false;
+            } else {
+                PreparedStatement auctionUpdateQuery = Starter.getConnection().prepareStatement("UPDATE auctions SET price = ?::numeric, winnerID = ?, bidcounter = bidcounter + 1 WHERE ID = ?");
+                auctionUpdateQuery.setString(1, auction.getPrice().toString());
+                auctionUpdateQuery.setInt(2, userID);
+                auctionUpdateQuery.setInt(3, auction.getAuctionID());
+                int n = auctionUpdateQuery.executeUpdate();
+                if (n > 0) {
+                    System.out.println("You are the current winner!");
+                    return true;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

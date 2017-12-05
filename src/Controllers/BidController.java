@@ -1,8 +1,10 @@
 package Controllers;
 
+import models.Auction;
 import views.AuctionView;
 import views.Starter;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 public class BidController {
@@ -30,5 +32,23 @@ public class BidController {
             System.out.printf("Wrong auction id!");
         }
         return auctionID;
+    }
+
+    public Auction prepareOffer(Auction auction) {
+        auctionView.presentAuction(auction);
+        BigDecimal minimum = new BigDecimal("5");
+        BigDecimal offer = auctionView.presentOffer(auction, minimum);
+        BigDecimal newOffer = null;
+        System.out.println("Give your offer:");
+        try {
+            newOffer = new BigDecimal(Starter.getScanner().nextLine());
+        } catch (NumberFormatException e) {
+            return null;
+        }
+        if (newOffer.compareTo(offer) >= 0) {
+            auction.setPrice(newOffer);
+            return auction;
+        }
+        return null;
     }
 }
