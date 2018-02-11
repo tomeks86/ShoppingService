@@ -28,6 +28,20 @@ COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 
 --
+-- Name: adminpack; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS adminpack WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION adminpack; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION adminpack IS 'administrative functions for PostgreSQL';
+
+
+--
 -- Name: pgcrypto; Type: EXTENSION; Schema: -; Owner: 
 --
 
@@ -184,6 +198,41 @@ ALTER SEQUENCE category_parentcategoryid_seq OWNED BY category.parentcategoryid;
 
 
 --
+-- Name: login; Type: TABLE; Schema: public; Owner: zenek
+--
+
+CREATE TABLE login (
+    id integer NOT NULL,
+    login character varying(20) NOT NULL,
+    password text NOT NULL,
+    salt text
+);
+
+
+ALTER TABLE login OWNER TO zenek;
+
+--
+-- Name: login_id_seq; Type: SEQUENCE; Schema: public; Owner: zenek
+--
+
+CREATE SEQUENCE login_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE login_id_seq OWNER TO zenek;
+
+--
+-- Name: login_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: zenek
+--
+
+ALTER SEQUENCE login_id_seq OWNED BY login.id;
+
+
+--
 -- Name: users; Type: TABLE; Schema: public; Owner: zenek
 --
 
@@ -251,6 +300,13 @@ ALTER TABLE ONLY category ALTER COLUMN parentcategoryid SET DEFAULT nextval('cat
 -- Name: id; Type: DEFAULT; Schema: public; Owner: zenek
 --
 
+ALTER TABLE ONLY login ALTER COLUMN id SET DEFAULT nextval('login_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: zenek
+--
+
 ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
 
 
@@ -261,7 +317,8 @@ ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regcl
 COPY auctions (id, title, description, price, ownerid, categoryid, isactive, winnerid, bidcounter) FROM stdin;
 1	BMW	nowe sportowe BMW	120.000,00 zł	2	5	t	\N	0
 4	bluzecka	różowa bluzka M	30,00 zł	7	4	t	\N	0
-5	majtki	majtki L	30,00 zł	6	3	f	7	2
+5	majtki	majtki L	40,00 zł	6	3	f	2	3
+6	fdsfds	fdsfds	32.324,00 zł	6	6	f	\N	0
 \.
 
 
@@ -276,7 +333,7 @@ SELECT pg_catalog.setval('auctions_id_seq', 1, true);
 -- Name: auctions_id_seq1; Type: SEQUENCE SET; Schema: public; Owner: zenek
 --
 
-SELECT pg_catalog.setval('auctions_id_seq1', 5, true);
+SELECT pg_catalog.setval('auctions_id_seq1', 6, true);
 
 
 --
@@ -316,6 +373,23 @@ SELECT pg_catalog.setval('category_parentcategoryid_seq', 2, true);
 
 
 --
+-- Data for Name: login; Type: TABLE DATA; Schema: public; Owner: zenek
+--
+
+COPY login (id, login, password, salt) FROM stdin;
+5	admin	$2a$06$IVca3IF/wwgjEfHArGdhbu3ZJG41/woAMR9Xjd4h7J3UkttDXZuIC	$2a$06$IVca3IF/wwgjEfHArGdhbu
+6	franek	$2a$06$BM4TtnREyrz/4KyqkFck2OMdpUKZ9G2RcN715ciOGQZ0suIJ4EKnO	$2a$06$BM4TtnREyrz/4KyqkFck2O
+\.
+
+
+--
+-- Name: login_id_seq; Type: SEQUENCE SET; Schema: public; Owner: zenek
+--
+
+SELECT pg_catalog.setval('login_id_seq', 6, true);
+
+
+--
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: zenek
 --
 
@@ -323,6 +397,9 @@ COPY users (id, login, password, salt) FROM stdin;
 2	stefan	$2a$06$AR0YnPXc.3y78KBGG7RqHOB2e1KgU4xUwArX8Ugqnhm8jHYBzz6gS	$2a$06$AR0YnPXc.3y78KBGG7RqHO
 6	beton	$2a$06$uh.EA.WYLs9C5o/U/jHXiOIhBsm39e3bM1BqF3TIE7QlOY1fHWsSK	$2a$06$uh.EA.WYLs9C5o/U/jHXiO
 7	rebeka	$2a$06$W7cicvOAdBtb1pyGeBuHPOmh7W12WxpDDD7l6Qw/ppsX8pTQA3jFi	$2a$06$W7cicvOAdBtb1pyGeBuHPO
+9	franek	$2a$06$XDNKmi0RTgvuFHY4mZ1Hgey3pJkdCTXt46N.u0g.TKwKr48A4VmoG	$2a$06$XDNKmi0RTgvuFHY4mZ1Hge
+12	franeks	$2a$06$oUJw/bwEJUobjj6xXApbQ.b4jVfxaviJr3HDVocevfIVfH/EqThfW	$2a$06$oUJw/bwEJUobjj6xXApbQ.
+14	franek5	$2a$06$vRFUG.z5deGzA7ezNuNmGO/T8jLJWQ6lFnsfteJsnGH46yDPqwx7.	$2a$06$vRFUG.z5deGzA7ezNuNmGO
 \.
 
 
@@ -330,7 +407,7 @@ COPY users (id, login, password, salt) FROM stdin;
 -- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: zenek
 --
 
-SELECT pg_catalog.setval('users_id_seq', 7, true);
+SELECT pg_catalog.setval('users_id_seq', 15, true);
 
 
 --
@@ -358,6 +435,14 @@ ALTER TABLE ONLY category
 
 
 --
+-- Name: login_pkey; Type: CONSTRAINT; Schema: public; Owner: zenek
+--
+
+ALTER TABLE ONLY login
+    ADD CONSTRAINT login_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: users_login_key; Type: CONSTRAINT; Schema: public; Owner: zenek
 --
 
@@ -371,6 +456,13 @@ ALTER TABLE ONLY users
 
 ALTER TABLE ONLY users
     ADD CONSTRAINT users_pkey1 PRIMARY KEY (id);
+
+
+--
+-- Name: login_login_idx; Type: INDEX; Schema: public; Owner: zenek
+--
+
+CREATE INDEX login_login_idx ON login USING btree (login);
 
 
 --
