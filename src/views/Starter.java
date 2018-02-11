@@ -118,9 +118,14 @@ public class Starter {
     private void switcherMainMenu(int value) {
         switch (value) {
             case 1:
-                int userID = logIntoSystem();
-                userActionsInLoggedPanel(userID);
-                break;
+                try {
+                    int userID = logIntoSystem();
+                    userActionsInLoggedPanel(userID);
+                    break;
+                } catch (NullPointerException e) {
+                    System.out.println("login and/or password incorrect");
+                    break;
+                }
             case 2:
                 try {
                     registerNewUser();
@@ -171,7 +176,8 @@ public class Starter {
         PreparedStatement userPassInsert = null;
         ResultSet rs = null;
         String salt = null;
-        String userPassInsertString = "INSERT INTO users (login, password, salt) VALUES (?, crypt(?, ?), ?)";
+//        String userPassInsertString = "INSERT INTO users (login, password, salt) VALUES (?, crypt(?, ?), ?)";
+        String userPassInsertString = "WITH x AS (SELECT ?::text AS user, ?::text AS pw, gen_salt('bf')::text AS salt) INSERT INTO users (login, password, salt) SELECT x.user, crypt(x.pw, x.salt), x.salt FROM x";
 
         System.out.print("Create new login: ");
         String login = scanner.nextLine();
@@ -179,17 +185,13 @@ public class Starter {
         String password = scanner.nextLine();
 
         try {
-            rs = connection.createStatement().executeQuery("SELECT gen_salt('bf')");
-            if (rs.next()) {
-                salt = rs.getString("gen_salt");
-                userPassInsert = connection.prepareStatement(userPassInsertString);
-                userPassInsert.setString(1, login);
-                userPassInsert.setString(2, password);
-                userPassInsert.setString(3, salt);
-                userPassInsert.setString(4, salt);
-                if (userPassInsert.executeUpdate() > 0) return;
-                else throw new AccessControlException("User registration failed!");
-            }
+            userPassInsert = connection.prepareStatement(userPassInsertString);
+            userPassInsert.setString(1, login);
+            userPassInsert.setString(2, password);
+            if (userPassInsert.executeUpdate() > 0)
+                System.out.println("user registration successful, log in to proceed!");
+            else
+                throw new AccessControlException("User registration failed!");
         } catch (PSQLException e) {
             throw new AccessControlException("User registration failed! (login incorrect or already exists)");
         } catch (SQLException e) {
