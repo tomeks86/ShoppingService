@@ -193,7 +193,14 @@ public class Starter {
             else
                 throw new AccessControlException("User registration failed!");
         } catch (PSQLException e) {
-            throw new AccessControlException("User registration failed! (login incorrect or already exists)");
+            String msg;
+            if (e.getServerErrorMessage().toString().contains("users_login_check"))
+                msg = "User registration failed! (login format incorrect)";
+            else if (e.getServerErrorMessage().toString().contains("users_login_key"))
+                msg = "User registration failed! (login already exists)";
+            else
+                msg = "unknown error";
+            throw new AccessControlException(msg);
         } catch (SQLException e) {
             e.printStackTrace();
         }
